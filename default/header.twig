@@ -1,0 +1,9 @@
+<div class="ui-header-inn">
+{% if uri_segment(1) == '' or uri_segment(2) == 'index' %}
+<div class="logo"><a class="logo-img" href="/">{{ asset_img('logo.png', { 'width' : '122', 'height' : '29', 'alt' : 'logo' }) }}</a></div>
+{% else %}
+<div class="logo"><a href="#" data-rel="back">{{ asset_img('back-arrow.png', { 'width' : '15', 'height' : '15', 'alt' : 'logo' }) }}</a></div>
+{% endif %}
+<h3>{{ title|split(' - ')|join('<br />') }}</h3>
+<div class="flag"><span><a href="/settings/">{{ asset_img('flags/' ~ handshake.language.id ~ '.png', {'alt': 'flags'}) }}</a></span></div>
+</div>

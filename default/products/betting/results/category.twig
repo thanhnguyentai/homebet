@@ -1,0 +1,38 @@
+{% if (tournaments or outrights) %}
+<div class="sports-content">
+    <ul data-role="listview">
+
+        {% if tournaments %}
+
+        <li data-role="list-divider" class="t-title nowrap">{{ lang('title.tournaments') }}</li>
+
+        {% for tournament in tournaments %}
+        <li>
+            <a href="/results/{{ sport.link }}/{{ category.link }}/tournaments/{{ tournament.link }}/">
+                <div class="sports-{{ sport.id }}"></div>
+				<div class="tournament-name-text">{{ tournament.name }}</div>
+                <span class="ui-li-count ui-icon-count">{{ tournament.count }}</span>
+            </a>
+        </li>
+        {% endfor %}
+
+        {% endif %}
+
+        {% if outrights %}
+
+        <li data-role="list-divider" class="t-title nowrap">{{ lang('title.outrights') }}</li>
+
+        {% for outright in outrights %}
+        <li>
+            <a href="/results/{{ sport.link }}/{{ category.link }}/outrights/{{ outright.link }}.html">
+                <div class="sports-{{ sport.id }}"></div>
+				<div class="tournament-name-text">{{ outright.name }}</div>
+            </a>
+        </li>
+        {% endfor %}
+
+        {% endif %}
+
+    </ul>
+</div>	
+{% endif %}

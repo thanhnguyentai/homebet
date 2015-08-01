@@ -1,0 +1,145 @@
+<div data-role="navbar">
+    <div class="navbar-title top-curve">
+        <span class="home-header-bet"></span>
+
+        <h2>
+            {{ lang('headers.bets') }}
+        </h2>
+    </div>
+    <ul>
+        <li>
+            <a href="/sport/" data-dom-cache="true">{{ lang('navigation.sport') }}</a>
+        </li>
+        <li>
+            <a href="/live/" data-dom-cache="true">{{ lang('navigation.live') }}</a>
+        </li>
+    </ul>
+    <ul>
+        <li>
+            <a href="/sport/top-matches.html" data-dom-cache="true">{{ lang('navigation.top_matches') }}</a>
+        </li>
+        <li>
+            <a href="/sport/last-minute.html" data-dom-cache="true">{{ lang('navigation.last_minute') }}</a>
+        </li>
+    </ul>
+    <ul>
+        <li>
+            <a href="/results/" data-dom-cache="true">{{ lang('navigation.results') }}</a>
+        </li>
+        <li>
+            <a href="/livescore/" data-dom-cache="true">{{ lang('navigation.livescore') }}</a>
+        </li>
+    </ul>
+    <ul>
+        <li>
+            <a href="/tickets/" data-dom-cache="false">{{ lang('navigation.tickets') }}</a>
+        </li>
+        <li>
+            <a href="/bonus.html" data-dom-cache="false">{{ lang('navigation.bonus') }}</a>
+        </li>
+    </ul>
+
+    {% if customer %}
+
+        <div class="navbar-title2 top-curve">
+            <span class="home-header-account"></span>
+
+            <h2>
+                {{ lang('headers.payment') }}
+            </h2>
+        </div>
+        <ul>
+            <li>
+                <a href="/profile/deposit.html" data-dom-cache="false">{{ lang('navigation.deposit') }}</a>
+            </li>
+            <li>
+                <a href="/settings/payout.html" data-dom-cache="false">{{ lang('navigation.payout') }}</a>
+            </li>
+        </ul>
+
+    {% endif %}
+
+    <div class="navbar-title2 top-curve">
+        <span class="home-header-account"></span>
+
+        <h2>
+            {{ lang('headers.profile') }}
+        </h2>
+    </div>
+    <ul>
+        <li>
+            {% if customer %}
+                <a href="/profile/" data-dom-cache="false">{{ lang('navigation.profile') }}</a>
+            {% else %}
+                <a href="/profile/" data-dom-cache="false">{{ lang('navigation.login') }}</a>
+            {% endif %}
+        </li>
+        <li class="bottom-r-curve">
+            <a href="/settings/" data-dom-cache="false">{{ lang('navigation.settings') }}</a>
+        </li>
+    </ul>
+    <ul>
+        <li class="bottom-l-curve">
+            <a href="/profile/register.html" data-dom-cache="false">{{ lang('navigation.register') }}</a>
+        </li>
+        <li class="bottom-r-curve">
+            <a href="/info/" data-dom-cache="true">{{ lang('navigation.info') }}</a>
+        </li>
+    </ul>
+</div>
+
+<script>
+
+    /** @fileoverview Example of how to use the bookmark bubble. */
+
+    /** Don't show the bubble if click dismiss button at 3 times. */
+    google.bookmarkbubble.Bubble.prototype.NUMBER_OF_TIMES_TO_DISMISS = 3;
+
+    /** page to bookmark bubble (generally, this should be top page) */
+    /** page to bookmark bubble (generally, this should be top page) */
+    if (typeof(page_popup_bubble) == "undefined") {
+        page_popup_bubble = "#index";
+    }
+
+
+    /** bookmark bubble initialized in mobileinit event for jquery mobile. */
+    $(document).ready(function () {
+        window.setTimeout(function () {
+            var bubble = new google.bookmarkbubble.Bubble();
+
+            var parameter = page_popup_bubble;
+
+            bubble.hasHashParameter = function () {
+                return location.hash != "" && location.href.indexOf(parameter) == location.href.length - parameter.length;
+            };
+
+            bubble.setHashParameter = function () {
+                if (!this.hasHashParameter()) {
+                    location.href = parameter;
+                }
+            };
+
+            bubble.getViewportHeight = function () {
+                window.console.log('Example of how to override getViewportHeight.');
+                return window.innerHeight;
+            };
+
+            bubble.getViewportScrollY = function () {
+                window.console.log('Example of how to override getViewportScrollY.');
+                return window.pageYOffset;
+            };
+
+            bubble.registerScrollHandler = function (handler) {
+                window.console.log('Example of how to override registerScrollHandler.');
+                window.addEventListener('scroll', handler, false);
+            };
+
+            bubble.deregisterScrollHandler = function (handler) {
+                window.console.log('Example of how to override deregisterScrollHandler.');
+                window.removeEventListener('scroll', handler, false);
+            };
+
+            bubble.showIfAllowed();
+        }, 1000 /** delay to show the bubble */);
+    });
+</script>

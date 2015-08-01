@@ -1,0 +1,55 @@
+{% if categories %}
+<div class="sports-content">
+    <ul data-role="listview">
+
+        {% if sport %}
+
+        {% if count.live > 0 %}
+        <li>
+            <a href="/live/{{ sport.link }}/" data-dom-cache="true">
+                <div class="live"></div><h1 class="sports-title">{{ lang('navigation.live') }}</h1>
+                <span class="ui-li-count">{{ count.live }}</span>
+            </a>
+        </li>
+        {% endif %}
+        {% if count.top > 0 %}
+            <li>
+                <a href="/sport/{{ sport.link }}/top-matches.html" data-dom-cache="true">
+                    <div class="top-matches"></div><h1 class="sports-title">{{ lang('navigation.top_matches') }}</h1>
+                    <span class="ui-li-count">{{ count.top }}</span>
+                </a>
+            </li>
+        {% endif %}      
+
+        {% if count.lastminute > 0 %}
+        <li>
+            <a href="/sport/{{ sport.link }}/last-minute.html" data-dom-cache="true">
+                <div class="last-minute"></div><h1 class="sports-title">{{ lang('navigation.last_minute') }}</h1>
+                <span class="ui-li-count">{{ count.lastminute }}</span>
+            </a>
+        </li>
+        {% endif %}
+
+        {% if count.today > 0 %}
+        <li>
+            <a href="/sport/{{ sport.link }}/next-24-hours.html" data-dom-cache="true">
+                <div class="next-24-hours"></div><h1 class="sports-title">{{ lang('navigation.next_24_hours') }}</h1>
+                <span class="ui-li-count">{{ count.today }}</span>
+            </a>
+        </li>
+        {% endif %}
+
+        {% endif %}
+
+        {% for category in categories %}
+        <li>
+            <a href="/sport/{{ sport.link }}/{{ category.link }}/" data-dom-cache="true">
+                <div class="sports-{{ sport.id }}"></div><h1 class="sports-title">{{ category.name }}</h1>
+                <span class="ui-li-count">{{ category.count.total }}</span>
+            </a>
+        </li>
+        {% endfor %}
+
+    </ul>	
+</div>
+{% endif %}

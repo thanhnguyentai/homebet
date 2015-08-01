@@ -1,0 +1,25 @@
+<form action="/profile/login.html" method="post">
+    {{ form_csrf() }}
+    <div class="navbar-title3 top-curve"><h2>{{ lang('profile.login') }}</h2></div>
+    <input type="hidden" name="action" id="action" value="login" />
+    <div style="border-radius: 0 0 6px 6px; -webkit-border-radius: 0 0 6px 6px; overflow: hidden;">
+        <ul data-role="listview" data-inset="true" class="account-details bottom-curve">
+            <li data-role="fieldcontain">
+                <div class="label"><label for="username">{{ lang('profile.username') }}</label></div>
+                <div class="input"><input data-clear-btn="true" type="text" name="username" id="username" /></div>
+            </li>
+            <li data-role="fieldcontain">
+                <div class="label"><label for="password">{{ lang('profile.password') }}</label></div>
+                <div class="input"><input data-clear-btn="true" type="password" name="password" id="password" /></div>
+            </li>
+            <li data-role="fieldcontain">
+                <div class="label"><label>{{ lang('profile.remember') }}</label></div>
+                <div class="input2"><input type="checkbox" name="remember" /></div>
+            </li>
+            <li data-role="fieldcontain" style="border-radius: 0 0 6px 6px; -webkit-border-radius: 0 0 6px 6px; overflow:visible; overflow-x:hidden; overflow-y:hidden;">
+                <div class="label bottom-l-curve"><label>&nbsp;</label></div>
+                <div class="acc-btn"><button type="submit" data-theme="a">{{ lang('profile.login') }}</button></div>
+            </li>
+        </ul>
+    </div>
+</form>

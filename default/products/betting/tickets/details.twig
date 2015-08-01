@@ -1,0 +1,98 @@
+{% if ticket %}
+<div class="sports-content">
+    <div class="middle">
+        <div class="ticket-detail">
+            <div class="top">
+                <ul>
+                    <li>
+                        <div class="col">
+                            <div class="left">{{ lang('tickets.type') }}</div>
+                            <div class="right">{{ lang('tickets.types.' ~ ticket.type) }} ({{ ticket.option }})</div>
+                        </div>
+                        <div class="col">
+                            <div class="left">{{ lang('tickets.amount') }}</div>
+                            <div class="right">{{ ticket.amount|number_format(2) }}</div>
+                        </div>
+                        <div class="col">
+                            <div class="left">{{ lang('tickets.max_profit') }}</div>
+                            <div class="right">{{ ticket.profit.possible|number_format(2) }}</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="col">
+                            <div class="left">{{ lang('tickets.number') }}</div>
+                            <div class="right">{{ ticket.id }}</div>
+                        </div>
+                        <div class="col">
+                            <div class="left">{{ lang('tickets.quote') }} </div>
+                            <div class="right">{{ ticket.quote|number_format(2) }}</div>
+                        </div>
+                        <div class="col">
+                            <div class="left">{{ lang('tickets.profit') }}</div>
+                            <div class="right">{{ ticket.profit.current|number_format(2) }}</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="col">
+                            <div class="left">{{ lang('tickets.date') }}</div>
+                            <div class="right">
+                                {{ ticket.created|date('d.m.Y') }}<br />{{ ticket.created|date('H:i:s') }}
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="left">{{ lang('tickets.bonus') }}</div>
+                            <div class="right">{{ ticket.bonus.value|number_format(2) }} ({{ ticket.bonus.percent|number_format(2) }}%)</div>
+                        </div>
+                        <div class="col">
+                            <div class="left">{{ lang('tickets.result') }} </div>
+                            <div class="right">
+                                {% if ticket.result == 'P' %}
+                                <span style="color: black">{{ lang('tickets.results.pending') }}</span>
+                                {% elseif ticket.result == 'L' %}
+                                <span style="color: red">{{ lang('tickets.results.lost') }}</span>
+                                {% elseif ticket.result == 'W' %}
+                                <span style="color: green">{{ lang('tickets.results.won') }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!--div class="ticket-detail-grey-bg"></div-->
+            <div class="bottom">
+                <table>
+                    <tr class="green-bg">
+                        <td class="col1"><span class="title">{{ lang('tickets.match') }}</span></td>
+                        <td class="col2"><span class="title">{{ lang('tickets.bet') }}</span></td>
+                        <td class="col2"><span class="title">{{ lang('tickets.quote') }}</span></td>
+                        <td class="col2"><span class="title">{{ lang('tickets.info') }}</span></td>
+                        <td class="col2"><span class="title">{{ lang('tickets.result') }}</span></td>
+                    </tr>
+                    {% for bet in ticket.bets %}
+                    <tr class="tournament-name">
+                        <td colspan="5">{{ bet.sport.name }} - {{ bet.category.name }}{% if bet.tournament %} - {{ bet.tournament.name }}{% endif %}</td>
+                    </tr>
+                    <tr class="ticket-info">
+                        <td class="col1">{% if bet.match.date %}{{ bet.match.date|date('d.m.Y - H:i:s') }}{% endif %}{% if bet.outright.date %}{{ bet.outright.date|date('d.m.Y - H:i:s') }}{% endif %} {{ bet.name }} {% if bet.bank %} (B) {% endif %}</td>
+                        <td class="col2">{{ bet.type.name }}: {{ bet.outcome }} {% if bet.special %} ({{ bet.special }}) {% endif %}</td>
+                        <td class="col2">{{ bet.quote|number_format(2) }}</td>
+                        <td class="col2">HT:{{ bet.match.result.halftime }} <br/>FT:{{ bet.match.result.fulltime }}</td>
+                        <td class="col2">
+                            {% if bet.result == 'P' %}
+                            <span style="color: black">{{ lang('tickets.results.pending') }}</strong></span>
+                            {% elseif bet.result == 'C' %}
+                            <span style="color: blue">{{ lang('tickets.results.canceled') }}</span>
+                            {% elseif bet.result == 'L' %}
+                            <span style="color: red">{{ lang('tickets.results.lost') }}</span>
+                            {% elseif bet.result == 'W' %}
+                            <span style="color: green">{{ lang('tickets.results.won') }}</span>
+                            {% endif %}											
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div><!-- middle end -->
+</div>
+{% endif %}

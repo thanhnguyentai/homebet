@@ -1,0 +1,127 @@
+<div class="profile-form-content profile-index-content">
+
+    <fieldset>
+        <div class="box">
+            <strong>{{ lang('profile.details.overview.profile.title') }}</strong>
+
+            <div class="row">
+                <label>{{ lang('profile.details.overview.profile.username') }}</label>
+                <span>{{ customer.username }}</span>
+                <br/>
+                <label>{{ lang('profile.details.overview.profile.firstname') }}</label>
+                <span>{{ customer.firstname }}</span>
+                <br/>
+                <label>{{ lang('profile.details.overview.profile.lastname') }}</label>
+                <span>{{ customer.lastname }}</span>
+                <br/>
+                <label>{{ lang('profile.details.overview.profile.first_login') }}</label>
+                <span>{{ customer.first_login|date('d.m.Y - H:i') }}</span>
+                <br/>
+                <label>{{ lang('profile.details.overview.profile.last_login') }}</label>
+                <span>{{ customer.last_login|date('d.m.Y - H:i') }}</span>
+            </div>
+        </div>
+        <div class="box">
+            <strong>{{ lang('profile.details.overview.balance.title') }}</strong>
+
+            <div class="row">
+                <label>{{ lang('profile.details.overview.balance.betting') }}</label>
+                                    <span>
+                                        {{ customer.balance.betting|number_format(2) }}
+                                        {% if customer.type != 'internet' and customer.currency.id == 'CHF' %}
+                                            PKT
+                                        {% elseif customer.currency.sign %}
+                                            {{ customer.currency.sign }}
+                                        {% else %}
+                                            {{ customer.currency.name }}
+                                        {% endif %}
+                                    </span>
+                <br/>
+                <label>{{ lang('profile.details.overview.balance.casino') }}</label>
+                                    <span>
+                                        {{ customer.balance.casino|number_format(2) }}
+                                        {% if customer.type != 'internet' and customer.currency.id == 'CHF' %}
+                                            PKT
+                                        {% elseif customer.currency.sign %}
+                                            {{ customer.currency.sign }}
+                                        {% else %}
+                                            {{ customer.currency.name }}
+                                        {% endif %}
+                                    </span>
+                <!--
+                                    <br/>
+                                    <label>{{ lang('profile.details.overview.balance.dollaro') }}</label>
+                                    <span>
+                                        {{ customer.balance.dollaro|number_format(2) }}
+                                        {% if customer.type != 'internet' and customer.currency.id == 'CHF' %}
+                                            PKT
+                                        {% elseif customer.currency.sign %}
+                                            {{ customer.currency.sign }}
+                                        {% else %}
+                                            {{ customer.currency.name }}
+                                        {% endif %}
+                                    </span>
+                                    <br/>
+                                    <label>{{ lang('profile.details.overview.balance.total') }}</label>
+                                    <span>
+                                        {{ customer.balance.total|number_format(2) }}
+                                        {% if customer.type != 'internet' and customer.currency.id == 'CHF' %}
+                                            PKT
+                                        {% elseif customer.currency.sign %}
+                                            {{ customer.currency.sign }}
+                                        {% else %}
+                                            {{ customer.currency.name }}
+                                        {% endif %}
+                                    </span>
+                                    -->
+            </div>
+        </div>
+    </fieldset>
+
+    <br/>
+    <fieldset>
+        <div class="box verifications">
+            <h2>{{ lang('profile.details.overview.verifications.title') }}</h2>
+            {% for verification in verifications %}
+                <div class="row">
+
+                    <label>
+                        {% if verification.type == 'email' %}
+                            <i class="fa fa-envelope"></i>
+                        {% elseif verification.type == 'identity' %}
+                            <i class="fa fa-user"></i>
+                        {% elseif verification.type == 'address' %}
+                            <i class="fa fa-home"></i>
+                        {% elseif verification.type == 'telephone' %}
+                            <i class="fa fa-phone-square"></i>
+                        {% endif %}
+                        {{ lang('profile.details.overview.verifications.' ~ verification.type) }}
+                    </label>
+
+                    {% if verification.status == 'accepted' or verification.status == 'pending' %}
+                        <span>{{ verification.created|date('Y-m-d - H:i') }}</span>
+                    {% else %}
+                        <span class="error">{{ lang('profile.details.overview.verifications.' ~ verification.status) }}</span>
+                    {% endif %}
+
+                    <a href="/profile/verify/{{ verification.type }}.html" class="{{ verification.status }}">
+                        {% if verification.status == 'missing' %}
+                            <i class="fa fa-question-circle orange" title="{{ lang('profile.details.overview.verifications.missing') }}"></i>
+                            <em>{{ lang('profile.details.overview.verifications.verify') }}</em>
+                        {% elseif verification.status == 'declined' %}
+                            <i class="fa fa-times-circle red" title="{{ lang('profile.details.overview.verifications.declined') }}"></i>
+                            <em>{{ lang('profile.details.overview.verifications.declined') }}</em>
+                        {% elseif verification.status == 'pending' %}
+                            <i class="fa fa-exclamation-circle blue" title="{{ lang('profile.details.overview.verifications.pending') }}"></i>
+                            <em>{{ lang('profile.details.overview.verifications.pending') }}</em>
+                        {% elseif verification.status == 'accepted' %}
+                            <i class="fa fa-check-circle green" title="{{ lang('profile.details.overview.verifications.accepted') }}"></i>
+                            <em>{{ lang('profile.details.overview.verifications.accepted') }}</em>
+                        {% endif %}
+                    </a>
+
+                </div>
+            {% endfor %}
+        </div>
+    </fieldset>
+</div>

@@ -1,0 +1,19 @@
+{{ form_open({id: 'payment-redirect', method: 'post', autocomplete: 'off'}) }}
+
+    {% for value,variable in redirect.data %}
+        {{ form_hidden(variable, value) }}
+    {% endfor %}
+    <p>{{ lang('payments.redirect.message') }}</p>
+    {{ form_button('submit', lang('payments.redirect.button')) }}
+
+{{ form_close() }}
+
+<script type="text/javascript">
+
+    $(function(){
+
+        $('#payment-redirect').submit();
+
+    });
+
+</script>

@@ -1,0 +1,166 @@
+<div id="deposit" class="deposit-provider">
+    <div class="back-wrapper">
+        <a class="back" href="/profile/deposit.html"><span>{{ lang('global.back') }}</span></a>
+    </div>
+
+    {{ form_open({method: 'post', autocomplete: 'off'}) }}
+
+    {{ form_hidden('csid', null, {id: 'csid'}) }}
+    {{ asset_js('https://online-safest.com/pub/csid.js') }}
+
+    {% set image1 = asset_img('payments/ico-' ~ payment.id ~ '-' ~ handshake.language.id ~ '.png') %}
+    {% set image2 = asset_img('payments/ico-' ~ payment.id ~ '.png') %}
+
+    <div class="deposit-provider-details">
+        {% if image1 %}{{ image1 }}{% else %}{{ image2 }}{% endif %}
+
+        <p class="details"><strong>{{ lang('payments.minimum') }}-{{ lang('payments.maximum') }}: {{ payment.deposit.minimum|number_format(0) }}-{{ payment.deposit.maximum|number_format(0) }} {{ handshake.currency.id }}</strong><br/>
+            <strong>
+                {{ lang('payments.fees') }}:
+                {% if payment.deposit.fees.percent and payment.deposit.fees.amount %}
+                    {{ payment.deposit.fees.percent|number_format(2) }}% + {{ payment.deposit.fees.amount|number_format(2) }} {{ handshake.currency.id }}
+                {% elseif payment.deposit.fees.percent %}
+                    {{ payment.deposit.fees.percent|number_format(2) }}%
+                {% elseif payment.deposit.fees.amount %}
+                    {{ payment.deposit.fees.amount|number_format(2) }} {{ handshake.currency.id }}
+                {% else %}
+                    {{ lang('global.none') }}
+                {% endif %}
+            </strong><br/>
+            <strong>{{ lang('payments.duration') }}: {{ payment.deposit.duration }}</strong>
+        </p>
+
+        <p class="info">
+            {{ lang('payments.creditcard.description') }}
+            {% if payment.website %}
+                <a href="{{ payment.website }}" target="_blank" class="a_payment_link">{{ payment.website }}</a>
+            {% endif %}
+        </p>
+    </div>
+
+    {% if restricted == false %}
+
+        {% set amounts = [25, 50, 100, 200, 500] %}
+
+        <div class="deposit-amount">
+            <h2>{{ lang('payments.deposit.amount') }}</h2>
+            {{ form_label(lang('payments.fields.select_amount'), 'amount') }}
+            {% for amount in amounts %}
+                {{ form_button(amount, amount, {type: 'button', 'data-bind': 'css: {active: amount() == ' ~ amount ~ '}, click: function(){amount(' ~ amount ~ ')}'}) }}
+            {% endfor %}
+            {{ form_label(lang('payments.fields.enter_amount'), 'amount') }}
+            {{ form_input('amount', form_val('amount'), {'data-bind': 'value: amount'}) }}
+            <span class="popup_message" style="display:none" data-bind="visible: amount.valid() === false, text: amount.message()"></span>
+            <small class="under-input">{{ lang('payments.minimum') }} {{ payment.deposit.minimum|number_format(2) }}, {{ lang('payments.maximum') }} {{ payment.deposit.maximum|number_format(2) }}</small>
+        </div>
+
+        <div class="deposit-provider-info">
+            <h2>{{ lang('payments.deposit.info') }}</h2>
+
+            {{ form_label(lang('payments.creditcard.fields.firstname'), 'firstname') }}
+            {{ form_input('firstname', form_val('firstname', customer.firstname), {'data-bind': 'value: firstname'}) }}
+            <span class="popup_message" style="display:none" data-bind="visible: firstname.valid() === false, text: firstname.message()"></span>
+
+            {{ form_label(lang('payments.creditcard.fields.lastname'), 'lastname') }}
+            {{ form_input('lastname', form_val('lastname', customer.lastname), {'data-bind': 'value: lastname'}) }}
+            <span class="popup_message" style="display:none" data-bind="visible: lastname.valid() === false, text: lastname.message()"></span>
+
+            {{ form_label(lang('payments.creditcard.fields.bank'), 'number') }}
+            {{ form_input('bank', form_val('bank'), {'data-bind': 'value: bank'}) }}
+            <span class="popup_message" style="display:none" data-bind="visible: bank.valid() === false, text: bank.message()"></span>
+
+            {{ form_label(lang('payments.creditcard.fields.number'), 'number') }}
+            {{ form_input('number', form_val('number'), {'data-bind': 'value: number'}) }}
+            <span class="popup_message" style="display:none" data-bind="visible: number.valid() === false, text: number.message()"></span>
+
+            {{ form_label(lang('payments.creditcard.fields.month'), 'month') }}
+            {{ form_select('month', form_val('month'), months, {'data-bind': 'value: month'}) }}
+            <span class="popup_message" style="display:none" data-bind="visible: month.valid() === false, text: month.message()"></span>
+
+            {{ form_label(lang('payments.creditcard.fields.year'), 'year') }}
+            {{ form_select('year', form_val('year'), years, {'data-bind': 'value: year'}) }}
+            <span class="popup_message" style="display:none" data-bind="visible: year.valid() === false, text: year.message()"></span>
+
+            {{ form_label(lang('payments.creditcard.fields.cvv'), 'cvv') }}
+            {{ form_input('cvv', form_val('number'), {'data-bind': 'value: cvv'}) }}
+            <span class="popup_message" style="display:none" data-bind="visible: cvv.valid() === false, text: cvv.message()"></span>
+
+            {{ form_label(lang('payments.creditcard.fields.street'), 'street') }}
+            {{ form_input('street', form_val('street', customer.street), {'data-bind': 'value: street'}) }}
+            <span class="popup_message" style="display:none" data-bind="visible: street.valid() === false, text: street.message()"></span>
+
+            {{ form_label(lang('payments.creditcard.fields.city'), 'city') }}
+            {{ form_input('city', form_val('city', customer.city), {'data-bind': 'value: city'}) }}
+            <span class="popup_message" style="display:none" data-bind="visible: city.valid() === false, text: city.message()"></span>
+
+            {{ form_label(lang('payments.creditcard.fields.state'), 'state') }}
+            {{ form_input('state', form_val('state', customer.state), {'data-bind': 'value: state'}) }}
+            <span class="popup_message" style="display:none" data-bind="visible: state.valid() === false, text: state.message()"></span>
+
+            {{ form_label(lang('payments.creditcard.fields.postcode'), 'postcode') }}
+            {{ form_input('postcode', form_val('postcode', customer.postcode), {'data-bind': 'value: postcode'}) }}
+            <span class="popup_message" style="display:none" data-bind="visible: postcode.valid() === false, text: postcode.message()"></span>
+
+            {{ form_label(lang('payments.creditcard.fields.country'), 'country') }}
+            {{ form_select('country', form_val('country', customer.country.id), countries, {'data-bind': 'value: country'}) }}
+            <span class="popup_message" style="display:none" data-bind="visible: country.valid() === false, text: country.message()"></span>
+
+        </div>
+
+        <div class="deposit-summary">
+            <h2>{{ lang('payments.deposit.summary') }}</h2>
+            <strong><span data-bind="html: parseFloat(total()).toFixed(2) != 'NaN' ? parseFloat(total()).toFixed(2) : '0.00'">0.00</span> {{ handshake.currency.id }}</strong>
+            {{ lang('payments.amount') }}: <span data-bind="html: parseFloat(amount()).toFixed(2) != 'NaN' ? parseFloat(amount()).toFixed(2) : '0.00'">0.00</span> {{ handshake.currency.id }}<br/>
+            {{ lang('payments.fee') }}: <span data-bind="html: parseFloat(fees()).toFixed(2) != 'NaN' ? parseFloat(fees()).toFixed(2) : '0.00'">0.00</span> {{ handshake.currency.id }}
+            {{ form_button('deposit', lang('payments.deposit.button'), {id: 'payment-btn', 'data-bind': 'enable: valid'}) }}
+        </div>
+
+    {% else %}
+
+        <h2>{{ lang('country.restriction') }}</h2>
+
+    {% endif %}
+
+    {{ form_close() }}
+
+</div>
+
+{% if restricted == false %}
+
+    <script type="text/javascript">
+
+        $(function () {
+
+            var payment = betmatic.payment.create({
+                id: '{{ payment.id }}',
+                type: 'deposit',
+                fields: [
+                    'firstname', 'lastname', 'bank', 'number',
+                    'month', 'year', 'cvv', 'street', 'city',
+                    'state', 'postcode', 'country'
+                ]
+            });
+
+            payment.amount('{{ form_val('amount', amounts[0]) }}');
+            payment.fees.percent('{{ payment.deposit.fees.percent }}');
+            payment.fees.amount('{{ payment.deposit.fees.amount }}');
+            payment.firstname('{{ form_val('firstname', customer.firstname) }}');
+            payment.lastname('{{ form_val('lastname', customer.lastname) }}');
+            payment.bank('{{ form_val('bank') }}');
+            payment.number('{{ form_val('number') }}');
+            payment.month('{{ form_val('month') }}');
+            payment.year('{{ form_val('year') }}');
+            payment.cvv('{{ form_val('cvv') }}');
+            payment.street('{{ form_val('street', customer.street) }}');
+            payment.city('{{ form_val('city', customer.city) }}');
+            payment.state('{{ form_val('state', customer.state) }}');
+            payment.postcode('{{ form_val('postcode', customer.postcode) }}');
+            payment.country('{{ form_val('country', customer.country.id) }}');
+
+            ko.applyBindings(payment, document.getElementById('deposit'));
+
+        });
+
+    </script>
+
+{% endif %}

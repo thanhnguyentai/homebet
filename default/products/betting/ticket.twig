@@ -1,0 +1,201 @@
+<script type="text/javascript">
+
+    $(function(){
+        $.mobile.loading('show');
+        betmatic.products.betting.ticket.load(function(data, count){
+            ko.applyBindings(count, $('#footer').get(0));
+            ko.applyBindings(data, $('.cart').get(0));
+            general.parse();
+            $.mobile.loading('hide');
+        });
+    });
+
+</script>
+
+<div class="cart">
+    <ul class="cart-top">
+        
+        <div class="titlepart cart-title gray-grd">
+            <div class="top-tips"><span data-bind="text: count.items()"></span> {{ lang('ticket.bets') }}</div>
+            <!-- ko foreach: types() -->
+                <div class="blank-space">&nbsp;</div>
+                <div class="col1" data-bind="css: {selected: active()}">
+                    <button data-role="none" class="uppercase" data-inline="true" data-ticket="set" data-variable="type" data-bind="
+                        disable: !enabled(),
+                        attr: {'data-value': value()},
+                        css: {active: active()}
+                    "><span data-bind="html: name()"></span></button>
+                </div>
+            <!-- /ko -->
+            <div class="blank-space">&nbsp;</div>
+            <div class="close-btn">
+                <button class="uppercase" data-inline="true" data-ticket="clear">X</button>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div data-bind="foreach: items">
+            <li>
+                
+                <div class="row-pdng" data-bind="css: {'invalid': invalid()}">
+
+                <!-- ko if: 'match' in $data -->
+
+                    <div class="row1">
+                        <div class="col1" data-bind="html: match.name() + '<br/>' + match.tournament()"></div>
+                        <div class="col2">
+                            <button data-inline="true" data-bind="click: function(){betmatic.products.betting.ticket.remove({
+                                match: match.id(),
+                                type: type(),
+                                subtype: subtype() || '',
+                                outcome: field.outcome(),
+                                special: special() || '',
+                                live: live() || ''
+                            })}">X</button>
+                        </div>
+                    </div>
+                    <div class="row2">	
+                        <div class="col1">
+                            <span data-bind="text: name()"></span>:
+                            <span data-bind="text: field.name()"></span>
+                            <!-- ko if: special() -->
+                                (<span data-bind="text: special()"></span>)
+                            <!-- /ko -->
+                        </div>
+                        <div class="col2" data-bind="text: quote().toFixed(2)"></div>
+                        <div class="col3 bet-column" data-bind="visible: $parent.type() == 'system'">
+                            <button data-inline="true" data-bind="css: {active: bank.active()}, disable: !bank.enabled(), attr: {
+                                'data-value': match.id()
+                            }, click: function(){betmatic.products.betting.ticket.set('bank', hash())}">B</button>
+                        </div>
+                    </div>
+                    <div style="color: red;" data-bind="text: invalid(), visible: invalid()"></div>
+
+                <!-- /ko -->
+
+                <!-- ko if: 'outright' in $data -->
+
+                <div class="row1">
+                    <div class="col1" data-bind="html: outright.name() + '<br/>' + outright.category()"></div>
+                    <div class="col2">
+                        <button data-inline="true" data-bind="click: function(){betmatic.products.betting.ticket.remove({
+                            match: '',
+                            outright: outright.id(),
+                            type: type(),
+                            subtype: subtype() || '',
+                            outcome: field.outcome(),
+                            special: special() || '',
+                            live: live() || ''
+                        })}">X</button>
+                    </div>
+                </div>
+                <div class="row2">	
+                    <div class="col1">
+                        <span data-bind="text: name()"></span>:
+                        <span data-bind="text: field.name()"></span>
+                        <!-- ko if: special() -->
+                            (<span data-bind="text: special()"></span>)
+                        <!-- /ko -->
+                    </div>
+                    <div class="col2" data-bind="text: quote().toFixed(2)"></div>
+                    <div class="col3 bet-column" data-bind="visible: $parent.type() == 'system'">
+                        <button data-inline="true" data-bind="css: {active: bank.active()}, disable: !bank.enabled(), attr: {
+                            'data-value': outright.id()
+                        }, click: function(){betmatic.products.betting.ticket.set('bank', hash())}">B</button>
+                    </div>
+                </div>
+                    <div style="color: red;" data-bind="text: invalid(), visible: invalid()"></div>
+
+                <!-- /ko -->
+
+                </div>
+                
+            </li>
+        </div>
+    </ul>
+
+    <div class="cart-select-combo" data-bind="visible: options()">
+        <select id="text_option" data-ticket="set" data-variable="option" data-bind="options: options, optionsText: 'name', optionsValue: 'value', value: option(), event: {change: function(a, b, c){
+            var option = $('#text_option').val();
+            if (typeof option == 'string') {
+                betmatic.products.betting.ticket.set('option', $('#text_option').val());
+            }
+        }}"></select>
+    </div>
+
+    <div class="message-box-outer errors" data-bind="visible: errors().length > 0">
+        <div class="message-box">
+            <div class="messages-text info-msg" data-bind="foreach: errors()">
+                <p data-bind="text: $data"></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="message-box-outer infos" data-bind="visible: infos().length > 0">
+        <div class="message-box">
+            <div class="messages-text info-msg" data-bind="foreach: infos()">
+                <p data-bind="text: $data"></p>
+            </div>
+        </div>
+    </div>
+
+    <ul class="slip">
+
+        <li>
+            <div class="left">{{ lang('ticket.quote') }}</div>
+            <div class="right" data-bind="text: quote().toFixed(2)"></div>
+        </li>				
+        <li>
+            <div class="left">{{ lang('ticket.amount.group') }}</div>
+            <div class="right" data-bind="text: amount.group().toFixed(2)"></div>
+        </li>
+        <li>
+            <div class="left final-total">{{ lang('ticket.profit') }}</div>
+            <div class="right final-total" data-bind="text: profit().toFixed(2)"></div>
+        </li>
+        <li class="border-none">
+            <div class="input"><input type="number" id="text_amount" min="1" max="1000" data-ticket="set" data-variable="amount" data-value="" data-bind="value: amount.total, attr: {'data-value': amount.total}, event: {keyup: function(e){
+                var amount = $('input[data-variable=amount]').val();
+                if(amount && isFinite(amount)){
+                    betmatic.products.betting.ticket.set('amount', amount);
+                }
+            }}"/></div>
+            {% if customer %}
+                <!-- ko if: count.invalid() != 0 -->
+                <div class="button invalide-button"><button class="invalide-button" data-inline="true" data-ticket="purge">{{ lang('ticket.purge') }}</button></div>
+                <!-- /ko -->
+                <!-- ko if: count.invalid() == 0 -->
+                <div class="button"><button data-inline="true" data-ticket="purchase">{{ lang('ticket.purchase') }}</button></div>
+                <!-- /ko -->
+            {% else %}
+                <!-- ko if: count.invalid() != 0 -->
+                <div class="button invalide-button"><button data-inline="true" data-ticket="purge">{{ lang('ticket.purge') }}</button></div>
+                <!-- /ko -->
+                <!-- ko if: count.invalid() == 0 -->
+                <form action="/profile/">
+                    <div class="button"><button type="submit" data-inline="true">{{ lang('ticket.purchase') }}</button></div>
+                </form>
+                <!-- /ko -->
+            {% endif %}
+        </li>
+
+    </ul>
+
+</div>
+
+<div data-role="popup" id="ticket-loader" data-theme="c" data-dismissible="false" style="min-width:400px;" class="ui-corner-all">
+    <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+        <div class="progress progress-success progress-striped active">
+            <div class="bar" style="width: 0%;"></div>
+        </div>
+    </div>
+</div>
+
+<div data-role="popup" id="ticket-accepted" data-theme="c" data-dismissible="false" style="" class="ui-corner-all">
+    <div data-role="header" data-theme="a" class="ui-corner-top">
+        <h1>{{ lang('ticket.accepted.title') }}</h1>
+    </div>
+    <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+        <p>{{ lang('ticket.accepted.description') }}</p>
+        <button data-redirect="/">{{ lang('ticket.accepted.button') }}</button>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+{% if matches %}
+<div class="sports-content">
+    <ul data-role="listview">
+
+        {% set last_day = false %}
+
+        {% for match in matches %}
+        
+            {% set i = loop.index %}
+            {% if match.date|date('d.m.Y') != last_day %}
+
+                <li data-role="list-divider" class="t-title nowrap"><div class="sports-{{ sport.id }}"></div><span class="span-nowrap tournament-name-text">{{ tournament.name }}</span></li>
+                {% set last_day =  match.date|date('d.m.Y') %}
+
+            {% endif %}
+
+            <li>
+                <div class="{{ cycle(['odd', 'even'], i) }}">
+                    <div class="row5">
+                        <div class="time tournament-bet-time result-bet-time">{{ match.date|date('d.m') }}<br />{{ match.date|date('H:i') }}</div>
+                        <div class="title tournament-bet-title result-bet-title"><span class="span-nowrap tournament-bet-name">{{ match.teams.home.name }}</span><span class="span-nowrap tournament-bet-name">{{ match.teams.away.name }}</span></div>
+                        <div class="result tournament-bet-button">
+                            {% set ht_arr = match.result.halftime | split(':') %}
+                            <div class="ht"><span class="up-value">{{ ht_arr[0] }}</span><span class="down-value">{{ ht_arr[1] }}</span></div>
+                            {% set ft_arr = match.result.fulltime | split(':') %}
+                            <div class="ft"><span class="up-value">{{ ft_arr[0] }}</span><span class="down-value">{{ ft_arr[1] }}</span></div>
+                        </div>
+                    </div>
+                    <div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}

@@ -1,0 +1,309 @@
+<script type="text/javascript">
+    
+    function updateRowToVertical(){
+        // vertical align for buttons
+        var rowButtons = $('.live-row-container');
+        for(var i=0;i<rowButtons.length;i++){
+            var leftSide  = rowButtons.eq(i).children('.left');
+            var rightSide = rowButtons.eq(i).children('.right');
+            if(leftSide && rightSide){
+                leftSide = leftSide.eq(0);
+                rightSide = rightSide.eq(0);
+                if(leftSide.height() > rightSide.height()){
+                    rightSide.css({
+                        'position': 'absolute',
+                        'top': '50%',
+                        'right': '0px',
+                        'transform': 'translateY(-50%)',
+                        '-webkit-transform': 'translateY(-50%)',
+                        '-moz-transform': 'translateY(-50%)',
+                        '-ms-transform': 'translateY(-50%)'
+                    });
+                }
+            }
+        }
+
+        var timeout = setTimeout(function(){
+            clearTimeout(timeout);
+            updateRowToVertical();
+        }, 2000);
+    }
+    
+    $(function(){
+
+        $.mobile.loading('show');
+
+        betmatic.products.betting.matches.load({
+            status: ['running'],
+            sport: '{{ sport.id }}',
+            period: '1d',
+            live: 'true',
+            limit: 50
+        }, function (event, store, data) {
+            ko.applyBindings(data, $('#live-{{ sport.id }}').get(0));
+            general.parse();
+            $.mobile.loading('hide');
+
+            updateRowToVertical();            
+        });
+
+        var listLeft = $('.left');
+        for(var i=0;i<listLeft.length;i++){
+            if(listLeft.eq(i).hasClass('many-buttons'))
+                continue;
+            listLeft.eq(i).parent().parent().css('width','97%').css('padding-left', '1%');
+        }
+        
+    });
+
+</script>
+
+    <script>
+        $(document).ready(function () {
+            $('.flexslider').flexslider({
+                animation: 'slide',
+                controlsContainer: '.flexslider',
+                slideshow: false,
+                start: function(){
+                    // set current tab slider
+                    var listLi = $('ul.slides li');
+                    var isCheckActive = false;
+                    for(var i=0;i<listLi.length;i++){
+                        var div = listLi.eq(i).children('div');
+                        for(var j=0;j<div.length;j++){
+                            if(div.eq(j).hasClass('active')){
+                                if(i != 1){
+                                    $('.flexslider').flexslider("next");
+                                }
+                                isCheckActive = true;
+                                break;
+                            }
+                        }
+                        if(isCheckActive)
+                            break;
+                    }
+                }
+            });
+
+            var a=document.getElementsByTagName("a");
+            for(var i=0;i<a.length;i++) {
+                if(!a[i].onclick && a[i].getAttribute("target") != "_blank" && a[i].getAttribute("data-rel") != 'back') {
+                    a[i].onclick=function(e) {
+                            event.preventDefault();
+                            window.location=this.getAttribute("href");
+                            return false; 
+                    }
+                }
+            }
+        });
+    </script>
+
+<div class="live-nav">
+    <div class="live-in">
+        <!--a href="#" class="nav-link-left"></a-->
+        <!--ul class="live-nav-in"> 
+        </ul-->
+        
+        <div class="flex-container">
+            <div class="flexslider">
+                <ul class="slides live-nav-in">
+                    <li>
+                        {% for item in sports|slice(0, 4) %}
+                        <div {% if item.id == sport.id %}class="active"{% endif %} title="{{ item.name }}">
+                            <a href="/live/{{ item.link }}/">
+                                <span>{{ item.name }} <br /> ({{item.count.running}}/{{item.count.upcoming}})</span>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </li>
+                    <li>
+                        {% for item in sports|slice(4, 4) %}
+                        <div {% if item.id == sport.id %}class="active"{% endif %} title="{{ item.name }}">
+                            <a href="/live/{{ item.link }}/">
+                                <span>{{ item.name }} <br /> ({{item.count.running}}/{{item.count.upcoming}})</span>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!--a href="#" class="nav-link-right"></a-->
+        <div class="clear"></div>
+    </div>
+</div>
+<div class="clear"></div>
+<div id="live-{{ sport.id }}" class="sports-content live-body" style="margin-top: 0px;">
+    <div class="middle">
+        <div class="main-row">
+
+            <ul class="live-data" style="display:none;" data-bind="foreach: {data: items, as: 'match'}, attr: {style: 'display:block;'}">
+
+                <li>
+                    <div class="rowtitle">
+                        <h2>
+                            <div class="sports-{{ sport.id }}"></div>
+                            <p class="nowrap">
+                                <span data-bind="text: category.name()"></span> - <span data-bind="text: tournament.name()"></span>
+                            </p>
+                        </h2>
+                    </div>
+                    <div class="{{ cycle(['odd', 'even'], i) }}">
+                        <div class="row1 row1-live" data-bind="css: {'noborder': !bets().length}">
+                            <div class="time live-time">
+                                <div class="time" data-bind="html: general.utilities.format.time($data)"></div>
+                                
+                                <div class="clear"></div>
+                                
+                                <span class="live-icon" data-bind="css: {
+                                    'live-inactive': live.status() == 'not_started',
+                                    'live-active': live.status() != 'not_started'
+                                }">LIVE</span>
+
+                            </div>
+                            <div class="title live-title">
+                                
+                                <span data-bind="css: {server: live.server && live.server() == 1}">
+                                    <p class="nowrap match-team-name-color">
+                                        <span class="team-name-live" data-bind="text: teams.home.name()"></span>
+                                        <!-- ko if: live['cards'] && live.cards.home.yellow() > 0 -->
+                                            <span class="flag-icon yellow span-yellow-card" data-bind="text: live.cards.home.yellow()"></span>
+                                        <!-- /ko -->
+										<!-- ko if: live['cards'] && live.cards.home.red() + live.cards.home.yellowred() > 0 -->
+                                            <span class="flag-icon red span-yellow-card" data-bind="text: live.cards.home.red() + live.cards.home.yellowred()"></span>
+                                        <!-- /ko -->
+                                    </p>
+                                </span>
+                                <br />
+                                <span data-bind="css: {server: live['server'] && live.server() == 2}">
+                                    <p class="nowrap match-team-name-color">{{ match.teams.away.name }}
+                                        <span class="team-name-live" data-bind="text: teams.away.name()"></span>
+										<!-- ko if: live['cards'] && live.cards.away.yellow() > 0 -->
+                                            <span class="flag-icon yellow span-yellow-card" data-bind="text: live.cards.away.yellow()"></span>
+                                        <!-- /ko -->
+										<!-- ko if: live['cards'] && live.cards.away.red() + live.cards.away.yellowred() > 0 -->
+                                            <span class="flag-icon red span-yellow-card" data-bind="text: live.cards.away.red() + live.cards.away.yellowred()"></span>
+                                        <!-- /ko -->
+                                    </p>
+                                </span>
+
+                            </div>
+
+                            <div class="score-outer live-score">
+                                <!-- ko if: live.setscores --> 
+                                <div class="setscores" data-bind="foreach: live.setscores">
+                                    <div class="ft">
+                                        <span class="up-value" data-bind="text: $data.split(':')[0]"></span><br>
+                                        <span class="down-value" data-bind="text: $data.split(':')[1]"></span>
+                                    </div>
+                                </div>
+                                <!-- /ko -->
+                                <div class="score" data-bind="if: live.score">
+                                    <div class="ht">
+                                        <span class="up-value score-home" data-bind="
+                                            text: live.score ? live.score().split(':')[0] : '-',
+                                            attr: {'data-match': match.id()},
+                                            css: {changed: live.score && live.score.home()}
+                                        "></span><br/>
+                                        <span class="down-value score-away" data-bind="
+                                            text: live.score ? live.score().split(':')[1] : '-',
+                                            attr: {'data-match': match.id()},
+                                            css: {changed: live.score && live.score.away()}
+                                        "></span>
+                                    </div>
+                                </div>
+                                <div class="live-bet-count-container">
+                                    <span class="ui-btn-corner-all ui-btn-up-c live-bet-count" data-bind="text: count.side()">
+                                    <span>
+                                </div>
+                            </div>
+
+                            <div class="link2 link2-arrow live-link-arrow">
+                                <a href="#" data-bind="click: function(){window.location = '/live/' + sport.link()+'/' + link() + '.html'}">&nbsp;</a>
+                            </div>
+
+                        </div>
+                        <div class="row2" data-bind="css: {'dnone': !bets().length}">
+                            <!-- ko if: bets().length -->
+                         
+                                <div class="row2-match-live-data-bind" data-bind="foreach: general.helpers.matches.live.bets(sport.id(), match)">
+
+                                    <div class="clear"></div>
+                                    <div class="live-row-container">
+                                        <div class="left">
+                                            <!-- ko if: fields().length !== 2 -->
+                                            <div class="left-inner">
+                                                <div class="left-inner2">
+                                                    <span data-bind="text: name()"></span>
+                                                    <!-- ko if: special() -->
+                                                    (<span data-bind="text: special()"></span>)
+                                                    <!-- /ko -->
+                                                </div>
+                                            </div>
+                                            <!-- /ko -->
+                                            <!-- ko if: fields().length === 2 -->
+                                            &nbsp;
+                                            <!-- /ko -->
+                                        </div>
+
+                                        <div class="right">
+                                            <!-- ko if: fields().length === 2 -->
+                                            <section class="left-inner right-margin">
+                                                <table>
+                                                    <tr>
+                                                        <td class="left-inner2">
+                                                            <span data-bind="text: name(), css: {'one-line': !special()}"></span>
+                                                            <!-- ko if: special() -->
+                                                            (<span data-bind="text: special()"></span>)
+                                                            <!-- /ko -->
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </section>
+                                            <!-- /ko -->
+    										
+                                            <!-- ko foreach: fields -->
+                                            <button data-role="none" class="col1 btn btn-live" data-inline="true" data-bind="
+                                            disable: (
+                                                (
+                                                    ($parent.live() && match.live.betstatus && match.live.betstatus() == 'stopped') ||
+                                                    ($parent.live() == 0 && match.betstatus && match.betstatus() == 'stopped')
+                                                )
+                                                || !$parent.active() || !$data.active()
+                                            ),
+                                            attr: { 'data-live': $parent.live(),
+                                                    'data-special': $parent.special(),
+                                                    'data-outcome': outcome(),
+                                                    'data-subtype': $parent.subtype(),
+                                                    'data-type': $parent.type(),
+                                                    'data-match': match.id(),
+                                                    'data-ticket': ticket()?'remove':'add',
+                                                    'data-started': $parents[1].live.status() !== 'not_started'},
+                                            css: {'color2': $data['changed'] && changed() == 'higher',
+                                                'color1': $data['changed'] && changed() == 'lower',
+                                                'active': ticket()}">
+                                                <div class="inner-link">
+                                                    <div class="caption" data-bind="html: name()"></div>
+                                                    <div class="quote" data-bind="html: $data['changed'] && changed() ? quote().toFixed(2) + ' <span class=\'dnone\'>&nbsp;</span>' : quote().toFixed(2)"></div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            </button>
+                                            <!-- /ko -->
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                            <!-- /ko -->
+          
+                        </div>
+                        
+                    </div>      
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="preview-link"><a href="/live/{{ sport.link }}/preview.html">{{ lang('navigation.preview') }}</a><span class="view-arrow"></span></div>

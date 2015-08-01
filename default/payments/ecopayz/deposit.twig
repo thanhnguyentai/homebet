@@ -1,0 +1,82 @@
+<div id="deposit" class="deposit-provider ecopayz">
+    <div class="back-wrapper">
+        <a class="back" href="/profile/deposit.html"><span>{{ lang('global.back') }}</span></a>
+    </div>
+
+    {{ form_open({method: 'post', autocomplete: 'off'}) }}
+
+    {% set image1 = asset_img('payments/ico-' ~ payment.id ~ '-' ~ handshake.language.id ~ '.png') %}
+    {% set image2 = asset_img('payments/ico-' ~ payment.id ~ '.png') %}
+
+    <div class="deposit-provider-details">
+        {% if image1 %}{{ image1 }}{% else %}{{ image2 }}{% endif %}
+
+        <p class="details"><strong>{{ lang('payments.minimum') }}-{{ lang('payments.maximum') }}: {{ payment.deposit.minimum|number_format(0) }}-{{ payment.deposit.maximum|number_format(0) }} {{ handshake.currency.id }}</strong><br/>
+            <strong>
+                {{ lang('payments.fees') }}:
+                {% if payment.deposit.fees.percent and payment.deposit.fees.amount %}
+                    {{ payment.deposit.fees.percent|number_format(2) }}% + {{ payment.deposit.fees.amount|number_format(2) }} {{ handshake.currency.id }}
+                {% elseif payment.deposit.fees.percent %}
+                    {{ payment.deposit.fees.percent|number_format(2) }}%
+                {% elseif payment.deposit.fees.amount %}
+                    {{ payment.deposit.fees.amount|number_format(2) }} {{ handshake.currency.id }}
+                {% else %}
+                    {{ lang('global.none') }}
+                {% endif %}
+            </strong><br/>
+            <strong>{{ lang('payments.duration') }}: {{ payment.deposit.duration }}</strong>
+        </p>
+
+        <p class="info">
+            {{ lang('payments.ecopayz.description') }}
+            {% if payment.website %}
+                <a href="{{ payment.website }}" target="_blank" class="a_payment_link">{{ payment.website }}</a>
+            {% endif %}
+        </p>
+    </div>
+
+    {% set amounts = [25, 50, 100, 200, 500] %}
+
+    <div class="deposit-amount">
+        <h2>{{ lang('payments.deposit.amount') }}</h2>
+        {{ form_label(lang('payments.fields.select_amount'), 'amount') }}
+        {% for amount in amounts %}
+            {{ form_button(amount, amount, {type: 'button', 'data-bind': 'css: {active: amount() == ' ~ amount ~ '}, click: function(){amount(' ~ amount ~ ')}'}) }}
+        {% endfor %}
+        {{ form_label(lang('payments.fields.enter_amount'), 'amount') }}
+        {{ form_input('amount', form_val('amount'), {'data-bind': 'value: amount'}) }}
+        <span class="popup_message" style="display:none" data-bind="visible: amount.valid() === false, text: amount.message()"></span>
+        <small class="under-input">{{ lang('payments.minimum') }} {{ payment.deposit.minimum|number_format(2) }}, {{ lang('payments.maximum') }} {{ payment.deposit.maximum|number_format(2) }}</small>
+    </div>
+
+    <div class="deposit-summary">
+        <h2>{{ lang('payments.deposit.summary') }}</h2>
+
+        <strong><span data-bind="html: parseFloat(total()).toFixed(2) != 'NaN' ? parseFloat(total()).toFixed(2) : '0.00'">0.00</span> {{ handshake.currency.id }}</strong>
+        {{ lang('payments.amount') }}: <span data-bind="html: parseFloat(amount()).toFixed(2) != 'NaN' ? parseFloat(amount()).toFixed(2) : '0.00'">0.00</span> {{ handshake.currency.id }}<br/>
+        {{ lang('payments.fee') }}: <span data-bind="html: parseFloat(fees()).toFixed(2) != 'NaN' ? parseFloat(fees()).toFixed(2) : '0.00'">0.00</span> {{ handshake.currency.id }}
+        {{ form_button('deposit', lang('payments.deposit.button'), {id: 'payment-btn', 'data-bind': 'enable: valid'}) }}
+    </div>
+
+    {{ form_close() }}
+
+</div>
+
+<script type="text/javascript">
+
+    $(function () {
+
+        var payment = betmatic.payment.create({
+            id: 'ecopayz',
+            type: 'deposit'
+        });
+
+        payment.amount('{{ form_val('amount', amounts[0]) }}');
+        payment.fees.percent('{{ payment.deposit.fees.percent }}');
+        payment.fees.amount('{{ payment.deposit.fees.amount }}');
+
+        ko.applyBindings(payment, document.getElementById('deposit'));
+
+    });
+
+</script>

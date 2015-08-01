@@ -1,0 +1,17 @@
+<ul class="settings">
+    <div class="navbar-title3 top-curve"><h2>{{ lang('headers.settings') }}</h2></div>
+    <li>
+        <a href="/settings/language.html">
+            <span  class="title">{{ lang('settings.language') }}</span> 
+            <span class="content">
+                <div class="setting-flag"><span>{{ handshake.language.name }}</span>{{ asset_img('flags/' ~ handshake.language.id ~ '.png', {'alt': 'flags'}) }}</div>
+            </span>
+        </a>
+    </li>
+    <li class="bottom-curve">
+        <a href="/settings/timezone.html">
+            <span  class="title bottom-l-curve">{{ lang('settings.timezone') }}</span>
+            <span class="content">{{ handshake.timezone.id }} ({{ 'now'|date('H:i', handshake.timezone.id) }})</span>
+        </a>
+    </li>
+</ul>

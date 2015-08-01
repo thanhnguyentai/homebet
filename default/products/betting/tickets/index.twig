@@ -1,0 +1,37 @@
+{% if tickets %}
+<div class="sports-content">
+    <div class="middle">
+        <div class="ticket-table">
+            <ul data-filter="true" data-filter-placeholder="{{ lang('tickets.search') }}">
+                <li class="green-bg">
+                    <div class="col"><span class="title">{{ lang('tickets.date') }}</span></div>
+                    <div class="col"><span class="title">{{ lang('tickets.ticket') }}</span></div>
+                    <div class="col"><span class="title">{{ lang('tickets.result') }}</span></div>
+                    <div class="col"><span class="title">{{ lang('tickets.profit') }}</span></div>
+                    <div class="col"><span class="title">&nbsp;</span></div>
+                </li>
+                {% for ticket in tickets %}
+                {% set i = loop.index %}
+                <li>
+                    <div class="{{ cycle(['odd', 'even'], i) }}">
+                        <div class="col">{{ ticket.created|date('d.m.Y') }}<br>{{ ticket.created|date('H:i:s') }}</div>
+                        <div class="col">{{ ticket.id }}</div>
+                        <div class="col">
+                            {% if ticket.result == 'P' %}
+                            <p class="ui-li-aside" style="color: black"><strong>{{ lang('tickets.results.pending') }}</strong></p>
+                            {% elseif ticket.result == 'L' %}
+                            <p class="ui-li-aside" style="color: red"><strong>{{ lang('tickets.results.lost') }}</strong></p>
+                            {% elseif ticket.result == 'W' %}
+                            <p class="ui-li-aside" style="color: green"><strong>{{ lang('tickets.results.won') }}</strong></p>
+                            {% endif %}
+                        </div>
+                        <div class="col">{{ ticket.profit.current|number_format(2) }}</div>
+                        <div class="col"><span class="details-link"><a href="/tickets/{{ ticket.id }}.html">{{ lang('tickets.details') }}</a></span></div>
+                    </div>
+                </li>
+                {% endfor %}	
+            </ul>
+        </div>
+    </div>
+</div>
+{% endif %}

@@ -1,0 +1,13 @@
+{% if timezones %}
+<div class="sports-content">
+    <ul data-role="listview" data-filter="true" data-filter-placeholder="{{ lang('settings.search') }}" data-inset="true">
+        {% for timezone in timezones %}
+            <li>
+                <a href="/settings/?timezone={{ timezone.id }}">
+                    {{ timezone.id }} ({{ 'now'|date('H:i', timezone.id) }})
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>	
+{% endif %}

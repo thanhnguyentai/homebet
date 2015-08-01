@@ -1,0 +1,182 @@
+<div id="payout" class="payout-provider cepbank">
+    <div class="back-wrapper">
+        {% if bank %}
+            <a class="back" href="/payments/cepbank/payout.html"><span>{{ lang('global.back') }}</span></a>
+        {% else %}
+            <a class="back" href="/profile/payout.html"><span>{{ lang('global.back') }}</span></a>
+        {% endif %}
+    </div>
+
+    {{ form_open({method: 'post', autocomplete: 'off'}) }}
+
+    {% set image1 = asset_img('payments/ico-' ~ payment.id ~ '-' ~ handshake.language.id ~ '.png') %}
+    {% set image2 = asset_img('payments/ico-' ~ payment.id ~ '.png') %}
+
+    <div class="payout-provider-details">
+        {% if image1 %}{{ image1 }}{% else %}{{ image2 }}{% endif %}
+
+        <p class="details"><strong>{{ lang('payments.minimum') }}-{{ lang('payments.maximum') }}: {{ payment.payout.minimum|number_format(0) }}-{{ payment.payout.maximum|number_format(0) }} {{ handshake.currency.id }}</strong><br/>
+            <strong>
+                {{ lang('payments.fees') }}:
+                {% if payment.payout.fees.percent and payment.payout.fees.amount %}
+                    {{ payment.payout.fees.percent|number_format(2) }}% + {{ payment.payout.fees.amount|number_format(2) }} {{ handshake.currency.id }}
+                {% elseif payment.payout.fees.percent %}
+                    {{ payment.payout.fees.percent|number_format(2) }}%
+                {% elseif payment.payout.fees.amount %}
+                    {{ payment.payout.fees.amount|number_format(2) }} {{ handshake.currency.id }}
+                {% else %}
+                    {{ lang('global.none') }}
+                {% endif %}
+            </strong><br/>
+            <strong>{{ lang('payments.duration') }}: {{ payment.payout.duration }}</strong>
+        </p>
+
+        <p class="info">
+            {{ lang('payments.cepbank.description') }}
+            {% if payment.website %}
+                <a href="{{ payment.website }}" target="_blank" class="a_payment_link">{{ payment.website }}</a>
+            {% endif %}
+        </p>
+    </div>
+
+    {% if bank %}
+
+    {% set amounts = [25, 50, 100, 200, 500] %}
+
+    <div class="payout-amount">
+        <h2>{{ lang('payments.payout.amount') }}</h2>
+        {{ form_label(lang('payments.fields.select_amount'), 'amount') }}
+        {% for amount in amounts %}
+            {{ form_button(amount, amount, {type: 'button', 'data-bind': 'css: {active: amount() == ' ~ amount ~ '}, click: function(){amount(' ~ amount ~ ')}'}) }}
+        {% endfor %}
+        {{ form_label(lang('payments.fields.enter_amount'), 'amount') }}
+        {{ form_input('amount', form_val('amount'), {'data-bind': 'value: amount'}) }}
+        <span class="popup_message" style="display:none" data-bind="visible: amount.valid() === false, text: amount.message()"></span>
+        <small class="under-input">{{ lang('payments.minimum') }} {{ payment.payout.minimum|number_format(2) }}, {{ lang('payments.maximum') }} {{ payment.payout.maximum|number_format(2) }}</small>
+    </div>
+
+    <div class="payout-provider-info">
+        <h2>{{ lang('payments.payout.info') }}</h2>
+
+        {% if 'identification' in bank.ignore %}
+            {{ form_hidden('identification', '-') }}
+        {% else %}
+            {{ form_label(lang('payments.cepbank.fields.identification'), 'identification') }}
+            {{ form_input('identification', form_val('identification'), {'data-bind': 'value: identification'}) }}
+        {% endif %}
+        <span class="popup_message" style="display:none" data-bind="visible: identification.valid() === false, text: identification.message()"></span>
+
+        {% if 'receiver' in bank.ignore %}
+            {{ form_hidden('receiver', '-') }}
+        {% else %}
+            {{ form_label(lang('payments.cepbank.fields.receiver'), 'receiver') }}
+            {{ form_input('receiver', form_val('receiver'), {'data-bind': 'value: receiver'}) }}
+        {% endif %}
+        <span class="popup_message" style="display:none" data-bind="visible: receiver.valid() === false, text: receiver.message()"></span>
+
+        {% if 'sender' in bank.ignore %}
+            {{ form_hidden('sender', '-') }}
+        {% else %}
+            {{ form_label(lang('payments.cepbank.fields.sender'), 'sender') }}
+            {{ form_input('sender', form_val('sender'), {'data-bind': 'value: sender'}) }}
+        {% endif %}
+        <span class="popup_message" style="display:none" data-bind="visible: sender.valid() === false, text: sender.message()"></span>
+
+        {% if 'password' in bank.ignore %}
+            {{ form_hidden('password', '-') }}
+        {% else %}
+            {{ form_label(lang('payments.cepbank.fields.password'), 'password') }}
+            {{ form_input('password', form_val('password'), {'data-bind': 'value: password'}) }}
+        {% endif %}
+        <span class="popup_message" style="display:none" data-bind="visible: password.valid() === false, text: password.message()"></span>
+
+        {% if 'dob' in bank.ignore %}
+            {{ form_hidden('dob', '-') }}
+        {% else %}
+            {{ form_label(lang('payments.cepbank.fields.dob'), 'dob') }}
+            {{ form_input('dob', form_val('dob'), {'data-bind': 'value: dob'}) }}
+        {% endif %}
+        <span class="popup_message" style="display:none" data-bind="visible: dob.valid() === false, text: dob.message()"></span>
+
+        {{ form_label(lang('payments.cepbank.fields.bank'), 'bank') }}
+        {{ form_input('bank', bank.name, {'data-bind': 'value: bank', 'readonly': 'readonly'}) }}
+        <span class="popup_message" style="display:none" data-bind="visible: bank.valid() === false, text: bank.message()"></span>
+    </div>
+
+    <div class="payout-summary">
+        <h2>{{ lang('payments.payout.summary') }}</h2>
+
+        <strong><span data-bind="html: parseFloat(total()).toFixed(2) != 'NaN' ? parseFloat(total()).toFixed(2) : '0.00'">0.00</span> {{ handshake.currency.id }}</strong>
+        {{ lang('payments.amount') }}: <span data-bind="html: parseFloat(amount()).toFixed(2) != 'NaN' ? parseFloat(amount()).toFixed(2) : '0.00'">0.00</span> {{ handshake.currency.id }}<br/>
+        {{ lang('payments.fee') }}: <span data-bind="html: parseFloat(fees()).toFixed(2) != 'NaN' ? parseFloat(fees()).toFixed(2) : '0.00'">0.00</span> {{ handshake.currency.id }}
+        {{ form_button('payout', lang('payments.payout.button'), {id: 'payment-btn', 'data-bind': 'enable: valid'}) }}
+    </div>
+
+    {% else %}
+
+        <br/>
+
+        <div class="full-centered">
+            <h2>{{ lang('payments.cepbank.choose') }}</h2>
+            {% for id,bank in banks %}
+                <a href="/payments/cepbank/payout/{{ id }}.html" class="a_payment_link">{{ asset_img('payments/cepbank/ico-' ~ id ~ '.png') }}</a>
+            {% endfor %}
+        </div>
+
+    {% endif %}
+
+    {{ form_close() }}
+
+</div>
+
+<script type="text/javascript">
+
+    $(function () {
+
+        var payment = betmatic.payment.create({
+            id: 'cepbank',
+            type: 'payout',
+            fields: ['identification', 'receiver', 'sender', 'password', 'dob', 'bank']
+        });
+
+        payment.amount('{{ form_val('amount', amounts[0]) }}');
+        payment.fees.percent('{{ payment.deposit.fees.percent }}');
+        payment.fees.amount('{{ payment.deposit.fees.amount }}');
+
+        {% if bank and 'identification' in bank.ignore %}
+        payment.identification('-');
+        {% else %}
+        payment.identification('{{ form_val('identification') }}');
+        {% endif %}
+
+        {% if bank and 'receiver' in bank.ignore %}
+        payment.receiver('-');
+        {% else %}
+        payment.receiver('{{ form_val('receiver') }}');
+        {% endif %}
+
+        {% if bank and 'sender' in bank.ignore %}
+        payment.sender('-');
+        {% else %}
+        payment.sender('{{ form_val('sender') }}');
+        {% endif %}
+
+        {% if bank and 'password' in bank.ignore %}
+        payment.password('-');
+        {% else %}
+        payment.password('{{ form_val('password') }}');
+        {% endif %}
+
+        {% if bank and 'dob' in bank.ignore %}
+        payment.dob('-');
+        {% else %}
+        payment.dob('{{ form_val('dob') }}');
+        {% endif %}
+
+        payment.bank('{{ bank.name }}');
+
+        ko.applyBindings(payment, document.getElementById('payout'));
+
+    });
+
+</script>

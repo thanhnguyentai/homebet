@@ -1,0 +1,28 @@
+<div id="payout" class="payout-provider">
+    <div class="back-wrapper">
+        <a class="back" href="/profile/payout.html"><span>{{ lang('global.back') }}</span></a>
+    </div>
+
+    {{ form_open({method: 'post', autocomplete: 'off'}) }}
+
+    <div class="payout-provider-details">
+        {{ asset_img('payments/ico-western-union.png') }}
+
+        <p class="details"><strong>{{ lang('payments.minimum') }}-{{ lang('payments.maximum') }}: -</strong><br/>
+            <strong>{{ lang('payments.fees') }}: -</strong><br/>
+            <strong>{{ lang('payments.duration') }}: -</strong>
+        </p>
+
+        <p class="info">
+            {{ lang('payments.westernunion.description') }}
+            <a href="http://www.westernunion.com/" target="_blank" class="a_payment_link">http://www.westernunion.com/</a>
+        </p>
+    </div>
+
+    <div class="full-centered">
+        <h2>{{ lang('payments.westernunion.alternative') }}</h2>
+    </div>
+
+    {{ form_close() }}
+
+</div>

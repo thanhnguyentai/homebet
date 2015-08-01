@@ -1,0 +1,13 @@
+{% if outright %}
+<ol data-role="listview">
+
+    {% for bet in outright.bets %}
+        <li data-role="list-divider">{{ bet.name }}</li>
+        {% for oitem in bet.items %}
+        <li>
+            <a href="#">{{ oitem.outcome.name }} - {{ oitem.quote|number_format(2) }}</a>
+        </li>
+        {% endfor %}
+    {% endfor %}
+</ol>
+{% endif %}

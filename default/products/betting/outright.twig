@@ -1,0 +1,33 @@
+{% if outright %}
+<div class="sports-content outright-container">
+    <ol data-role="listview" class="nobuttons">
+
+        {% for bet in outright.bets %}
+
+        <li data-role="list-divider" class="t-title nowrap full-title"><div class="container-title-nowrap"><div class="sports-{{ sport.id }}"></div>{{ outright.name }} - {{ bet.name }}</div></li>
+        {% for field in bet.fields %}
+
+        <li>
+            <a href="#">
+                <span class="outright-name">{{ field.name }} - </span>
+                {% if field.cart == true %}
+                    <div class="ol-button selected-col">
+                {% else %}
+                    <div class="ol-button">
+                {% endif %}
+                    {% if field.ticket %}
+                        <td s="cell-3">
+                            <button data-role="none" class="btn active outright"  data-inline="true" data-ticket="remove" data-outright="{{ outright.id }}" data-type="{{ bet.type }}" data-outcome="{{ field.outcome }}">{{ field.quote|number_format(2) }}</button>
+                    {% else %}
+                        <button data-role="none" class="btn outright"  data-inline="true" data-ticket="add" data-outright="{{ outright.id }}" data-type="{{ bet.type }}" data-outcome="{{ field.outcome }}">{{ field.quote|number_format(2) }}</button>
+                    {% endif %} 
+                </div>
+            </a>
+        </li>
+
+        {% endfor %}
+        {% endfor %}
+
+    </ol>
+</div>
+{% endif %}

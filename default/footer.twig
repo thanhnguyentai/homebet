@@ -1,0 +1,50 @@
+<div id="footer" data-role="navbar" class="footer-menu" data-iconpos="top">
+    <ul>
+
+        {% if uri_segment(1) == '' or uri_segment(2) == 'index' %}
+        <li class="active"><a href="/" class="home-icon btn-active" data-dom-cache="true">{{ lang('navigation.home') }}</a></li>
+        {% else %}
+        <li><a href="/" class="home-icon" data-dom-cache="true">{{ lang('navigation.home') }}</a></li>
+        {% endif %}
+
+        {% if uri_segment(1) == 'sport' and uri_segment(4) == '' %}
+        <li class="active"><a href="/sport/" class="sport-icon btn-active" data-dom-cache="true">{{ lang('navigation.sport') }}</a></li>
+        {% else %}
+        <li><a href="/sport/" class="sport-icon" data-dom-cache="true">{{ lang('navigation.sport') }}</a></li>
+        {% endif %}
+
+        {% if uri_segment(1) == 'ticket' %}
+        <li class="active"><a href="/ticket.html" class="ticket-icon btn-active" data-dom-cache="true"><span class="ticket-number" data-bind="visible: $data > 0, text: $data" style="display:none"></span>{{ lang('navigation.ticket') }}</a></li>
+        {% else %}
+        <li><a href="/ticket.html" class="ticket-icon"><span class="ticket-number" data-dom-cache="true" data-bind="visible: $data > 0, text: $data" style="display:none"></span>{{ lang('navigation.ticket') }}</a></li>
+        {% endif %}
+
+        {% if uri_segment(1) == 'info' %}
+        <li class="active"><a href="/info/" class="info-icon btn-active" data-dom-cache="true">{{ lang('navigation.info') }}</a></li>
+        {% else %}
+        <li><a href="/info/" class="info-icon" data-dom-cache="true">{{ lang('navigation.info') }}</a></li>
+        {% endif %}
+
+        {% if uri_segment(1) == 'profile' %}
+        <li class="active"><a href="/profile/" class="account-icon btn-active" data-dom-cache="true">{{ lang('navigation.login') }}</a></li>
+        {% else %}
+        <li>
+            {% if customer %}
+            <a href="/profile/" class="account-icon" data-dom-cache="false"><span class="ticket-number">{{ customer.balance.betting|number_format(2) }}</span>{{ lang('navigation.balance') }}</a>
+            {% else %}
+            <a href="/profile/" class="account-icon" data-dom-cache="false">{{ lang('navigation.login') }}</a>
+            {% endif %}
+        </li>
+        {% endif %}
+
+    </ul>
+</div>
+{% if uri_segment(1) != 'ticket' %}
+<script type="text/javascript">
+$(function(){
+    betmatic.products.betting.ticket.load(function (store, count) {
+        ko.applyBindings(count, $('#footer').get(0));
+    });
+});
+</script>
+{% endif %}

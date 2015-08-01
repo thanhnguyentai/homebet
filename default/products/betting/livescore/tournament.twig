@@ -1,0 +1,103 @@
+<script type="text/javascript">
+    
+    $(function(){
+
+        $.mobile.loading('show');
+
+        betmatic.products.betting.matches.load({
+            status: ['running'],
+            sport: '{{ sport.id }}',
+            category: '{{ category.id }}',
+            tournament: '{{ tournament.id }}',
+            live: 'true',
+            period: '1d',
+            limit: 50
+        }, function(event, store, data){
+            ko.applyBindings(data, $('#livescore').get(0));
+            general.parse();
+            $.mobile.loading('hide');
+        });
+        
+    });
+
+</script>
+
+<div id="livescore" class="sports-content">
+    <div class="main-row">
+        <ul data-role="listview" class="live-data sport-tournament" data-bind="foreach: {data: items, as: 'match'}, attr: {style: 'display:block;'}" style="display:none;">
+
+            <li>
+                <div class="rowtitle">
+					<h2>
+						<div class="sports-{{ sport.id }}"></div> 
+						<p class="nowrap tournament-name-text">{{ category.name }} - {{ tournament.name }}</p>
+					</h2>
+				</div>
+                <div class="{{ cycle(['odd', 'even'], i) }}">
+                    <div class="row5">
+                        <div class="time live-time">
+
+                            <div class="time" data-bind="html: general.utilities.format.time($data)"></div>
+
+                            <div class="clear"></div>
+
+                            <span class="live-icon" data-bind="css: {
+                                'live-inactive': live.status() == 'not_started',
+                                'live-active': live.status() != 'not_started'
+                            }">LIVE</span>
+
+                        </div>
+
+                        <div class="title live-title">
+
+                            <span data-bind="css: {server: live['server'] && live.server() == 1}">
+                                <p class="nowrap match-team-name-color" style="color:#333333">
+                                    <span class="team-name-live" data-bind="text: teams.home.name()"></span>
+                                    <!-- ko if: live['cards'] && live.cards.home.red() + live.cards.home.yellowred() > 0 -->
+                                        <span class="flag-icon red span-yellow-card" data-bind="text: live.cards.home.red() + live.cards.home.yellowred()"></span>
+                                    <!-- /ko -->
+                                    <!-- ko if: live['cards'] && live.cards.home.yellow() > 0 -->
+                                        <span class="flag-icon yellow span-yellow-card" data-bind="text: live.cards.home.yellow()"></span>
+                                    <!-- /ko -->
+                                </p>
+                            </span>
+                            <br />
+                            <span data-bind="css: {server: live['server'] && live.server() == 2}">
+                                <p class="nowrap match-team-name-color" style="color:#333333">{{ match.teams.away.name }}
+                                    <span class="team-name-live" data-bind="text: teams.away.name()"></span>
+                                    <!-- ko if: live['cards'] && live.cards.away.red() + live.cards.away.yellowred() > 0 -->
+                                        <span class="flag-icon red span-yellow-card" data-bind="text: live.cards.away.red() + live.cards.away.yellowred()"></span>
+                                    <!-- /ko -->
+                                    <!-- ko if: live['cards'] && live.cards.away.yellow() > 0 -->
+                                        <span class="flag-icon yellow span-yellow-card" data-bind="text: live.cards.away.yellow()"></span>
+                                    <!-- /ko -->
+                                </p>
+                            </span>
+
+                        </div>
+
+                        <div class="score-outer live-score">
+                            <!-- ko if: live.setscores --> 
+                                <div class="setscores" data-bind="foreach: live.setscores">
+                                    <div class="ft">
+                                        <span class="up-value" data-bind="text: $data.split(':')[0]"></span><br>
+                                        <span class="down-value" data-bind="text: $data.split(':')[1]"></span>
+                                    </div>
+                                </div>
+                            <!-- /ko -->
+                            <div class="score" data-bind="if: live.score">
+                                <div class="ht">
+                                    <span class="up-value score-home" data-bind="text: live.score().split(':')[0]"></span><br>
+                                    <span class="down-value score-away" data-bind="text: live.score().split(':')[1]"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                    
+            </li>
+            
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,15 @@
+{% if sports %}
+<div class="sports-content">
+    <ul data-role="listview">
+        {% for sport in sports %}
+        <li>
+            <a href="/livescore/{{ sport.link }}/">
+                <div class="sports-{{ sport.id }}"></div>
+				<h1 class="sports-title tournament-name-text">{{ sport.name }}</h1>
+                <span class="ui-li-count">{{ sport.count.total }}</span>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}

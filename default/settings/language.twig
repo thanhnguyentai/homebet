@@ -1,0 +1,14 @@
+{% if languages %}
+<div class="sports-content">
+    <ul data-role="listview">
+        {% for language in languages %}
+            <li>
+                <a href="/settings/?language={{ language.id }}">
+                    {{ asset_img('flags/' ~ language.id ~ '.png', {'class': 'ui-li-icon', 'alt': 'flags'}) }}
+                    {{ language.name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>	
+{% endif %}

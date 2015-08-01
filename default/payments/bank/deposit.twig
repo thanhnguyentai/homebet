@@ -1,0 +1,64 @@
+<div id="deposit" class="deposit-provider">
+    <div class="back-wrapper">
+        <a class="back" href="/profile/deposit.html"><span>{{ lang('global.back') }}</span></a>
+    </div>
+
+    {{ form_open({method: 'post', autocomplete: 'off'}) }}
+
+    {% set image1 = asset_img('payments/ico-' ~ payment.id ~ '-' ~ handshake.language.id ~ '.png') %}
+    {% set image2 = asset_img('payments/ico-' ~ payment.id ~ '.png') %}
+
+    <div class="deposit-provider-details">
+        {% if image1 %}{{ image1 }}{% else %}{{ image2 }}{% endif %}
+
+        <p class="details"><strong>{{ lang('payments.minimum') }}-{{ lang('payments.maximum') }}: {{ payment.deposit.minimum|number_format(0) }}-{{ payment.deposit.maximum|number_format(0) }} {{ handshake.currency.id }}</strong><br/>
+            <strong>
+                {{ lang('payments.fees') }}:
+                {% if payment.deposit.fees.percent and payment.deposit.fees.amount %}
+                    {{ payment.deposit.fees.percent|number_format(2) }}% + {{ payment.deposit.fees.amount|number_format(2) }} {{ handshake.currency.id }}
+                {% elseif payment.deposit.fees.percent %}
+                    {{ payment.deposit.fees.percent|number_format(2) }}%
+                {% elseif payment.deposit.fees.amount %}
+                    {{ payment.deposit.fees.amount|number_format(2) }} {{ handshake.currency.id }}
+                {% else %}
+                    {{ lang('global.none') }}
+                {% endif %}
+            </strong><br/>
+            <strong>{{ lang('payments.duration') }}: {{ payment.deposit.duration }}</strong>
+        </p>
+
+        <p class="info">
+            {{ lang('payments.bank.description') }}
+            {% if payment.website %}
+                <a href="{{ payment.website }}" target="_blank" class="a_payment_link">{{ payment.website }}</a>
+            {% endif %}
+        </p>
+    </div>
+    <div class="deposit-provider-info">
+        <h2>{{ lang('payments.deposit.info') }}</h2>
+        <label>{{ lang('payments.bank.fields.company') }}<br/>
+            <strong>{{ payment.informations.company }}</strong>
+        </label>
+        <label>{{ lang('payments.bank.fields.bank') }}<br/>
+            <strong>{{ payment.informations.bank }}</strong>
+        </label>
+    </div>
+
+    <div class="deposit-amount notitle">
+        <label>{{ lang('payments.bank.fields.iban') }}<br/>
+            <strong>{{ payment.informations.iban }}</strong>
+        </label>
+        <label>{{ lang('payments.bank.fields.bic') }}<br/>
+            <strong>{{ payment.informations.bic }}</strong>
+        </label>
+    </div>
+
+    <div class="deposit-summary notitle">
+        <label>{{ lang('payments.bank.fields.purpose') }}<br/>
+            <strong>{{ customer.username }}-{{ customer.id }}</strong>
+        </label>
+    </div>
+
+    {{ form_close() }}
+
+</div>

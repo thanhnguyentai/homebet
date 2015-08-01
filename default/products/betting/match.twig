@@ -1,0 +1,311 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#detailBet').bind('click', function(){
+            $('.matchbet-statistic').css('display','none');
+            $('.matchbet-detail').css('display','block');
+            $('.match-tab-active-item').removeClass('match-tab-active-item');
+            $(this).addClass('match-tab-active-item');
+        });
+
+        $('#statisticLeage').bind('click', function(){
+            $('.matchbet-detail').css('display','none');
+            $('.matchbet-statistic').css('display','block');
+            $('.match-tab-active-item').removeClass('match-tab-active-item');
+            $(this).addClass('match-tab-active-item');
+        });
+
+        setPositionRight();
+    });
+
+    function setPositionRight(){
+        var listLeftThree = $('.left');
+        var listRightThree = $('.right');
+
+        for(var i=0; i< listLeftThree.length; i++){
+            var heightLeft = listLeftThree.eq(i).height();
+            var heightRight = listRightThree.eq(i).height();
+            if(heightLeft > heightRight){
+                listRightThree.eq(i).css('margin-top',(heightLeft-heightRight)/2+'px');
+            }
+        }
+    }
+</script>
+
+{% if match %}
+<div class="sports-content">
+    <div class="middle">
+        <div class="main-row">
+            <ul>
+                <!--
+                <li data-role="list-divider" class="t-title match-title">
+					<div class="match-title-container">
+						<div class="sports-{{ match.sport.id }}"></div>
+						<div class="text-left30">{{ match.tournament.name }}</div>
+					</div>
+				</li>
+                -->
+                {% if league %}
+                <li>
+                    <ul class="match-tab-ul">
+                        <li>
+                            <a id="detailBet" href="#" class="match-tab-item match-tab-active-item">Detail Bets</a>
+                        </li>
+                        <li>
+                            <a id="statisticLeage" href="#" class="match-tab-item">Statistics</a>
+                        </li>
+                    </ul>
+                </li>
+                {% endif %}
+                <li data-match="{{ match.id }}">
+                    <div class="even">
+                        <div class="row1 row-match-time-live">
+                            <div class="time row-time-match-live normal-match-time">
+                                {{ match.date|date('d.m') }}<br />{{ match.date|date('H:i') }}
+                                <br/>
+                                <div class="sports-match-live-group">
+                                    <div class="sports-{{ match.sport.id }} sports-icon-match"></div>
+                                    {% if match.live.active %}
+                                        <span class="live-icon live-inactive live-icon-match">Live</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="title normal-match-title">
+                                <p class="match-team-name normal-match-name">{{ match.teams.home.name }}</p>
+                                <br class="normal-match-separate" />
+                                <p class="match-team-name normal-match-name">{{ match.teams.away.name }}</p>
+                            </div>
+                        </div>
+                    </div>    
+                </li>
+                {% for bet in match.bets %}
+                {% set i = loop.index %}
+                <li class="matchbet-detail">
+                    <div class="{{ cycle(['odd', 'even'], i) }}">
+                        <div class="row2">
+							<div class="clear"></div>
+                            {% if bet.fields|length > 3 %}
+							<div class="left">{{ otype.type }} {{ bet.name|replace({'/': ' / '}) }} {{ bet.special }}</div>
+							{% else %}
+							<div class="left">
+                                <div class="left-inner table-width100">
+                                    <table class="table-width100">
+                                        <tr>
+                                            <td class="left-inner2">
+                                                <span>{{ otype.type }} {{ bet.name|replace({'/': ' / '}) }}</span>
+                                                <span>{{ bet.special }}</span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>			
+							{% endif %}
+                            <div class="right">
+								{# bet.fields|length #}
+                                {% set counter = 0 %}
+                                {% for field in bet.fields %}
+                                {% set counter = counter + 1 %}
+
+                                {% if bet.fields|length > 3 %}
+                                {% if counter == 1 %}
+                                <div class="correct-score">
+                                    {% endif %}
+                                    {% if field.cart == true %}
+                                    {% if (counter == 2) or (loop.index == loop.length and counter != 1) %}									
+											<div class="col1 selected-col right-col1">
+										{% else %}
+                                   			<div class="col1 selected-col">
+                                  		{% endif %}
+                                        {% else %}
+                                        {% if (counter == 2) or (loop.index == loop.length and counter != 1) %}									
+											<div class="col1 right-col1">
+										{% else %}
+                                   			<div class="col1">
+                                  		{% endif %}
+                                            {% endif %}
+                                            {% if field.ticket %}
+                                                <button data-role="none" class="btn active" data-inline="true" data-ticket="remove" data-match="{{ match.id }}" data-type="{{ bet.type }}" data-subtype="{{ bet.subtype }}" data-outcome="{{ field.outcome }}" data-special="{{ bet.special }}" data-live="{{ bet.live }}">
+                                                    <div class="inner-link">
+                                                        <div class="caption">{{ field.name }}</div>
+                                                        <div class="quote">{{ field.quote|number_format(2) }}</div>
+                                                        <div class="clear"></div>
+                                                    </div>
+                                                </button>
+                                            {% else %}
+                                                <button data-role="none" class="btn" data-inline="true" data-ticket="add" data-match="{{ match.id }}" data-type="{{ bet.type }}" data-subtype="{{ bet.subtype }}" data-outcome="{{ field.outcome }}" data-special="{{ bet.special }}" data-live="{{ bet.live }}">
+                                                    <div class="inner-link">
+                                                        <div class="caption">{{ field.name }}</div>
+                                                        <div class="quote">{{ field.quote|number_format(2) }}</div>
+                                                        <div class="clear"></div>
+                                                    </div>
+                                                </button>
+                                            {% endif %} 
+                                        </div>
+                                        {% if counter == 1 %}
+                                        <div class="seperator">&nbsp;</div>
+                                        {% endif %}     
+                                        {% if (counter == 2) or (loop.index == loop.length) %}
+                                    </div>
+                                    {% set counter = 0 %}
+                                    {% endif %}
+                              	{% else %}
+                                    {% if counter == 1 %}
+                                    <div class="tipp-row">
+                                        {% endif %}
+                                        {% if field.cart == true %}
+                                        {% if (counter == 3) or (loop.index == loop.length) %}
+                                        <div class="col1 right-curve selected-col border-rightbox">
+                                            {% elseif  counter == 1 %}
+                                            <div class="col1 left-curve selected-col">
+                                                {% else %}
+                                                <div class="col1 selected-col">
+                                                    {% endif %}
+                                                    {% else %}
+                                                    {% if (counter == 3) or (loop.index == loop.length) %}
+                                                    <div class="col1 right-curve border-rightbox">
+                                                        {% elseif  counter == 1 %}
+                                                        <div class="col1 left-curve">
+                                                            {% else %}
+                                                            <div class="col1">
+                                                                {% endif %}
+                                                                {% endif %}
+                                        <button class="btn" data-role="none" data-ticket="add" data-match="{{ match.id }}" data-type="{{ bet.type }}" data-subtype="{{ bet.subtype }}" data-outcome="{{ field.outcome }}" data-special="{{ bet.special }}" data-live="{{ bet.live }}">
+                                             <div class="inner-link">
+                                                                    <div class="caption">{{ field.name }}</div>
+                                                                    <div class="quote">{{ field.quote|number_format(2) }}</div>   
+                                                                    <div class="clear"></div>
+                                                    </div>                              						
+                                        </button>
+                                                            </div>
+                                                            {% if (counter == 3) or (loop.index == loop.length) %}
+                                                        </div>
+                                                        {% set counter = 0 %}
+                                                        {% endif %}
+                                {% endif %}
+                    	{% endfor %}
+					   </div></div>
+                    </div>      
+                </li>
+                {% endfor %}
+
+                {% if league %}
+                <li class="matchbet-statistic" style="display: none;"><table class="matchbet-statistic-table" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th class="table-th-first">{{ lang('statistics.league') }}</th>
+                                <th class="table-th-other">{{ lang('statistics.matches') }}</th>
+                                <th class="table-th-other">{{ lang('statistics.wins') }}</th>
+                                <th class="table-th-other">{{ lang('statistics.draws') }}</th>
+                                <th class="table-th-other">{{ lang('statistics.losses') }}</th>
+                                <th class="table-th-other">{{ lang('statistics.points') }}</th>
+                                <th class="table-th-other">{{ lang('statistics.goals') }}</th>
+                            </tr>
+                </thead>
+                        <tbody>
+                            {% set home = null %}
+                            {% set away = null %}
+                            {% for team in league.teams %}
+                            {% if team.id == match.teams.home.id %}
+                            {% set home = team %}
+                            {% endif %}
+                            {% if team.id == match.teams.away.id %}
+                            {% set away = team %}
+                            {% endif %}
+                            {% set i = loop.index %}
+                            <tr>
+                                <td class="td-match-first">
+                                    <span class="td-order">{{ i }}</span>
+                                    <span class="td-team-name">{{ team.name }}</span>
+                                </td>
+                                <td class="td-match">
+                                    {{ team.matches.total }}
+                                </td>
+                                <td class="td-match">
+                                    {{ team.win.total }}
+                                </td>
+                                <td class="td-match">
+                                    {{ team.draw.total }}
+                                </td>
+                                <td class="td-match">
+                                    {{ team.loss.total }}
+                                </td>
+                                <td class="td-match">
+                                    {{ team.points.total }}
+                                </td>
+                                <td class="td-match">
+                                    {{ team.goals.total.total }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            <tr>
+                                <td class="table-tr-first">{{ lang('statistics.home') }}</td>
+                                <td class="table-tr-other">{{ lang('statistics.matches') }}</td>
+                                <td class="table-tr-other">{{ lang('statistics.wins') }}</td>
+                                <td class="table-tr-other">{{ lang('statistics.draws') }}</td>
+                                <td class="table-tr-other">{{ lang('statistics.losses') }}</td>
+                                <td class="table-tr-other">{{ lang('statistics.points') }}</td>
+                                <td class="table-tr-other">{{ lang('statistics.goals') }}</td>
+                            </tr>
+                            <tr>
+                                <td class="td-match-first">
+                                    <span class="td-team-name-home-away">{{ home.name }}</span>
+                                </td>
+                                <td class="td-match">
+                                    {{ home.matches.home }}
+                                </td>
+                                <td class="td-match">
+                                    {{ home.win.home }}
+                                </td>
+                                <td class="td-match">
+                                    {{ home.draw.home }}
+                                </td>
+                                <td class="td-match">
+                                    {{ home.loss.home }}
+                                </td>
+                                <td class="td-match">
+                                    {{ home.points.home }}
+                                </td>
+                                <td class="td-match">
+                                    {{ home.goals.total.home }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="table-tr-first">{{ lang('statistics.away') }}</td>
+                                <td class="table-tr-other">{{ lang('statistics.matches') }}</td>
+                                <td class="table-tr-other">{{ lang('statistics.wins') }}</td>
+                                <td class="table-tr-other">{{ lang('statistics.draws') }}</td>
+                                <td class="table-tr-other">{{ lang('statistics.losses') }}</td>
+                                <td class="table-tr-other">{{ lang('statistics.points') }}</td>
+                                <td class="table-tr-other">{{ lang('statistics.goals') }}</td>
+                            </tr>
+                            <tr>
+                                <td class="td-match-first">
+                                    <span class="td-team-name-home-away">{{ away.name }}</span>
+                                </td>
+                                <td class="td-match">
+                                    {{ away.matches.away }}
+                                </td>
+                                <td class="td-match">
+                                    {{ away.win.away }}
+                                </td>
+                                <td class="td-match">
+                                    {{ away.draw.away }}
+                                </td>
+                                <td class="td-match">
+                                    {{ away.loss.away }}
+                                </td>
+                                <td class="td-match">
+                                    {{ away.points.away }}
+                                </td>
+                                <td class="td-match">
+                                    {{ away.goals.total.away }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </li>
+                {% endif %}
+            </ul>
+        </div>      
+    </div>      
+</div>  
+{% endif %}

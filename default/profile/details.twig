@@ -1,0 +1,62 @@
+<div class="profile-form-content">
+    <fieldset>
+        <div class="box">
+            <strong>{{ lang('profile.details.details.personal.title') }}</strong>
+            {{ form_open({method: 'post', action: '/profile/update.html'}) }}
+
+            {{ form_csrf() }}
+
+            <div class="row">
+                <label class="lbl">{{ lang('profile.details.details.personal.email') }}</label>
+                <input type="text" class="txt" name="email" value="{{ customer.email }}"/>
+            </div>
+
+            <div class="row">
+                <label class="lbl">{{ lang('profile.details.details.personal.street') }}</label>
+                <input type="text" class="txt" name="street" value="{{ customer.street }}"/>
+            </div>
+
+            <div class="row">
+                <label class="lbl">{{ lang('profile.details.details.personal.city') }}</label>
+                <input type="text" class="txt" name="city" value="{{ customer.city }}"/>
+            </div>
+
+            <div class="row">
+                <label class="lbl">{{ lang('profile.details.details.personal.postcode') }}</label>
+                <input type="text" class="txt" name="postcode" value="{{ customer.postcode }}"/>
+            </div>
+
+            <div class="row">
+                <label for="newsletter"></label>
+                <input type="hidden" value="0" name="newsletter"/>
+                <input type="checkbox" id="newsletter" name="newsletter" value="1" {% if customer.newsletter %}checked="checked"{% endif %}/><span>{{ lang('profile.details.details.personal.newsletter') }}</span>
+            </div>
+
+            <button type="submit" class="btn1"><span>{{ lang('global.update') }}</span></button>
+
+            {{ form_close() }}
+        </div>
+        <div class="box">
+            <strong>{{ lang('profile.details.details.password.title') }}</strong>
+            {{ form_open({method: 'post', action: '/profile/password.html'}) }}
+
+            {{ form_csrf() }}
+
+            <div class="row">
+                <label class="lbl">{{ lang('profile.details.details.password.old') }}</label>
+                <input type="password" class="txt" name="old_password">
+            </div>
+            <div class="row">
+                <label class="lbl">{{ lang('profile.details.details.password.new1') }}</label>
+                <input type="password" class="txt" name="new_password1">
+            </div>
+            <div class="row">
+                <label class="lbl">{{ lang('profile.details.details.password.new2') }}</label>
+                <input type="password" class="txt" name="new_password2">
+            </div>
+            <button type="submit" class="btn1"><span>{{ lang('global.update') }}</span></button>
+
+            {{ form_close() }}
+        </div>
+    </fieldset>
+</div>

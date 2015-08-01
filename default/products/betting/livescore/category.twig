@@ -1,0 +1,20 @@
+{% if (tournaments or outrights) %}
+<div class="sports-content">
+    <ul data-role="listview">
+
+        {% if tournaments %}
+
+        {% for tournament in tournaments %}
+        <li>
+            <a href="/livescore/{{ sport.link }}/{{ category.link }}/tournaments/{{ tournament.link }}/">
+                <div class="sports-{{ sport.id }}"></div><span class="span-nowrap tournament-name-text">{{ tournament.name }}</span>
+                <span class="ui-li-count ui-icon-count">{{ tournament.count }}</span>
+            </a>
+        </li>
+        {% endfor %}
+
+        {% endif %}
+
+    </ul>
+</div>	
+{% endif %}

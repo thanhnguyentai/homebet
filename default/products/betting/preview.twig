@@ -1,0 +1,119 @@
+{% if matches %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        if(!(/iphone|ipod|ipad/gi).test(navigator.platform)){
+            $('.tournament-bet-button').css('width','21.5%');
+        }
+    });
+</script>
+
+<div class="sports-content">
+    <div class="middle">
+        <div class="main-row">
+            <ul>
+                {% set last_day = false %}
+                {% for match in matches %}
+                {% set i = loop.index %}
+                {% if match.date|date('d.m.Y') != last_day %}
+                {% set last_day =  match.date|date('d.m.Y') %}
+                {% endif %}
+
+                <li data-match="{{ match.id }}">
+                    <div class="rowtitle">
+                        <h2>
+                            <div class="sports-{{ match.sport.id }}"></div> <p class="nowrap">{{ match.category.name }} - {{ match.tournament.name }}</p>
+                        </h2>
+                    </div>
+                    <div class="{{ cycle(['odd', 'even'], i) }}">
+                        {% if match.count.side > 0 %}
+                        <div class="row1">
+                        {% else %}
+                        <div class="row1 noborder">
+                        {% endif %}
+                            <div class="time tournament-bet-time">{{ match.date|date('d.m') }}<br />{{ match.date|date('H:i') }}
+                                {% if match.live.active %}
+								<br />
+                                <span class="live-icon live-inactive">Live</span>
+                                {% endif %}
+                            </div>
+                            <div class="title tournament-bet-title"><p class="match-team-name tournament-bet-name">{{ match.teams.home.name }}</p><br class="tournament-bet-separate-line" /><p class="match-team-name tournament-bet-name">{{ match.teams.away.name }}</p></div>
+                            {% if match.count.side > 0 %}
+                            <div class="link tournament-bet-button">
+                                <a href="/sport/{{ match.sport.link }}/{{ match.category.link }}/tournaments/{{ match.tournament.link }}/{{ match.link }}.html">{{ match.count.side }}</a>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% if match.count.side > 0 %}
+                        <div class="row2">
+                        {% else %}
+                        <div class="row2 dnone">
+                        {% endif %}
+                                {% for bet in match.bets %}
+								<div class="clear"></div>
+                                <div class="left">
+                                                            <div class="left-inner table-width100">
+                                                                <table class="table-width100">
+                                                                    <tr>
+                                                                        <td class="left-inner2">
+                                                                            <span>{{ bet.name|replace({'/': ' / '}) }}</span>
+                                                                            <span>{% if bet.special %}({{ bet.special }}){% endif %}</span>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                </div>
+                                <div class="right">
+
+                                {% set counter = 0 %}
+                                {% for field in bet.fields %}
+                                {% set counter = counter + 1 %}
+                                {% if counter == 1 %}
+                                <div class="tipp-row">
+                                    {% endif %}
+                                    {% if (counter == 3) or (loop.index == loop.length) %}
+                                    <div class="col1 right-curve border-rightbox">
+                                        {% elseif  counter == 1 %}
+                                        <div class="col1 left-curve">
+                                            {% else %}
+                                            <div class="col1">
+                                                {% endif %}
+
+                                                {% if field.ticket %}
+                                                    <button data-role="none" class="btn active" data-inline="true" data-ticket="remove" data-match="{{ match.id }}" data-type="{{ bet.type }}" data-subtype="{{ bet.subtype }}" data-outcome="{{ field.outcome }}" data-special="{{ bet.special }}" data-live="{{ bet.live }}">
+                                                        <div class="inner-link">
+                                                            <div class="caption">{{ field.name }}</div>
+                                                            <div class="quote">{{ field.quote|number_format(2) }}</div>
+                                                            <div class="clear"></div>
+                                                        </div>
+                                                    </button>
+                                                {% else %}
+                                                    <button data-role="none" class="btn" data-inline="true" data-ticket="add" data-match="{{ match.id }}" data-type="{{ bet.type }}" data-subtype="{{ bet.subtype }}" data-outcome="{{ field.outcome }}" data-special="{{ bet.special }}" data-live="{{ bet.live }}">
+                                                        <div class="inner-link">
+                                                            <div class="caption">{{ field.name }}</div>
+                                                            <div class="quote">{{ field.quote|number_format(2) }}</div>
+                                                            <div class="clear"></div>
+                                                        </div>
+                                                    </button>
+                                                {% endif %}
+
+                                            </div>
+                                            {% if (counter == 3) or (loop.index == loop.length) %}
+                                        </div>
+                                        {% set counter = 0 %}
+                                        {% endif %}
+                                        {% endfor %}
+
+                                        </div>
+
+                                        {% endfor %}
+
+                                    </div>
+                                </div>
+
+                            </li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    </div>
+                    {% endif %}

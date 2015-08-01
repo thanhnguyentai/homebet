@@ -1,0 +1,108 @@
+<div id="payout" class="payout-provider bank">
+    <div class="back-wrapper">
+        <a class="back" href="/profile/payout.html"><span>{{ lang('global.back') }}</span></a>
+    </div>
+
+    {{ form_open({method: 'post', autocomplete: 'off'}) }}
+
+    {% set image1 = asset_img('payments/ico-' ~ payment.id ~ '-' ~ handshake.language.id ~ '.png') %}
+    {% set image2 = asset_img('payments/ico-' ~ payment.id ~ '.png') %}
+
+    <div class="payout-provider-details">
+        {% if image1 %}{{ image1 }}{% else %}{{ image2 }}{% endif %}
+
+        <p class="details"><strong>{{ lang('payments.minimum') }}-{{ lang('payments.maximum') }}: {{ payment.payout.minimum|number_format(0) }}-{{ payment.payout.maximum|number_format(0) }} {{ handshake.currency.id }}</strong><br/>
+            <strong>
+                {{ lang('payments.fees') }}:
+                {% if payment.payout.fees.percent and payment.payout.fees.amount %}
+                    {{ payment.payout.fees.percent|number_format(2) }}% + {{ payment.payout.fees.amount|number_format(2) }} {{ handshake.currency.id }}
+                {% elseif payment.payout.fees.percent %}
+                    {{ payment.payout.fees.percent|number_format(2) }}%
+                {% elseif payment.payout.fees.amount %}
+                    {{ payment.payout.fees.amount|number_format(2) }} {{ handshake.currency.id }}
+                {% else %}
+                    {{ lang('global.none') }}
+                {% endif %}
+            </strong><br/>
+            <strong>{{ lang('payments.duration') }}: {{ payment.payout.duration }}</strong>
+        </p>
+
+        <p class="info">
+            {{ lang('payments.bank.description') }}
+            {% if payment.website %}
+                <a href="{{ payment.website }}" target="_blank" class="a_payment_link">{{ payment.website }}</a>
+            {% endif %}
+        </p>
+    </div>
+
+    {% set amounts = [25, 50, 100, 200, 500] %}
+
+    <div class="payout-amount">
+        <h2>{{ lang('payments.payout.amount') }}</h2>
+        {{ form_label(lang('payments.fields.select_amount'), 'amount') }}
+        {% for amount in amounts %}
+            {{ form_button(amount, amount, {type: 'button', 'data-bind': 'css: {active: amount() == ' ~ amount ~ '}, click: function(){amount(' ~ amount ~ ')}'}) }}
+        {% endfor %}
+        {{ form_label(lang('payments.fields.enter_amount'), 'amount') }}
+        {{ form_input('amount', form_val('amount'), {'data-bind': 'value: amount'}) }}
+        <span class="popup_message" style="display:none" data-bind="visible: amount.valid() === false, text: amount.message()"></span>
+        <small class="under-input">{{ lang('payments.minimum') }} {{ payment.payout.minimum|number_format(2) }}, {{ lang('payments.maximum') }} {{ payment.payout.maximum|number_format(2) }}</small>
+    </div>
+
+    <div class="payout-provider-info">
+        <h2>{{ lang('payments.payout.info') }}</h2>
+
+        {{ form_label(lang('payments.bank.fields.receiver'), 'receiver') }}
+        {{ form_input('receiver', form_val('receiver'), {'data-bind': 'value: receiver'}) }}
+        <span class="popup_message" style="display:none" data-bind="visible: receiver.valid() === false, text: receiver.message()"></span>
+
+        {{ form_label(lang('payments.bank.fields.bank'), 'bank') }}
+        {{ form_input('bank', form_val('bank'), {'data-bind': 'value: bank'}) }}
+        <span class="popup_message" style="display:none" data-bind="visible: bank.valid() === false, text: bank.message()"></span>
+
+        {{ form_label(lang('payments.bank.fields.bank_account'), 'bank_account') }}
+        {{ form_input('bank_account', form_val('bank_account')) }}
+
+        {{ form_label(lang('payments.bank.fields.bank_code'), 'bank_account') }}
+        {{ form_input('bank_code', form_val('bank_code')) }}
+
+        {{ form_label(lang('payments.bank.fields.iban'), 'iban') }}
+        {{ form_input('iban', form_val('iban')) }}
+
+        {{ form_label(lang('payments.bank.fields.bic'), 'bic') }}
+        {{ form_input('bic', form_val('bic')) }}
+    </div>
+
+    <div class="payout-summary">
+        <h2>{{ lang('payments.payout.summary') }}</h2>
+        <strong><span data-bind="html: parseFloat(total()).toFixed(2) != 'NaN' ? parseFloat(total()).toFixed(2) : '0.00'">0.00</span> {{ handshake.currency.id }}</strong>
+        {{ lang('payments.amount') }}: <span data-bind="html: parseFloat(amount()).toFixed(2) != 'NaN' ? parseFloat(amount()).toFixed(2) : '0.00'">0.00</span> {{ handshake.currency.id }}<br/>
+        {{ lang('payments.fee') }}: <span data-bind="html: parseFloat(fees()).toFixed(2) != 'NaN' ? parseFloat(fees()).toFixed(2) : '0.00'">0.00</span> {{ handshake.currency.id }}
+        {{ form_button('payout', lang('payments.payout.button'), {id: 'payment-btn', 'data-bind': 'enable: valid'}) }}
+    </div>
+
+    {{ form_close() }}
+
+</div>
+
+<script type="text/javascript">
+
+    $(function () {
+
+        var payment = betmatic.payment.create({
+            id: 'bank',
+            type: 'payout',
+            fields: ['receiver', 'bank']
+        });
+
+        payment.amount('{{ form_val('amount', amounts[0]) }}');
+        payment.fees.percent('{{ payment.payout.fees.percent }}');
+        payment.fees.amount('{{ payment.payout.fees.amount }}');
+        payment.receiver('{{ form_val('receiver', customer.firstname ~ ' ' ~ customer.lastname) }}');
+        payment.bank('{{ form_val('bank') }}');
+
+        ko.applyBindings(payment, document.getElementById('payout'));
+
+    });
+
+</script>

@@ -1,0 +1,425 @@
+{% if match %}
+
+<script type="text/javascript">
+
+    $(function(){
+
+        betmatic.products.betting.matches.load('{{ match.id }}', function (event, store, data) {
+            ko.applyBindings(data,  $('#match-{{ match.id }}').get(0));
+            general.parse();
+
+            setPositionRight();
+        });
+
+        
+        var listLeft = $('.left');
+        for(var i=0;i<listLeft.length;i++){
+            if(listLeft.eq(i).hasClass('many-buttons'))
+                continue;
+            listLeft.eq(i).parent().css('width','97%').css('padding-left', '1%');
+        }
+
+        // register for selecting tabs
+
+        $('#detailBet').bind('click', function(){
+            $('.matchbet-statistic').css('display','none');
+            $('.matchbet-infor').css('display','none');
+            $('.detail-live-bet-row').css('display','block');
+            $('.match-tab-active-item').removeClass('match-tab-active-item');
+            $(this).addClass('match-tab-active-item');
+        });
+
+        $('#infoTab').bind('click', function(){
+            $('.detail-live-bet-row').css('display','none');
+            $('.matchbet-statistic').css('display','none');
+            $('.matchbet-infor').css('display','block');
+            $('.match-tab-active-item').removeClass('match-tab-active-item');
+            $(this).addClass('match-tab-active-item');
+        });
+
+        $('#statisticLeage').bind('click', function(){
+            $('.detail-live-bet-row').css('display','none');
+            $('.matchbet-infor').css('display','none');
+            $('.matchbet-statistic').css('display','block');
+            $('.match-tab-active-item').removeClass('match-tab-active-item');
+            $(this).addClass('match-tab-active-item');
+        });
+    });
+
+    function setPositionRight(){
+        var listLeftThree = $('.left');
+        var listRightThree = $('.right');
+
+        for(var i=0; i< listLeftThree.length; i++){
+            var heightLeft = listLeftThree.eq(i).height();
+            var heightRight = listRightThree.eq(i).height();
+            if(heightLeft > heightRight){
+                listRightThree.eq(i).css('margin-top',(heightLeft-heightRight)/2+'px');
+            }
+        }
+
+        var timeout = setTimeout(function(){
+            clearTimeout(timeout);
+            setPositionRight();
+        }, 2000);
+    }
+
+</script>
+
+<div id="match-{{ match.id }}" class="sports-content match-group-container">
+    <div class="middle">
+        <div class="main-row">
+            <ul class="live-data">
+                {% if league %}
+                <li>
+                    <ul class="match-tab-ul">
+                        <li class="match-tab-item-three">
+                            <a id="detailBet" href="#" class="match-tab-item match-tab-active-item">Live Odds</a>
+                        </li>
+                        <li class="match-tab-item-three-middle">
+                            <a id="infoTab" href="#" class="match-tab-item">
+                                <span class="tab-border-left"></span>
+                                Info
+                                <span class="tab-border-right"></span>
+                            </a>
+                        </li>
+                        <li class="match-tab-item-three">
+                            <a id="statisticLeage" href="#" class="match-tab-item" style="width: 103%;">Statistics</a>
+                        </li>
+                    </ul>
+                </li>
+                {% else %}
+                <li>
+                    <ul class="match-tab-ul">
+                        <li>
+                            <a id="detailBet" href="#" class="match-tab-item match-tab-active-item">Live Odds</a>
+                        </li>
+                        <li>
+                            <a id="infoTab" href="#" class="match-tab-item">Info</a>
+                        </li>
+                    </ul>
+                </li>
+                {% endif %}
+                
+                <li data-match="{{ match.id }}">
+                    <div class="even">
+                        <div class="row1 row-match-time-live detail-live">
+                            <div class="time row-time-match-live detail-time">
+                                {{ match.date|date('d.m') }}<br />{{ match.date|date('H:i') }}
+                                <br/>
+                                <div class="sports-match-live-group">
+                                    <div class="sports-{{ match.sport.id }} sports-icon-match"></div>
+                                   <span class="live-icon live-icon-match" data-bind="css: {
+                                        'live-inactive': live.status() == 'not_started',
+                                        'live-active': live.status() != 'not_started'
+                                    }">LIVE</span>
+                                </div>
+                            </div>
+                            <div class="title detail-title">
+                                <p class="match-team-name">{{ match.teams.home.name }}</p>
+                                <br />
+                                <p class="match-team-name">{{ match.teams.away.name }}</p>
+                            </div>
+                            <div class="score-outer live-score detail-score">
+                                <!-- ko if: live.setscores --> 
+                                <div class="setscores" data-bind="foreach: live.setscores">
+                                    <div class="ft">
+                                        <span class="up-value" data-bind="text: $data.split(':')[0]"></span><br>
+                                        <span class="down-value" data-bind="text: $data.split(':')[1]"></span>
+                                    </div>
+                                </div>
+                                <!-- /ko -->
+                                <div class="score" data-bind="if: live.score">
+                                    <div class="ht">
+                                        <span class="up-value score-home" data-bind="
+                                            text: live.score ? live.score().split(':')[0] : '-',
+                                            attr: {'data-match': {{ match.id }} },
+                                            css: {changed: live.score && live.score.home()}
+                                        "></span><br/>
+                                        <span class="down-value score-away" data-bind="
+                                            text: live.score ? live.score().split(':')[1] : '-',
+                                            attr: {'data-match':{{ match.id }} },
+                                            css: {changed: live.score && live.score.away()}
+                                        "></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>    
+                </li>
+                <li class="detail-live-bet-row" style="border: 0px;">
+                <ul>
+                <!-- ko foreach: {data: bets, as: 'bet'} -->
+                
+                <li>
+                    <div class="{{ cycle(['odd', 'even'], i) }}">
+                        <div class="row2">
+                            
+                            <div class="clear"></div>
+                            
+                            <div class="left" data-bind="css: {'three-buttons': fields().length <= 3 && fields().length!==2, 'two-buttons': fields().length===2, 'many-buttons':fields().length > 3}">
+                                <!-- ko if: fields().length !== 2 -->
+                                <div class="left-inner">
+                                    <div class="left-inner2">
+                                        <span data-bind="text: name().replace('/', ' / ')"></span>
+                                        <!-- ko if: special() -->
+                                        (<span data-bind="text: special()"></span>)
+                                        <!-- /ko -->
+                                    </div>
+                                </div>                                            
+                                <!-- /ko -->
+                                <!-- ko if: fields().length === 2 -->
+                                &nbsp;
+                                <!-- /ko -->
+                            </div>
+                            
+                            <div class="right" data-bind="css: {'three-buttons': fields().length <= 3 && fields().length!==2, 'two-buttons': fields().length===2, 'many-buttons':fields().length > 3}">                                          
+                                <!-- ko if: fields().length === 2 -->
+                                <section class="left-inner">
+                                    <table>
+                                        <tr>
+                                            <td class="left-inner2">
+                                                <span data-bind="text: name().replace('/', ' / '), css: {'one-line': !special()}"></span>
+                                                <!-- ko if: special() -->
+                                                (<span data-bind="text: special()"></span>)
+                                                <!-- /ko -->
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </section>                                            
+                                <!-- /ko -->
+
+                                <!-- ko foreach: fields -->
+                                <button data-role="none" class="col1 btn" data-inline="true" data-bind="
+                                disable: (
+                                    (
+                                        ($parent.live() && $root.live.betstatus && $root.live.betstatus() == 'stopped') ||
+                                        ($parent.live() == 0 && $root.betstatus && $root.betstatus() == 'stopped')
+                                    )
+                                    || !$parent.active() || !$data.active()
+                                ),
+                                attr: {
+                                    'data-outcome': $data.outcome(),
+                                    'data-ticket': $data.ticket()?'remove':'add',
+                                    'data-live': $parent.live(),
+                                    'data-subtype': $parent.subtype(), 
+                                    'data-type': $parent.type(), 
+                                    'data-special': $parent.special(),
+                                    'data-match': $root.id(),
+                                    'data-started': $root.live.status() !== 'not_started'
+                                },
+                                css: {
+                                    'color1': $data['changed'] && changed() == 'higher', 
+                                    'color2': $data['changed'] && changed() == 'lower',
+                                    'active': ticket()}">
+                                    <div class="inner-link">
+                                        <div class="caption" data-bind="html: name()"></div>
+                                        <div class="quote" data-bind="html: $data['changed'] && changed() ? quote().toFixed(2) + ' <span class=\'dnone\'>&nbsp;</span>' : quote().toFixed(2)"></div>
+                                        <div class="clear"></div>
+                                    </div>
+                                </button>
+                                <!-- /ko -->
+
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                            
+                    </div>
+                </li>
+                
+                <!-- /ko -->
+                </ul>
+                </li>
+                
+                {% if league %}
+                <li class="matchbet-statistic" style="display: none;"><table class="matchbet-statistic-table" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th class="table-th-first">{{ lang('statistics.league') }}</th>
+                                <th class="table-th-other">{{ lang('statistics.matches') }}</th>
+                                <th class="table-th-other">{{ lang('statistics.wins') }}</th>
+                                <th class="table-th-other">{{ lang('statistics.draws') }}</th>
+                                <th class="table-th-other">{{ lang('statistics.losses') }}</th>
+                                <th class="table-th-other">{{ lang('statistics.points') }}</th>
+                                <th class="table-th-other">{{ lang('statistics.goals') }}</th>
+                            </tr>
+                </thead>
+                        <tbody>
+                            {% set home = null %}
+                            {% set away = null %}
+                            {% for team in league.teams %}
+                            {% if team.id == match.teams.home.id %}
+                            {% set home = team %}
+                            {% endif %}
+                            {% if team.id == match.teams.away.id %}
+                            {% set away = team %}
+                            {% endif %}
+                            {% set i = loop.index %}
+                            <tr>
+                                <td class="td-match-first">
+                                    <span class="td-order">{{ i }}</span>
+                                    <span class="td-team-name">{{ team.name }}</span>
+                                </td>
+                                <td class="td-match">
+                                    {{ team.matches.total }}
+                                </td>
+                                <td class="td-match">
+                                    {{ team.win.total }}
+                                </td>
+                                <td class="td-match">
+                                    {{ team.draw.total }}
+                                </td>
+                                <td class="td-match">
+                                    {{ team.loss.total }}
+                                </td>
+                                <td class="td-match">
+                                    {{ team.points.total }}
+                                </td>
+                                <td class="td-match">
+                                    {{ team.goals.total.total }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            <tr>
+                                <td class="table-tr-first">{{ lang('statistics.home') }}</td>
+                                <td class="table-tr-other">{{ lang('statistics.matches') }}</td>
+                                <td class="table-tr-other">{{ lang('statistics.wins') }}</td>
+                                <td class="table-tr-other">{{ lang('statistics.draws') }}</td>
+                                <td class="table-tr-other">{{ lang('statistics.losses') }}</td>
+                                <td class="table-tr-other">{{ lang('statistics.points') }}</td>
+                                <td class="table-tr-other">{{ lang('statistics.goals') }}</td>
+                            </tr>
+                            <tr>
+                                <td class="td-match-first">
+                                    <span class="td-team-name-home-away">{{ home.name }}</span>
+                                </td>
+                                <td class="td-match">
+                                    {{ home.matches.home }}
+                                </td>
+                                <td class="td-match">
+                                    {{ home.win.home }}
+                                </td>
+                                <td class="td-match">
+                                    {{ home.draw.home }}
+                                </td>
+                                <td class="td-match">
+                                    {{ home.loss.home }}
+                                </td>
+                                <td class="td-match">
+                                    {{ home.points.home }}
+                                </td>
+                                <td class="td-match">
+                                    {{ home.goals.total.home }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="table-tr-first">{{ lang('statistics.away') }}</td>
+                                <td class="table-tr-other">{{ lang('statistics.matches') }}</td>
+                                <td class="table-tr-other">{{ lang('statistics.wins') }}</td>
+                                <td class="table-tr-other">{{ lang('statistics.draws') }}</td>
+                                <td class="table-tr-other">{{ lang('statistics.losses') }}</td>
+                                <td class="table-tr-other">{{ lang('statistics.points') }}</td>
+                                <td class="table-tr-other">{{ lang('statistics.goals') }}</td>
+                            </tr>
+                            <tr>
+                                <td class="td-match-first">
+                                    <span class="td-team-name-home-away">{{ away.name }}</span>
+                                </td>
+                                <td class="td-match">
+                                    {{ away.matches.away }}
+                                </td>
+                                <td class="td-match">
+                                    {{ away.win.away }}
+                                </td>
+                                <td class="td-match">
+                                    {{ away.draw.away }}
+                                </td>
+                                <td class="td-match">
+                                    {{ away.loss.away }}
+                                </td>
+                                <td class="td-match">
+                                    {{ away.points.away }}
+                                </td>
+                                <td class="td-match">
+                                    {{ away.goals.total.away }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </li>
+                {% endif %}
+
+                <li class="matchbet-infor" style="display: none; border-bottom: 0px;">
+                    <table class="matchbet-infor-table" cellspacing="0">
+                        <tbody data-bind="foreach: { data: timeline, as: 'timeitem' }">
+                            <!--ko if: timeitem.team != null -->
+                                <tr>
+                                    <td class="timeline-time">
+                                        <span class="timeline-time-number" data-bind="text: timeitem.time() + '\'' "></span>
+                                    </td>
+                                    <td class="timeline-home">
+                                        <!-- ko if: timeitem.team() === 'home' -->
+                                            <span class="timeline-home-text" data-bind="visible: timeitem.team() == 'home', text: timeitem.player()?timeitem.player():($parent.teams.home.name)"></span>
+                                        <!--/ko-->
+                                        <!-- ko if: timeitem.team() === 'away' --> 
+                                            <span data-bind="visible: timeitem.team() == 'away',text:'&nbsp;'" class="timeline-home-text"></span>
+                                        <!--/ko-->
+                                    </td>
+                                    <td class="timeline-infor">
+                                        <!--ko if: timeitem.type() === 'score' -->
+                                            <span class="timeline-score-text" data-bind="visible: timeitem.score, text: timeitem.score()"></span>
+                                            <br/>
+                                            <span data-bind="visible: timeitem.score, text:'&nbsp;'" class="sports-{{ match.sport.id }} timline-sport-icon"></span>
+                                        <!--/ko-->
+                                        <!--ko if: timeitem.type() === 'corner' -->
+                                            <span class="timeline-sport-corner" data-bind="visible: timeitem.type()=='corner', text:'&nbsp;'">
+                                            </span>
+                                        <!--/ko-->
+                                        <!--ko if: timeitem.type() === 'card' -->
+                                            <span data-bind="visible: timeitem.card, text:'&nbsp;', css:{
+                                                'yellow': timeitem.card() =='yellow',
+                                                'red': timeitem.card() =='red',
+                                                'yellowred': timeitem.card() =='yellowred'}">
+                                            </span>
+                                        <!--/ko-->
+                                    </td>
+                                    <td class="timeline-away">
+                                        <!-- ko if: timeitem.team() === 'home' -->
+                                            <span class="timeline-away-text" data-bind="visible: timeitem.team() == 'home',text:'&nbsp;'"></span>
+                                        <!--/ko-->
+                                        <!-- ko if: timeitem.team() === 'away' --> 
+                                            <span class="timeline-away-text" data-bind="visible: timeitem.team() == 'away', text: timeitem.player()?timeitem.player():($parent.teams.away.name)"></span>
+                                        <!--/ko-->
+                                    </td>
+                                </tr>
+                            <!--/ko-->
+                            <!--ko if: timeitem.type() === 'status' -->
+                            <!--ko if: timeitem.value() === '2p' -->
+                                <tr>
+                                    <td class="timeline-time timeline-ht">
+                                        <span class="timeline-time-number">HT</span>
+                                    </td>
+                                    <td class="timeline-home timeline-ht">
+                                        <span data-bind="text:'&nbsp;'" class="timeline-home-text"></span>
+                                    </td>
+                                    <td class="timeline-infor timeline-ht">
+                                        <!--ko if: $parent.live.setscores -->
+                                        <span class="timeline-score-text" data-bind="text: $parent.live.setscores"></span>
+                                        <!--/ko-->
+                                    </td>
+                                    <td class="timeline-away timeline-ht">
+                                        <span class="timeline-away-text" data-bind="text:'&nbsp;'"></span>
+                                    </td>
+                                </tr>
+                            <!--/ko-->
+                            <!--/ko-->
+                        </tbody>    
+                    </table>
+                </li>
+            </ul>    
+        </div>    
+    </div>
+</div>
+                
+{% endif %}
+
