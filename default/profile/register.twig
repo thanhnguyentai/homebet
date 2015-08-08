@@ -1,158 +1,96 @@
 {{ form_open({method: 'post', autocomplete: 'off', class: 'form-horizontal'}) }}
 {{ form_csrf() }}
 
-<select name="gender" class="sel_gender sel" data-bind="value: gender">
-    {% if form_val('gender') == '' %}
-        <option value="" selected="selected"> </option>
-    {% else %}
-        <option value=""> </option>
-    {% endif %}
+    <div class="navbar-title3 top-curve"><h2>Account Details</h2></div>
+    <div style="border-radius: 0 0 6px 6px; -webkit-border-radius: 0 0 6px 6px; overflow: hidden;">
+        <ul data-role="listview" data-inset="true" class="account-details bottom-curve">
+            <li class="li-form-group-row" data-role="fieldcontain">
+                <div class="label"><label for="username" class="form-label-left">{{ lang('profile.username') }}</label></div>
+                <div class="input">
+                    <input data-clear-btn="true" type="text" name="username" id="username" />
+                    <div class="form-register-error"></div>
+                </div>
+            </li>
+            <li class="li-form-group-row" data-role="fieldcontain">
+                <div class="label"><label for="password" class="form-label-left">{{ lang('profile.password') }}</label></div>
+                <div class="input">
+                    <input data-clear-btn="true" type="password" name="password" id="password" />
+                    <div class="form-register-error"></div>
+                </div>
+            </li>
+            <li class="li-form-group-row" data-role="fieldcontain">
+                <div class="label"><label for="confirm-password" class="form-label-left">Confirm Password</label></div>
+                <div class="input">
+                    <input data-clear-btn="true" type="password" name="confirm-password" id="confirm-password" />
+                    <div class="form-register-error"></div>
+                </div>
+            </li>
+            <li class="li-form-group-row" data-role="fieldcontain">
+                <div class="label"><label for="email" class="form-label-left">E-mail</label></div>
+                <div class="input">
+                    <input data-clear-btn="true" type="email" name="email" id="email" />
+                    <div class="form-register-error"></div>
+                </div>
+            </li>
+            <li class="li-form-group-row" data-role="fieldcontain">
+                <div class="label"><label  class="form-label-left">Date of Birth</label></div>
+                <div class="input form-container-select form-group-select-birthday">
+                    {{ form_select('dob_day', form_val('dob_day'), date.days, {'class': 'sel_day sel', 'data-bind': 'value: dob.day'}) }}
+                    {{ form_select('dob_month', form_val('dob_month'), date.months, {'class': 'sel_month sel', 'data-bind': 'value: dob.month'}) }}
+                    {{ form_select('dob_year', form_val('dob_year'), date.years, {'class': 'sel_year sel', 'data-bind': 'value: dob.year'}) }}
+                    <div class="form-register-error"></div>
+                </div>
+            </li>
 
-    {% if form_val('gender') == 'male' %}
-        <option value="male" selected="selected">{{ lang('register.male') }}</option>
-    {% else %}
-        <option value="male">{{ lang('register.male') }}</option>
-    {% endif %}
+            <li class="li-form-group-row" data-role="fieldcontain">
+                <div class="label"><label for="country" class="form-label-left">Country</label></div>
+                <div class="input form-container-select">
+                    <select id="country" name="country" class="sel_country sel" data-bind="value: country">
+                        {% if form_val('country') == '' %}
+                            <option value="" selected="selected">Choose a country</option>
+                        {% else %}
+                            <option value="">Choose a country</option>
+                        {% endif %}
 
-    {% if form_val('gender') == 'female' %}
-        <option value="female" selected="selected">{{ lang('register.female') }}</option>
-    {% else %}
-        <option value="female">{{ lang('register.female') }}</option>
-    {% endif %}
-</select>
-<span class="error-message" style="display:none" data-bind="visible: gender.valid() === false, text: gender.message()"> </span>
+                        {% for country in countries %}
+                            {% if country.id == form_val('country') %}
+                                <option value="{{ country.id }}" selected="selected">{{ country.name }}</option>
+                            {% else %}
+                                <option value="{{ country.id }}">{{ country.name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <div class="form-register-error"></div>
+                </div>
+            </li>
 
-<input type="text" class="txt" name="firstname" data-bind="value: firstname" value="{{ form_val('firstname') }}"/>
-<span class="error-message" style="display:none" data-bind="visible: firstname.valid() === false, text: firstname.message()"></span>
+            <li class="li-form-group-row">
+                <div class="label"><label for="terms" class="form-label-left">Terms and Conditions</label></div>
+                <div class="input">
+                    <div class="form-container-input">
+                        <input class="form-register-checkbox" type="checkbox" id="accept_terms" name="terms" data-role="none" data-bind="checked: terms"/>
+                        <label class="form-register-label-input" for="accept_terms">{{ lang('register.terms') }}</label>
+                        <a class="form-arrow-link" data-role="none" href="/info/gtc.html" title="">&nbsp;</a>
+                    </div>
+                    <div class="form-register-error"></div>
+                </div>
+            </li>
 
-<input type="text" class="txt" name="lastname" data-bind="value: lastname" value="{{ form_val('lastname') }}"/>
-<span class="error-message" style="display:none" data-bind="visible: lastname.valid() === false, text: lastname.message()"></span>
 
-<input type="text" class="txt" name="email" data-bind="value: email" value="{{ form_val('email') }}"/>
-<span class="error-message" style="display:none" data-bind="visible: email.valid() === false, text: email.message()"></span>
-
-<div class="controls">
-    {{ form_select('dob_day', form_val('dob_day'), date.days, {'class': 'sel_day sel', 'data-bind': 'value: dob.day'}) }}
-    {{ form_select('dob_month', form_val('dob_month'), date.months, {'class': 'sel_month sel', 'data-bind': 'value: dob.month'}) }}
-    {{ form_select('dob_year', form_val('dob_year'), date.years, {'class': 'sel_year sel', 'data-bind': 'value: dob.year'}) }}
-</div>
-<input type="hidden" name="dob" data-bind="value: dob" value="{{ form_val('dob') }}"/>
-<span class="error-message" style="display:none" data-bind="visible: dob.valid() === false, text: dob.message()"></span>
-
-<input type="text" class="txt" name="street" data-bind="value: street" value="{{ form_val('street') }}"/>
-<span class="error-message" style="display:none" data-bind="visible: street.valid() === false, text: street.message()"></span>
-
-<input type="text" class="txt" name="city" data-bind="value: city" value="{{ form_val('city') }}"/>
-<span class="error-message" style="display:none" data-bind="visible: city.valid() === false, text: city.message()"></span>
-
-<input type="text" class="txt" name="postcode" data-bind="value: postcode" value="{{ form_val('postcode') }}"/>
-<span class="error-message" style="display:none" data-bind="visible: postcode.valid() === false, text: postcode.message()"> </span>
-
-<select name="country" class="sel_country sel" data-bind="value: country">
-
-    {% if form_val('country') == '' %}
-        <option value="" selected="selected"> </option>
-    {% else %}
-        <option value=""> </option>
-    {% endif %}
-
-    {% for country in countries %}
-        {% if country.id == form_val('country') %}
-            <option value="{{ country.id }}" selected="selected">{{ country.name }}</option>
-        {% else %}
-            <option value="{{ country.id }}">{{ country.name }}</option>
-        {% endif %}
-    {% endfor %}
-</select>
-<span class="error-message" style="display:none" data-bind="visible: country.valid() === false, text: country.message()"> </span>
-
-<select name="currency" class="sel_currency sel" data-bind="value: currency">
-
-    {% if form_val('currency') == '' %}
-        <option value="" selected="selected"> </option>
-    {% else %}
-        <option value=""> </option>
-    {% endif %}
-
-    {% for currency in currencies %}
-        {% if currency.id == form_val('currency') %}
-            <option value="{{ currency.id }}" selected="selected">{{ currency.name }}</option>
-        {% else %}
-            <option value="{{ currency.id }}">{{ currency.name }}</option>
-        {% endif %}
-    {% endfor %}
-</select>
-<span class="error-message" style="display:none" data-bind="visible: currency.valid() === false, text: currency.message()"> </span>
-
-<input type="text" class="txt" name="telephone" placeholder="+4412345678" data-bind="value: telephone" value="{{ form_val('telephone') }}"/>
-<span class="error-message" style="display:none" data-bind="visible: telephone.valid() === false, text: telephone.message()"> </span>
-
-<input type="text" class="txt" name="username" data-bind="value: username" value="{{ form_val('username') }}"/>
-<span class="error-message" style="display:none" data-bind="visible: username.valid() === false, text: username.message()"> </span>
-
-<div class="pass_field">
-    <input type="password" class="txt" name="password1" data-bind="value: password1, valueUpdate: 'afterkeydown', attr: {type: password1.generated() ? 'text' : 'password'}"/>
-    <input type="button" class="pass_gen" data-bind="click: function(){password1.generate()}" value=""/>
-</div>
-<span class="error-message" style="display:none" data-bind="visible: password1.valid() === false, text: password1.message()"> </span>
-<div class="pass_strength" data-bind="css: 'str_' + password1.strength() ">
-    <h5 class="pass_str_h5">{{ lang('register.password_strength') }}:</h5>
-    <div class="strangth_line">
-        <div class="pass_str pass_str_1">&nbsp;</div>
-        <div class="pass_str pass_str_2">&nbsp;</div>
-        <div class="pass_str pass_str_3">&nbsp;</div>
+            <li class="li-form-group-row" data-role="fieldcontain">
+                <div class="label"><label>&nbsp;</label></div>
+                <div class="input form-submit-button-center">
+                    <button id="register-btn" type="submit" data-theme="a">{{ lang('register.button') }}</button>
+                </div>
+            </li>
+        </ul>
     </div>
-</div>
-
-<div class="controls">
-    <input type="password" class="txt" name="password2" data-bind="value: password2, valueUpdate: 'afterkeydown'"/>
-    <span class="error-message" style="display:none" data-bind="visible: password2.valid() === false, text: password2.message()"> </span>
-</div>
-<div class="control-group terms_group">
-    <div class="controls">
-        <input type="checkbox" id="accept_terms" name="terms" value="1" data-bind="checked: terms">
-        <label for="accept_terms">&nbsp;{{ lang('register.terms') }}</label>
-        <span class="error-message" style="display:none" data-bind="visible: terms.valid() === false, text: terms.message()"> </span>
-        <br/>
-        <input type="checkbox" id="newsletter" name="newsletter" value="1">
-        <label for="newsletter">&nbsp;{{ lang('register.newsletter') }}</label>
-    </div>
-</div>
-
-{{ captcha }}
-
-<button id="register-btn" type="submit" data-bind="enable: valid()">
-    <span>{{ lang('register.button') }}</span>
-</button>
 
 {{ form_close() }}
 
 <script type="text/javascript">
 
     $(function () {
-
-        $('form').submit(function () {
-            $('#register-btn').html('<i class="fa fa-refresh fa-spin"></i> <span>In progress</span>');
-        });
-
-        var registration = betmatic.customer.registration.create();
-        registration.gender('{{ form_val('gender') }}');
-        registration.firstname('{{ form_val('firstname') }}');
-        registration.lastname('{{ form_val('lastname') }}');
-        registration.email('{{ form_val('email') }}');
-        registration.telephone('{{ form_val('telephone') }}');
-        registration.dob.day('{{ form_val('dob_day') }}');
-        registration.dob.month('{{ form_val('dob_month') }}');
-        registration.dob.year('{{ form_val('dob_year') }}');
-        registration.street('{{ form_val('street') }}');
-        registration.city('{{ form_val('city') }}');
-        registration.postcode('{{ form_val('postcode') }}');
-        registration.country('{{ form_val('country') }}');
-        registration.currency('{{ form_val('currency') }}');
-        registration.username('{{ form_val('username') }}');
-
-        ko.applyBindings(registration, document.getElementById('registration'));
-
     });
 
 </script>
