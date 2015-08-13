@@ -3179,3 +3179,69 @@ ol.ui-listview .ui-link-inherit{
     color: red;
     font-weight: normal;
 }
+
+/* list deposit */
+.deposit-price-range-title{
+    font-size: 14px;
+    font-weight: normal;
+    display: block;
+    margin: .6em 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.deposit-container .ui-li-has-arrow .ui-btn-inner a.ui-link-inherit{
+    padding-left: 60px;
+    display: table-cell;
+}
+.deposit-container .ui-li-thumb{
+    top: 50%;
+    left: 5px;
+    margin-top: -14px
+}
+/* bank deposit */
+.li-form-group-row.ui-li-static.ui-li .input.deposit-input-have-infor .ui-shadow-inset{
+    width: 75%;
+    margin: 5px 0 5px 2.5%;
+    float: left;
+}
+.fee-information{
+    width: 18%;
+    float: left;
+    display: inline-block;
+    margin: 5px 0 5px 2px;
+}
+.fee-header{
+    font-weight: bold;
+    font-size: 13px;
+    display: block;
+    width: 100%;   
+}
+.fee-detail{
+    font-size: 12px;
+    font-weight: normal;
+    display: block;
+    width: 100%;
+}
+.table-header{
+    display: table;
+    width: 100%;
+}
+.navbar-title3 h2.header-title{
+    width: 36%;
+    padding: 0 0 0 2%;
+    color: #4c4c4c;
+    display: table-cell;
+    vertical-align: middle;
+}
+.header-title-infor{
+    width: 60%;
+    font-weight: bold;
+    font-size: 14px;
+    display: table-cell;
+    vertical-align: middle;
+    text-shadow: 0 0;
+    -webkit-text-shadow: 0 0;
+    -moz-text-shadow: 0 0;
+    -ms-text-shadow: 0 0;
+}

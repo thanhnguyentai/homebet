@@ -1,64 +1,72 @@
-<div id="deposit" class="deposit-provider">
-    <div class="back-wrapper">
-        <a class="back" href="/profile/deposit.html"><span>{{ lang('global.back') }}</span></a>
+{{ form_open({method: 'post', autocomplete: 'off'}) }}
+<div class="navbar-title3 top-curve table-header">
+    <h2 class="header-title">Bank Transfer</h2>
+    <div class="header-title-infor">
+        {{ lang('payments.minimum') }}. {{ payment.deposit.minimum|number_format(2) }} - 
+        {{ lang('payments.maximum') }}. {{ payment.deposit.maximum|number_format(2) }}
     </div>
-
-    {{ form_open({method: 'post', autocomplete: 'off'}) }}
-
-    {% set image1 = asset_img('payments/ico-' ~ payment.id ~ '-' ~ handshake.language.id ~ '.png') %}
-    {% set image2 = asset_img('payments/ico-' ~ payment.id ~ '.png') %}
-
-    <div class="deposit-provider-details">
-        {% if image1 %}{{ image1 }}{% else %}{{ image2 }}{% endif %}
-
-        <p class="details"><strong>{{ lang('payments.minimum') }}-{{ lang('payments.maximum') }}: {{ payment.deposit.minimum|number_format(0) }}-{{ payment.deposit.maximum|number_format(0) }} {{ handshake.currency.id }}</strong><br/>
-            <strong>
-                {{ lang('payments.fees') }}:
-                {% if payment.deposit.fees.percent and payment.deposit.fees.amount %}
-                    {{ payment.deposit.fees.percent|number_format(2) }}% + {{ payment.deposit.fees.amount|number_format(2) }} {{ handshake.currency.id }}
-                {% elseif payment.deposit.fees.percent %}
-                    {{ payment.deposit.fees.percent|number_format(2) }}%
-                {% elseif payment.deposit.fees.amount %}
-                    {{ payment.deposit.fees.amount|number_format(2) }} {{ handshake.currency.id }}
-                {% else %}
-                    {{ lang('global.none') }}
-                {% endif %}
-            </strong><br/>
-            <strong>{{ lang('payments.duration') }}: {{ payment.deposit.duration }}</strong>
-        </p>
-
-        <p class="info">
-            {{ lang('payments.bank.description') }}
-            {% if payment.website %}
-                <a href="{{ payment.website }}" target="_blank" class="a_payment_link">{{ payment.website }}</a>
-            {% endif %}
-        </p>
-    </div>
-    <div class="deposit-provider-info">
-        <h2>{{ lang('payments.deposit.info') }}</h2>
-        <label>{{ lang('payments.bank.fields.company') }}<br/>
-            <strong>{{ payment.informations.company }}</strong>
-        </label>
-        <label>{{ lang('payments.bank.fields.bank') }}<br/>
-            <strong>{{ payment.informations.bank }}</strong>
-        </label>
-    </div>
-
-    <div class="deposit-amount notitle">
-        <label>{{ lang('payments.bank.fields.iban') }}<br/>
-            <strong>{{ payment.informations.iban }}</strong>
-        </label>
-        <label>{{ lang('payments.bank.fields.bic') }}<br/>
-            <strong>{{ payment.informations.bic }}</strong>
-        </label>
-    </div>
-
-    <div class="deposit-summary notitle">
-        <label>{{ lang('payments.bank.fields.purpose') }}<br/>
-            <strong>{{ customer.username }}-{{ customer.id }}</strong>
-        </label>
-    </div>
-
-    {{ form_close() }}
-
 </div>
+<div style="border-radius: 0 0 6px 6px; -webkit-border-radius: 0 0 6px 6px; overflow: hidden;">
+    <ul data-role="listview" data-inset="true" class="account-details bottom-curve">
+        <li class="li-form-group-row" data-role="fieldcontain">
+            <div class="label">
+                <label for="company" class="form-label-left">{{ lang('payments.bank.fields.company') }}</label>
+            </div>
+            <div class="input deposit-input-have-infor">
+                <input data-clear-btn="true" type="text" name="company" id="company" value="{{ payment.informations.company }}" />
+                <span class="fee-information">
+                    <span class="fee-header">{{ lang('payments.fees') }}:</span>
+                    <span class="fee-detail">
+                    {% if payment.deposit.fees.percent and payment.deposit.fees.amount %}
+                        {{ payment.deposit.fees.percent|number_format(2) }}% + {{ payment.deposit.fees.amount|number_format(2) }} {{ handshake.currency.id }}
+                    {% elseif payment.deposit.fees.percent %}
+                        {{ payment.deposit.fees.percent|number_format(2) }}%
+                    {% elseif payment.deposit.fees.amount %}
+                        {{ payment.deposit.fees.amount|number_format(2) }} {{ handshake.currency.id }}
+                    {% else %}
+                        {{ lang('global.none') }}
+                    {% endif %}
+                    </span>
+                </span>
+                <div class="form-register-error"></div>
+            </div>
+        </li>
+        <li class="li-form-group-row" data-role="fieldcontain">
+            <div class="label">
+                <label for="iban" class="form-label-left">{{ lang('payments.bank.fields.iban') }}</label>
+            </div>
+            <div class="input">
+                <input data-clear-btn="true" type="text" name="iban" id="iban" value="{{ payment.informations.iban }}" />
+                <div class="form-register-error"></div>
+            </div>
+        </li>
+        <li class="li-form-group-row" data-role="fieldcontain">
+            <div class="label">
+                <label for="bic" class="form-label-left">{{ lang('payments.bank.fields.bic') }}</label>
+            </div>
+            <div class="input">
+                <input data-clear-btn="true" type="text" name="bic" id="bic" value="{{ payment.informations.bic }}" />
+                <div class="form-register-error"></div>
+            </div>
+        </li>
+        <li class="li-form-group-row" data-role="fieldcontain">
+            <div class="label">
+                <label for="bank" class="form-label-left">{{ lang('payments.bank.fields.bank') }}</label>
+            </div>
+            <div class="input">
+                <input data-clear-btn="true" type="text" name="bank" id="bank" value="{{ payment.informations.bank }}" />
+                <div class="form-register-error"></div>
+            </div>
+        </li>
+        <li class="li-form-group-row" data-role="fieldcontain">
+            <div class="label">
+                <label for="purpose" class="form-label-left">{{ lang('payments.bank.fields.purpose') }}</label>
+            </div>
+            <div class="input">
+                <input data-clear-btn="true" type="text" name="purpose" id="purpose" value="{{ customer.username }}-{{ customer.id }}" />
+                <div class="form-register-error"></div>
+            </div>
+        </li>
+    </ul>
+</div>
+{{ form_close() }}

@@ -1,65 +1,24 @@
-<table class="deposit">
-    <thead>
-    <tr>
-        <th>{{ lang('profile.details.deposit.provider') }}</th>
-        <th>{{ lang('profile.details.deposit.fee') }}</th>
-        <th>{{ lang('profile.details.deposit.duration') }}</th>
-        <th>{{ lang('profile.details.deposit.min_amount') }}</th>
-        <th>{{ lang('profile.details.deposit.max_amount') }}</th>
-        <th>&nbsp;</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for payment in payments %}
 
-        {% set image1 = asset_img('payments/ico-' ~ payment.id ~ '-' ~ handshake.language.id ~ '.png') %}
-        {% set image2 = asset_img('payments/ico-' ~ payment.id ~ '.png') %}
-
-        <tr>
-            <td>
-                <a href="/payments/{{ payment.id }}/deposit.html" class="a_payment_link">
-                    {% if image1 %}{{ image1 }}{% else %}{{ image2 }}{% endif %}
-                </a>
-            </td>
-            <td>
-                {% if payment.deposit.fees.percent and payment.deposit.fees.amount %}
-                    {{ payment.deposit.fees.percent|number_format(2) }}% + {{ payment.deposit.fees.amount|number_format(2) }}
-                {% elseif payment.deposit.fees.percent %}
-                    {{ payment.deposit.fees.percent|number_format(2) }}%
-                {% elseif payment.deposit.fees.amount %}
-                    {{ payment.deposit.fees.amount|number_format(2) }}
-                {% else %}
-                    {{ lang('global.none') }}
-                {% endif %}
-            </td>
-            <td>{{ payment.deposit.duration }}</td>
-            <td>{{ payment.deposit.minimum|number_format(2) }} {{ handshake.currency.id }}</td>
-            <td>{{ payment.deposit.maximum|number_format(2) }} {{ handshake.currency.id }}</td>
-            <td>
-                <a href="/payments/{{ payment.id }}/deposit.html" class="zum_btn">
-                    <span>{{ lang('profile.details.deposit.button') }}</span>
-                </a>
-            </td>
-        </tr>
-
-    {% endfor %}
-
-    <tr>
-        <td>
-            <a href="/payments/payfriendz/deposit.html" class="a_payment_link">
-                {{ asset_img('payments/ico-payfriendz.png') }}
+<div class="sports-content deposit-container">
+    <ul data-role="listview">
+        {% for payment in payments %}
+        <li>
+            <a href="/payments/{{ payment.id }}/deposit.html"  data-dom-cache="true">
+                {{ asset_img('payment/' ~ payment.id ~ '.png')}}
+                <h2 class="deposit-price-range-title">
+                    {{ lang('payments.minimum') }}. {{ payment.deposit.minimum|number_format(2) }} {{ handshake.currency.id }} - 
+                    {{ lang('payments.maximum') }}. {{ payment.deposit.maximum|number_format(2) }} {{ handshake.currency.id }}
+                </h2>
             </a>
-        </td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>
-            <a href="/payments/payfriendz/deposit.html" class="zum_btn">
-                <span>{{ lang('profile.details.deposit.button') }}</span>
+        </li>
+        {% endfor %}
+        <li>
+            <a href="/payments/payfriendz/deposit.html" data-dom-cache="true">
+                {{ asset_img('payment/payfriendz.png') }}
+                <h2 class="deposit-price-range-title">
+                    Payfriendz
+                </h2>
             </a>
-        </td>
-    </tr>
-
-    </tbody>
-</table>
+        </li>
+    </ul>   
+</div>
