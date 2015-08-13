@@ -1,99 +1,24 @@
-<table class="payout">
-    <thead>
-    <tr>
-        <th>{{ lang('profile.details.payout.provider') }}</th>
-        <th>{{ lang('profile.details.payout.fee') }}</th>
-        <th>{{ lang('profile.details.payout.duration') }}</th>
-        <th>{{ lang('profile.details.payout.min_amount') }}</th>
-        <th>{{ lang('profile.details.payout.max_amount') }}</th>
-        <th>&nbsp;</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for payment in payments %}
 
-        {% set image1 = asset_img('payments/ico-' ~ payment.id ~ '-' ~ handshake.language.id ~ '.png') %}
-        {% set image2 = asset_img('payments/ico-' ~ payment.id ~ '.png') %}
-
-        <tr>
-            <td>
-                <a href="/payments/{{ payment.id }}/payout.html" class="a_payment_link">
-                    {% if image1 %}{{ image1 }}{% else %}{{ image2 }}{% endif %}
-                </a>
-            </td>
-            <td>
-                {% if payment.payout.fees.percent and payment.payout.fees.amount %}
-                    {{ payment.payout.fees.percent|number_format(2) }}% + {{ payment.payout.fees.amount|number_format(2) }}
-                {% elseif payment.payout.fees.percent %}
-                    {{ payment.payout.fees.percent|number_format(2) }}%
-                {% elseif payment.payout.fees.amount %}
-                    {{ payment.payout.fees.amount|number_format(2) }}
-                {% else %}
-                    {{ lang('global.none') }}
-                {% endif %}
-            </td>
-            <td>{{ payment.payout.duration }}</td>
-            <td>{{ payment.payout.minimum|number_format(2) }} {{ handshake.currency.id }}</td>
-            <td>{{ payment.payout.maximum|number_format(2) }} {{ handshake.currency.id }}</td>
-            <td>
-                <a href="/payments/{{ payment.id }}/payout.html" class="zum_btn">
-                    <span>{{ lang('profile.details.payout.button') }}</span>
-                </a>
-            </td>
-        </tr>
-
-    {% endfor %}
-
-    <tr>
-        <td>
-            <a href="/payments/payfriendz/payout.html" class="a_payment_link">
-                {{ asset_img('payments/ico-payfriendz.png') }}
+<div class="sports-content deposit-container">
+    <ul data-role="listview">
+        {% for payment in payments %}
+        <li>
+            <a href="/payments/{{ payment.id }}/payout.html"  data-dom-cache="true">
+                {{ asset_img('payment/' ~ payment.id ~ '.png')}}
+                <h2 class="deposit-price-range-title">
+                    {{ lang('payments.minimum') }}. {{ payment.deposit.minimum|number_format(2) }} {{ handshake.currency.id }} - 
+                    {{ lang('payments.maximum') }}. {{ payment.deposit.maximum|number_format(2) }} {{ handshake.currency.id }}
+                </h2>
             </a>
-        </td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>
-            <a href="/payments/payfriendz/payout.html" class="zum_btn">
-                <span>{{ lang('profile.details.payout.button') }}</span>
+        </li>
+        {% endfor %}
+        <li>
+            <a href="/payments/payfriendz/payout.html" data-dom-cache="true">
+                {{ asset_img('payment/payfriendz.png') }}
+                <h2 class="deposit-price-range-title">
+                    Payfriendz
+                </h2>
             </a>
-        </td>
-    </tr>
-
-    <tr>
-        <td>
-            <a href="/payments/bank/payout.html" class="a_payment_link">
-                {{ asset_img('payments/ico-visa.png') }}
-            </a>
-        </td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>
-            <a href="/payments/bank/payout.html" class="zum_btn">
-                <span>{{ lang('profile.details.payout.button') }}</span>
-            </a>
-        </td>
-    </tr>
-
-    <tr>
-        <td>
-            <a href="/payments/bank/payout.html" class="a_payment_link">
-                {{ asset_img('payments/ico-mastercard.png') }}
-            </a>
-        </td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>
-            <a href="/payments/bank/payout.html" class="zum_btn">
-                <span>{{ lang('profile.details.payout.button') }}</span>
-            </a>
-        </td>
-    </tr>
-
-    </tbody>
-</table>
+        </li>
+    </ul>   
+</div>
