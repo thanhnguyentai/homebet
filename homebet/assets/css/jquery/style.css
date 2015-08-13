@@ -3245,3 +3245,17 @@ ol.ui-listview .ui-link-inherit{
     -moz-text-shadow: 0 0;
     -ms-text-shadow: 0 0;
 }
+
+/* profile page*/
+.profile-line-title{
+    position: relative;
+}
+.header-line-dot{
+    width: 5px;
+    height: 5px;
+    background: #969696;
+    position: absolute;   
+    top: 50%;
+    left: 8px;
+    margin-top: -3px;
+}
