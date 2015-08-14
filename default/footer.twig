@@ -19,10 +19,10 @@
         <li><a href="/ticket.html" class="ticket-icon"><span class="ticket-number" data-dom-cache="true" data-bind="visible: $data > 0, text: $data" style="display:none"></span>{{ lang('navigation.ticket') }}</a></li>
         {% endif %}
 
-        {% if uri_segment(1) == 'info' %}
-        <li class="active"><a href="/info/" class="info-icon btn-active" data-dom-cache="true">{{ lang('navigation.info') }}</a></li>
+        {% if uri_segment(1) == 'live' %}
+        <li class="active"><a href="/live/" class="info-icon btn-active" data-dom-cache="true">{{ lang('navigation.live') }}</a></li>
         {% else %}
-        <li><a href="/info/" class="info-icon" data-dom-cache="true">{{ lang('navigation.info') }}</a></li>
+        <li><a href="/live/" class="info-icon" data-dom-cache="true">{{ lang('navigation.live') }}</a></li>
         {% endif %}
 
         {% if uri_segment(1) == 'profile' %}
