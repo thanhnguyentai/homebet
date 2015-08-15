@@ -1,106 +1,99 @@
-<div class="content-top transactions">
-    <div class="form-holder">
-        <h2>{{ lang('transactions.details') }}</h2>
-        <div class="select-form">
-            <form method="GET">
-                <fieldset>
-                    <div class="row row-det">
-                        <select name="date[]" class="sel-2">
-                            {% for date in filters.date.items %}
-                                {% if filters.date.selected[0] == date|date('Y-m-d 00:00:00') %}
-                                    <option value="{{ date|date('Y-m-d 00:00:00') }}" selected="selected">
-                                        {{ date|date(lang('global.date.format')) }}
-                                    </option>
-                                {% else %}
-                                    <option value="{{ date|date('Y-m-d 00:00:00') }}">
-                                        {{ date|date(lang('global.date.format')) }}
-                                    </option>
-                                {% endif %}
-                            {% endfor %}
-                        </select>
-                        <select name="date[]" class="sel-2">
-                            {% for date in filters.date.items %}
-                                {% if filters.date.selected[1] == date|date('Y-m-d 23:59:59') %}
-                                    <option value="{{ date|date('Y-m-d 23:59:59') }}" selected="selected">
-                                        {{ date|date(lang('global.date.format')) }}
-                                    </option>
-                                {% else %}
-                                    <option value="{{ date|date('Y-m-d 23:59:59') }}">
-                                        {{ date|date(lang('global.date.format')) }}
-                                    </option>
-                                {% endif %}
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="row">
-                        <select name="type" class="sel-3">
-                            {% for type,name in filters.type.items %}
-                                {% if filters.type.selected == type %}
-                                    <option value="{{ type }}" selected="selected">{{ name }}</option>
-                                {% else %}
-                                    <option value="{{ type }}">{{ name }}</option>
-                                {% endif %}
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <button type="submit" class="btn4 btn">{{ lang('global.filter') }}</button>
-                </fieldset>
-            </form>
-        </div>
-    </div>
-</div>
 
-<div id="wrap-table">
-    <div class="content-top">
-        <table class="transactions">
-            <tr>
-                <th class="cell-1"><span>{{ lang('transactions.date') }}</span></th>
-                <th class="cell-2"><span>{{ lang('transactions.time') }}</span></th>
-                <th class="cell-4"><span>{{ lang('transactions.product') }}</span></th>
-                <th class="cell-5"><span>{{ lang('transactions.type') }}</span></th>
-                <th class="cell-6"><span>{{ lang('transactions.info') }}</span></th>
-                <th class="cell-7"><span>{{ lang('transactions.amount') }}</span></th>
-            </tr>
-        </table>
+{{ form_open({autocomplete: 'off', class: 'form-horizontal'}) }}
+{{ form_csrf() }}
+    <div class="navbar-title3 top-curve"><h2>{{ lang('transactions.details') }}</h2></div>
+    <div style="border-radius: 0 0 6px 6px; -webkit-border-radius: 0 0 6px 6px; overflow: hidden;">
+        <ul data-role="listview" data-inset="true" class="account-details bottom-curve">
+            <li class="li-form-group-row" data-role="fieldcontain">
+                <div class="input form-container-select container-same-select">
+                    <select name="date[]" class="sel-2">
+                        {% for date in filters.date.items %}
+                            {% if filters.date.selected[0] == date|date('Y-m-d 00:00:00') %}
+                                <option value="{{ date|date('Y-m-d 00:00:00') }}" selected="selected">
+                                    {{ date|date(lang('global.date.format')) }}
+                                </option>
+                            {% else %}
+                                <option value="{{ date|date('Y-m-d 00:00:00') }}">
+                                    {{ date|date(lang('global.date.format')) }}
+                                </option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <select name="date[]" class="sel-2">
+                        {% for date in filters.date.items %}
+                            {% if filters.date.selected[1] == date|date('Y-m-d 23:59:59') %}
+                                <option value="{{ date|date('Y-m-d 23:59:59') }}" selected="selected">
+                                    {{ date|date(lang('global.date.format')) }}
+                                </option>
+                            {% else %}
+                                <option value="{{ date|date('Y-m-d 23:59:59') }}">
+                                    {{ date|date(lang('global.date.format')) }}
+                                </option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <select name="type" class="sel-3">
+                        {% for type,name in filters.type.items %}
+                            {% if filters.type.selected == type %}
+                                <option value="{{ type }}" selected="selected">{{ name }}</option>
+                            {% else %}
+                                <option value="{{ type }}">{{ name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+            </li>
+            <li class="li-form-group-row" data-role="fieldcontain">
+                <table class="table-transactions">
+                    <thead>
+                        <tr class="group-title">
+                            <th class="cell-1"><span>{{ lang('transactions.date') }}</span></th>
+                            <th class="cell-2"><span>{{ lang('transactions.time') }}</span></th>
+                            <th class="cell-4"><span>{{ lang('transactions.product') }}</span></th>
+                            <th class="cell-5"><span>{{ lang('transactions.type') }}</span></th>
+                            <th class="cell-6"><span>{{ lang('transactions.info') }}</span></th>
+                            <th class="cell-7"><span>{{ lang('transactions.amount') }}</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for transaction in transactions %}
+                            <tr>
+                                <td class="cell-1">{{ transaction.created|date('d.m.Y') }}</td>
+                                <td class="cell-2">{{ transaction.created|date('H:i:s') }}</td>
+                                <td class="cell-4">{{ lang('products.' ~ transaction.product.id ~ '.name', {}, transaction.product.name) }}</td>
+                                <td class="cell-5">{{ lang('transactions.types.' ~ transaction.type, {}, transaction.type) }}</td>
+                                <td class="cell-6">{{ transaction.description }}</td>
+                                {% if transaction.amount > 0 %}
+                                    <td class="cell-7 color-green">
+                                        {{ transaction.amount|number_format(2) }}
+                                        {% if customer.type != 'internet' and customer.currency.id == 'CHF' %}
+                                            PKT
+                                        {% elseif customer.currency.sign %}
+                                            {{ customer.currency.sign }}
+                                        {% else %}
+                                            {{ customer.currency.name }}
+                                        {% endif %}
+                                    </td>
+                                {% elseif transaction.amount < 0 %}
+                                    <td class="cell-7 color-red">
+                                        {{ transaction.amount|number_format(2) }}
+                                        {% if customer.type != 'internet' and customer.currency.id == 'CHF' %}
+                                            PKT
+                                        {% elseif customer.currency.sign %}
+                                            {{ customer.currency.sign }}
+                                        {% else %}
+                                            {{ customer.currency.name }}
+                                        {% endif %}
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </li>
+        </ul>
     </div>
 
-    <div id="contentScrollable" class="scrollable-container">
-        <div class="content-wrapper">
-            <table class="table3-1 uppercase">
-                {% for transaction in transactions %}
-                    <tr class="{{ cycle(['bet', 'even'], loop.index) }}">
-                        <td class="cell-1">{{ transaction.created|date('d.m.Y') }}</td>
-                        <td class="cell-2">{{ transaction.created|date('H:i:s') }}</td>
-                        <td class="cell-4">{{ lang('products.' ~ transaction.product.id ~ '.name', {}, transaction.product.name) }}</td>
-                        <td class="cell-5">{{ lang('transactions.types.' ~ transaction.type, {}, transaction.type) }}</td>
-                        <td class="cell-6">{{ transaction.description }}</td>
-                        {% if transaction.amount > 0 %}
-                            <td class="cell-7 color-green">
-                                {{ transaction.amount|number_format(2) }}
-                                {% if customer.type != 'internet' and customer.currency.id == 'CHF' %}
-                                    PKT
-                                {% elseif customer.currency.sign %}
-                                    {{ customer.currency.sign }}
-                                {% else %}
-                                    {{ customer.currency.name }}
-                                {% endif %}
-                            </td>
-                        {% elseif transaction.amount < 0 %}
-                            <td class="cell-7 color-red">
-                                {{ transaction.amount|number_format(2) }}
-                                {% if customer.type != 'internet' and customer.currency.id == 'CHF' %}
-                                    PKT
-                                {% elseif customer.currency.sign %}
-                                    {{ customer.currency.sign }}
-                                {% else %}
-                                    {{ customer.currency.name }}
-                                {% endif %}
-                            </td>
-                        {% endif %}
-                    </tr>
-                {% endfor %}
-            </table>
-            {{ pagination }}
-        </div>
-    </div>
-</div>
+{{ form_close() }}
+
+
