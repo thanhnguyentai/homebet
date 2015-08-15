@@ -2839,7 +2839,10 @@ ol.ui-listview .ui-link-inherit{
 .home-header-account{
     background: url('../../img/account-icon-retina.png') no-repeat center center;
 }
-.home-header-bet, .home-header-account{
+.home-header-payment{
+    background: url('../../img/payment-icon-retina.png') no-repeat center center;   
+}
+.home-header-bet, .home-header-account, .home-header-payment{
     display: inline-block;
     width: 25px;
     height: 24px;
@@ -3258,4 +3261,8 @@ ol.ui-listview .ui-link-inherit{
     top: 50%;
     left: 8px;
     margin-top: -3px;
+}
+/* home header payment icon */
+.home-header-payment{
+    
 }
