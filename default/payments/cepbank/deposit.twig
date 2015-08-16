@@ -93,6 +93,17 @@
                         <div class="form-register-error"></div>
                     </div>
                 </li>
+                {% if 'dob' in bank.ignore %}
+                {% else %}
+                    <li class="li-form-group-row" data-role="fieldcontain">
+                        <div class="label">
+                            <label for="dob" class="form-label-left">{{ lang('payments.cepbank.fields.dob') }}</label>
+                        </div>
+                        <div class="input form-container-select form-group-select-birthday">
+                            {{ form_input('dob', form_val('dob'), {'data-bind': 'value: dob'}) }}
+                        </div>
+                    </li>
+                {% endif %}
                 <li class="li-form-group-row" data-role="fieldcontain">
                     <div class="label">
                         <label for="amount_send" class="form-label-left"></label>
