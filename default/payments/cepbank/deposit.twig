@@ -1,110 +1,108 @@
 {{ form_open({method: 'post', autocomplete: 'off'}) }}
     {% if bank %}
-        {% set image1 = asset_img('payments/ico-' ~ payment.id ~ '-' ~ handshake.language.id ~ '.png') %}
-        {% set image2 = asset_img('payments/ico-' ~ payment.id ~ '.png') %}
-
-        <div class="deposit-provider-details">
-            {% if image1 %}{{ image1 }}{% else %}{{ image2 }}{% endif %}
-
-            <p class="details">
-                <strong>{{ lang('payments.minimum') }}-{{ lang('payments.maximum') }}: {{ payment.deposit.minimum|number_format(0) }}-{{ payment.deposit.maximum|number_format(0) }} {{ handshake.currency.id }}</strong><br/>
-                <strong>
-                    {{ lang('payments.fees') }}:
-                    {% if payment.deposit.fees.percent and payment.deposit.fees.amount %}
-                        {{ payment.deposit.fees.percent|number_format(2) }}% + {{ payment.deposit.fees.amount|number_format(2) }} {{ handshake.currency.id }}
-                    {% elseif payment.deposit.fees.percent %}
-                        {{ payment.deposit.fees.percent|number_format(2) }}%
-                    {% elseif payment.deposit.fees.amount %}
-                        {{ payment.deposit.fees.amount|number_format(2) }} {{ handshake.currency.id }}
-                    {% else %}
-                        {{ lang('global.none') }}
-                    {% endif %}
-                </strong><br/>
-                <strong>{{ lang('payments.duration') }}: {{ payment.deposit.duration }}</strong>
-            </p>
-
-            <p class="info">
-                {{ lang('payments.cepbank.description') }}
-                {% if payment.website %}
-                    <a href="{{ payment.website }}" target="_blank" class="a_payment_link">{{ payment.website }}</a>
-                {% endif %}
-            </p>
+        <div class="navbar-title3 top-curve table-header">
+            <h2 class="header-title">{{ bank.name }}</h2>
+            <div class="header-title-infor">
+                {{ lang('payments.minimum') }}. {{ payment.deposit.minimum|number_format(2) }} - 
+                {{ lang('payments.maximum') }}. {{ payment.deposit.maximum|number_format(2) }}
+            </div>
         </div>
+        <div style="border-radius: 0 0 6px 6px; -webkit-border-radius: 0 0 6px 6px; overflow: hidden;">
+            
+            {% set amounts = [25, 50, 100, 200, 500] %}
 
-        {% set amounts = [25, 50, 100, 200, 500] %}
-
-        <div class="deposit-amount">
-            <h2>{{ lang('payments.deposit.amount') }}</h2>
-            {{ form_label(lang('payments.fields.select_amount'), 'amount') }}
-            {% for amount in amounts %}
-                {{ form_button(amount, amount, {type: 'button', 'data-bind': 'css: {active: amount() == ' ~ amount ~ '}, click: function(){amount(' ~ amount ~ ')}'}) }}
-            {% endfor %}
-            {{ form_label(lang('payments.fields.enter_amount'), 'amount') }}
-            {{ form_input('amount', form_val('amount'), {'data-bind': 'value: amount'}) }}
-            <span class="popup_message" style="display:none" data-bind="visible: amount.valid() === false, text: amount.message()"></span>
-            <small class="under-input">{{ lang('payments.minimum') }} {{ payment.deposit.minimum|number_format(2) }}, {{ lang('payments.maximum') }} {{ payment.deposit.maximum|number_format(2) }}</small>
+            <ul data-role="listview" data-inset="true" class="account-details bottom-curve">
+                <li class="li-form-group-row" data-role="fieldcontain">
+                    <div class="label">
+                        <label for="amount" class="form-label-left">Amount</label>
+                    </div>
+                    <div class="input form-container-select deposit-input-have-infor">
+                        <select name="amount">
+                            {% for amount in amounts %}
+                                <option value="{{ amount }}">{{ amount }} {{ handshake.currency.id }}</option>
+                            {% endfor %}
+                        </select>
+                        <span class="fee-information">
+                            <span class="fee-header">{{ lang('payments.fees') }}:</span>
+                            <span class="fee-detail">
+                            {% if payment.deposit.fees.percent and payment.deposit.fees.amount %}
+                                {{ payment.deposit.fees.percent|number_format(2) }}% + {{ payment.deposit.fees.amount|number_format(2) }} {{ handshake.currency.id }}
+                            {% elseif payment.deposit.fees.percent %}
+                                {{ payment.deposit.fees.percent|number_format(2) }}%
+                            {% elseif payment.deposit.fees.amount %}
+                                {{ payment.deposit.fees.amount|number_format(2) }} {{ handshake.currency.id }}
+                            {% else %}
+                                {{ lang('global.none') }}
+                            {% endif %}
+                            </span>
+                        </span>
+                        <div class="form-register-error"></div>
+                    </div>
+                </li>
+                <li class="li-form-group-row" data-role="fieldcontain">
+                    <div class="label">
+                        <label for="enter_amount" class="form-label-left">Enter Manually</label>
+                    </div>
+                    <div class="input">
+                        <input data-clear-btn="true" type="text" name="enter_amount" id="enter_amount" />
+                        <div class="form-register-error"></div>
+                    </div>
+                </li>
+                <li class="li-form-group-row" data-role="fieldcontain">
+                    <div class="label">
+                        <label for="identification" class="form-label-left">{{ lang('payments.cepbank.fields.identification') }}</label>
+                    </div>
+                    <div class="input">
+                        <input data-clear-btn="true" type="text" name="identification" id="identification" />
+                        <div class="form-register-error"></div>
+                    </div>
+                </li>
+                <li class="li-form-group-row" data-role="fieldcontain">
+                    <div class="label">
+                        <label for="receiver" class="form-label-left">{{ lang('payments.cepbank.fields.receiver') }}</label>
+                    </div>
+                    <div class="input">
+                        <input data-clear-btn="true" type="text" name="receiver" id="receiver" />
+                        <div class="form-register-error"></div>
+                    </div>
+                </li>
+                <li class="li-form-group-row" data-role="fieldcontain">
+                    <div class="label">
+                        <label for="sender" class="form-label-left">{{ lang('payments.cepbank.fields.sender') }}</label>
+                    </div>
+                    <div class="input">
+                        <input data-clear-btn="true" type="text" name="sender" id="sender" />
+                        <div class="form-register-error"></div>
+                    </div>
+                </li>
+                <li class="li-form-group-row" data-role="fieldcontain">
+                    <div class="label">
+                        <label for="password" class="form-label-left">{{ lang('payments.cepbank.fields.password') }}</label>
+                    </div>
+                    <div class="input">
+                        <input data-clear-btn="true" type="text" name="password" id="password" />
+                        <div class="form-register-error"></div>
+                    </div>
+                </li>
+                <li class="li-form-group-row" data-role="fieldcontain">
+                    <div class="label">
+                        <label for="bank" class="form-label-left">{{ lang('payments.cepbank.fields.bank') }}</label>
+                    </div>
+                    <div class="input">
+                        <input data-clear-btn="true" type="text" name="bank" id="bank" value="{{ bank.name }}"/>
+                        <div class="form-register-error"></div>
+                    </div>
+                </li>
+                <li class="li-form-group-row" data-role="fieldcontain">
+                    <div class="label">
+                        <label for="amount_send" class="form-label-left"></label>
+                    </div>
+                    <div class="input form-submit-button-center container-submit-fullwidth">
+                        <button id="deposit-btn" type="submit" data-theme="a">{{ lang('payments.deposit.button') }}</button>
+                    </div>
+                </li>
+            </ul>
         </div>
-
-        <div class="deposit-provider-info">
-            <h2>{{ lang('payments.deposit.info') }}</h2>
-
-            {% if 'identification' in bank.ignore %}
-                {{ form_hidden('identification', '-') }}
-            {% else %}
-                {{ form_label(lang('payments.cepbank.fields.identification'), 'identification') }}
-                {{ form_input('identification', form_val('identification'), {'data-bind': 'value: identification'}) }}
-            {% endif %}
-            <span class="popup_message" style="display:none" data-bind="visible: identification.valid() === false, text: identification.message()"></span>
-
-            {% if 'receiver' in bank.ignore %}
-                {{ form_hidden('receiver', '-') }}
-            {% else %}
-                {{ form_label(lang('payments.cepbank.fields.receiver'), 'receiver') }}
-                {{ form_input('receiver', form_val('receiver'), {'data-bind': 'value: receiver'}) }}
-            {% endif %}
-            <span class="popup_message" style="display:none" data-bind="visible: receiver.valid() === false, text: receiver.message()"></span>
-
-            {% if 'sender' in bank.ignore %}
-                {{ form_hidden('sender', '-') }}
-            {% else %}
-                {{ form_label(lang('payments.cepbank.fields.sender'), 'sender') }}
-                {{ form_input('sender', form_val('sender'), {'data-bind': 'value: sender'}) }}
-            {% endif %}
-            <span class="popup_message" style="display:none" data-bind="visible: sender.valid() === false, text: sender.message()"></span>
-
-            {% if 'password' in bank.ignore %}
-                {{ form_hidden('password', '-') }}
-            {% else %}
-                {{ form_label(lang('payments.cepbank.fields.password'), 'password') }}
-                {{ form_input('password', form_val('password'), {'data-bind': 'value: password'}) }}
-            {% endif %}
-            <span class="popup_message" style="display:none" data-bind="visible: password.valid() === false, text: password.message()"></span>
-
-            {% if 'dob' in bank.ignore %}
-                {{ form_hidden('dob', '-') }}
-            {% else %}
-                {{ form_label(lang('payments.cepbank.fields.dob'), 'dob') }}
-                {{ form_input('dob', form_val('dob'), {'data-bind': 'value: dob'}) }}
-            {% endif %}
-            <span class="popup_message" style="display:none" data-bind="visible: dob.valid() === false, text: dob.message()"></span>
-
-            {{ form_label(lang('payments.cepbank.fields.bank'), 'bank') }}
-            {{ form_input('bank', bank.name, {'data-bind': 'value: bank', 'readonly': 'readonly'}) }}
-            <span class="popup_message" style="display:none" data-bind="visible: bank.valid() === false, text: bank.message()"></span>
-        </div>
-
-        <div class="deposit-summary">
-            <h2>{{ lang('payments.deposit.summary') }}</h2>
-            <strong><span data-bind="html: parseFloat(total()).toFixed(2) != 'NaN' ? parseFloat(total()).toFixed(2) : '0.00'">0.00</span> {{ handshake.currency.id }}
-            </strong>
-            {{ lang('payments.amount') }}:
-            <span data-bind="html: parseFloat(amount()).toFixed(2) != 'NaN' ? parseFloat(amount()).toFixed(2) : '0.00'">0.00</span> {{ handshake.currency.id }}
-            <br/>
-            {{ lang('payments.fee') }}:
-            <span data-bind="html: parseFloat(fees()).toFixed(2) != 'NaN' ? parseFloat(fees()).toFixed(2) : '0.00'">0.00</span> {{ handshake.currency.id }}
-            {{ form_button('deposit', lang('payments.deposit.button'), {id: 'payment-btn', 'data-bind': 'enable: valid'}) }}
-        </div>
-
     {% else %}
         <div class="sports-content deposit-container">
             <ul data-role="listview">
