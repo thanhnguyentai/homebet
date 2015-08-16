@@ -1,129 +1,175 @@
-<div id="deposit" class="deposit-provider">
-    <div class="back-wrapper">
-        <a class="back" href="/profile/deposit.html"><span>{{ lang('global.back') }}</span></a>
-    </div>
-
-    {{ form_open({method: 'post', autocomplete: 'off'}) }}
-
-    {{ form_hidden('csid', null, {id: 'csid'}) }}
-    {{ asset_js('https://online-safest.com/pub/csid.js') }}
-
-    {% set image1 = asset_img('payments/ico-' ~ payment.id ~ '-' ~ handshake.language.id ~ '.png') %}
-    {% set image2 = asset_img('payments/ico-' ~ payment.id ~ '.png') %}
-
-    <div class="deposit-provider-details">
-        {% if image1 %}{{ image1 }}{% else %}{{ image2 }}{% endif %}
-
-        <p class="details"><strong>{{ lang('payments.minimum') }}-{{ lang('payments.maximum') }}: {{ payment.deposit.minimum|number_format(0) }}-{{ payment.deposit.maximum|number_format(0) }} {{ handshake.currency.id }}</strong><br/>
-            <strong>
-                {{ lang('payments.fees') }}:
-                {% if payment.deposit.fees.percent and payment.deposit.fees.amount %}
-                    {{ payment.deposit.fees.percent|number_format(2) }}% + {{ payment.deposit.fees.amount|number_format(2) }} {{ handshake.currency.id }}
-                {% elseif payment.deposit.fees.percent %}
-                    {{ payment.deposit.fees.percent|number_format(2) }}%
-                {% elseif payment.deposit.fees.amount %}
-                    {{ payment.deposit.fees.amount|number_format(2) }} {{ handshake.currency.id }}
-                {% else %}
-                    {{ lang('global.none') }}
-                {% endif %}
-            </strong><br/>
-            <strong>{{ lang('payments.duration') }}: {{ payment.deposit.duration }}</strong>
-        </p>
-
-        <p class="info">
-            {{ lang('payments.creditcard.description') }}
-            {% if payment.website %}
-                <a href="{{ payment.website }}" target="_blank" class="a_payment_link">{{ payment.website }}</a>
-            {% endif %}
-        </p>
-    </div>
-
+{{ form_open({method: 'post', autocomplete: 'off'}) }}
     {% if restricted == false %}
-
-        {% set amounts = [25, 50, 100, 200, 500] %}
-
-        <div class="deposit-amount">
-            <h2>{{ lang('payments.deposit.amount') }}</h2>
-            {{ form_label(lang('payments.fields.select_amount'), 'amount') }}
-            {% for amount in amounts %}
-                {{ form_button(amount, amount, {type: 'button', 'data-bind': 'css: {active: amount() == ' ~ amount ~ '}, click: function(){amount(' ~ amount ~ ')}'}) }}
-            {% endfor %}
-            {{ form_label(lang('payments.fields.enter_amount'), 'amount') }}
-            {{ form_input('amount', form_val('amount'), {'data-bind': 'value: amount'}) }}
-            <span class="popup_message" style="display:none" data-bind="visible: amount.valid() === false, text: amount.message()"></span>
-            <small class="under-input">{{ lang('payments.minimum') }} {{ payment.deposit.minimum|number_format(2) }}, {{ lang('payments.maximum') }} {{ payment.deposit.maximum|number_format(2) }}</small>
+        <div class="navbar-title3 top-curve table-header">
+            <h2 class="header-title">Master Card</h2>
+            <div class="header-title-infor">
+                {{ lang('payments.minimum') }}. {{ payment.deposit.minimum|number_format(2) }} - 
+                {{ lang('payments.maximum') }}. {{ payment.deposit.maximum|number_format(2) }}
+            </div>
         </div>
+        <div style="border-radius: 0 0 6px 6px; -webkit-border-radius: 0 0 6px 6px; overflow: hidden;">
+            
+            {% set amounts = [25, 50, 100, 200, 500] %}
 
-        <div class="deposit-provider-info">
-            <h2>{{ lang('payments.deposit.info') }}</h2>
-
-            {{ form_label(lang('payments.creditcard.fields.firstname'), 'firstname') }}
-            {{ form_input('firstname', form_val('firstname', customer.firstname), {'data-bind': 'value: firstname'}) }}
-            <span class="popup_message" style="display:none" data-bind="visible: firstname.valid() === false, text: firstname.message()"></span>
-
-            {{ form_label(lang('payments.creditcard.fields.lastname'), 'lastname') }}
-            {{ form_input('lastname', form_val('lastname', customer.lastname), {'data-bind': 'value: lastname'}) }}
-            <span class="popup_message" style="display:none" data-bind="visible: lastname.valid() === false, text: lastname.message()"></span>
-
-            {{ form_label(lang('payments.creditcard.fields.bank'), 'number') }}
-            {{ form_input('bank', form_val('bank'), {'data-bind': 'value: bank'}) }}
-            <span class="popup_message" style="display:none" data-bind="visible: bank.valid() === false, text: bank.message()"></span>
-
-            {{ form_label(lang('payments.creditcard.fields.number'), 'number') }}
-            {{ form_input('number', form_val('number'), {'data-bind': 'value: number'}) }}
-            <span class="popup_message" style="display:none" data-bind="visible: number.valid() === false, text: number.message()"></span>
-
-            {{ form_label(lang('payments.creditcard.fields.month'), 'month') }}
-            {{ form_select('month', form_val('month'), months, {'data-bind': 'value: month'}) }}
-            <span class="popup_message" style="display:none" data-bind="visible: month.valid() === false, text: month.message()"></span>
-
-            {{ form_label(lang('payments.creditcard.fields.year'), 'year') }}
-            {{ form_select('year', form_val('year'), years, {'data-bind': 'value: year'}) }}
-            <span class="popup_message" style="display:none" data-bind="visible: year.valid() === false, text: year.message()"></span>
-
-            {{ form_label(lang('payments.creditcard.fields.cvv'), 'cvv') }}
-            {{ form_input('cvv', form_val('number'), {'data-bind': 'value: cvv'}) }}
-            <span class="popup_message" style="display:none" data-bind="visible: cvv.valid() === false, text: cvv.message()"></span>
-
-            {{ form_label(lang('payments.creditcard.fields.street'), 'street') }}
-            {{ form_input('street', form_val('street', customer.street), {'data-bind': 'value: street'}) }}
-            <span class="popup_message" style="display:none" data-bind="visible: street.valid() === false, text: street.message()"></span>
-
-            {{ form_label(lang('payments.creditcard.fields.city'), 'city') }}
-            {{ form_input('city', form_val('city', customer.city), {'data-bind': 'value: city'}) }}
-            <span class="popup_message" style="display:none" data-bind="visible: city.valid() === false, text: city.message()"></span>
-
-            {{ form_label(lang('payments.creditcard.fields.state'), 'state') }}
-            {{ form_input('state', form_val('state', customer.state), {'data-bind': 'value: state'}) }}
-            <span class="popup_message" style="display:none" data-bind="visible: state.valid() === false, text: state.message()"></span>
-
-            {{ form_label(lang('payments.creditcard.fields.postcode'), 'postcode') }}
-            {{ form_input('postcode', form_val('postcode', customer.postcode), {'data-bind': 'value: postcode'}) }}
-            <span class="popup_message" style="display:none" data-bind="visible: postcode.valid() === false, text: postcode.message()"></span>
-
-            {{ form_label(lang('payments.creditcard.fields.country'), 'country') }}
-            {{ form_select('country', form_val('country', customer.country.id), countries, {'data-bind': 'value: country'}) }}
-            <span class="popup_message" style="display:none" data-bind="visible: country.valid() === false, text: country.message()"></span>
-
+            <ul data-role="listview" data-inset="true" class="account-details bottom-curve">
+                <li class="li-form-group-row" data-role="fieldcontain">
+                    <div class="label">
+                        <label for="amount" class="form-label-left">Amount</label>
+                    </div>
+                    <div class="input form-container-select deposit-input-have-infor">
+                        <select name="amount">
+                            {% for amount in amounts %}
+                                <option value="{{ amount }}">{{ amount }} {{ handshake.currency.id }}</option>
+                            {% endfor %}
+                        </select>
+                        <span class="fee-information">
+                            <span class="fee-header">{{ lang('payments.fees') }}:</span>
+                            <span class="fee-detail">
+                            {% if payment.deposit.fees.percent and payment.deposit.fees.amount %}
+                                {{ payment.deposit.fees.percent|number_format(2) }}% + {{ payment.deposit.fees.amount|number_format(2) }} {{ handshake.currency.id }}
+                            {% elseif payment.deposit.fees.percent %}
+                                {{ payment.deposit.fees.percent|number_format(2) }}%
+                            {% elseif payment.deposit.fees.amount %}
+                                {{ payment.deposit.fees.amount|number_format(2) }} {{ handshake.currency.id }}
+                            {% else %}
+                                {{ lang('global.none') }}
+                            {% endif %}
+                            </span>
+                        </span>
+                        <div class="form-register-error"></div>
+                    </div>
+                </li>
+                <li class="li-form-group-row" data-role="fieldcontain">
+                    <div class="label">
+                        <label for="enter_amount" class="form-label-left">Enter Manually</label>
+                    </div>
+                    <div class="input">
+                        <input data-clear-btn="true" type="text" name="enter_amount" id="enter_amount" />
+                        <div class="form-register-error"></div>
+                    </div>
+                </li>
+                <li class="li-form-group-row" data-role="fieldcontain">
+                    <div class="label">
+                        <label for="firstname" class="form-label-left">{{ lang('payments.creditcard.fields.firstname') }}</label>
+                    </div>
+                    <div class="input">
+                        <input data-clear-btn="true" type="text" name="firstname" id="firstname" value="{{ customer.firstname }}" />
+                        <div class="form-register-error"></div>
+                    </div>
+                </li>
+                <li class="li-form-group-row" data-role="fieldcontain">
+                    <div class="label">
+                        <label for="lastname" class="form-label-left">{{ lang('payments.creditcard.fields.lastname') }}</label>
+                    </div>
+                    <div class="input">
+                        <input data-clear-btn="true" type="text" name="lastname" id="lastname" value="{{ customer.lastname }}" />
+                        <div class="form-register-error"></div>
+                    </div>
+                </li>
+                <li class="li-form-group-row" data-role="fieldcontain">
+                    <div class="label">
+                        <label for="bank" class="form-label-left">{{ lang('payments.creditcard.fields.bank') }}</label>
+                    </div>
+                    <div class="input">
+                        <input data-clear-btn="true" type="text" name="bankbank" id="bank" />
+                        <div class="form-register-error"></div>
+                    </div>
+                </li>
+                <li class="li-form-group-row" data-role="fieldcontain">
+                    <div class="label">
+                        <label for="number" class="form-label-left">{{ lang('payments.creditcard.fields.number') }}</label>
+                    </div>
+                    <div class="input">
+                        <input data-clear-btn="true" type="text" name="number" id="number" />
+                        <div class="form-register-error"></div>
+                    </div>
+                </li>
+                <li class="li-form-group-row" data-role="fieldcontain">
+                    <div class="label">
+                        <label for="month" class="form-label-left">{{ lang('payments.creditcard.fields.month') }}</label>
+                    </div>
+                    <div class="input form-container-select">
+                        {{ form_select('month', form_val('month'), months, {'data-bind': 'value: month'}) }}
+                    </div>
+                </li>
+                <li class="li-form-group-row" data-role="fieldcontain">
+                    <div class="label">
+                        <label for="year" class="form-label-left">{{ lang('payments.creditcard.fields.year') }}</label>
+                    </div>
+                    <div class="input form-container-select">
+                        {{ form_select('year', form_val('year'), years, {'data-bind': 'value: year'}) }}
+                    </div>
+                </li>
+                <li class="li-form-group-row" data-role="fieldcontain">
+                    <div class="label">
+                        <label for="cvv" class="form-label-left">{{ lang('payments.creditcard.fields.cvv') }}</label>
+                    </div>
+                    <div class="input">
+                        <input data-clear-btn="true" type="text" name="cvv" id="cvv" />
+                        <div class="form-register-error"></div>
+                    </div>
+                </li>
+                <li class="li-form-group-row" data-role="fieldcontain">
+                    <div class="label">
+                        <label for="street" class="form-label-left">{{ lang('payments.creditcard.fields.street') }}</label>
+                    </div>
+                    <div class="input">
+                        <input data-clear-btn="true" type="text" name="street" id="street" value="{{ customer.street }}" />
+                        <div class="form-register-error"></div>
+                    </div>
+                </li>
+                <li class="li-form-group-row" data-role="fieldcontain">
+                    <div class="label">
+                        <label for="city" class="form-label-left">{{ lang('payments.creditcard.fields.city') }}</label>
+                    </div>
+                    <div class="input">
+                        <input data-clear-btn="true" type="text" name="city" id="city" value="{{ customer.city }}" />
+                        <div class="form-register-error"></div>
+                    </div>
+                </li>
+                <li class="li-form-group-row" data-role="fieldcontain">
+                    <div class="label">
+                        <label for="state" class="form-label-left">{{ lang('payments.creditcard.fields.state') }}</label>
+                    </div>
+                    <div class="input">
+                        <input data-clear-btn="true" type="text" name="state" id="state" value="{{ customer.state }}" />
+                        <div class="form-register-error"></div>
+                    </div>
+                </li>
+                <li class="li-form-group-row" data-role="fieldcontain">
+                    <div class="label">
+                        <label for="postcode" class="form-label-left">{{ lang('payments.creditcard.fields.postcode') }}</label>
+                    </div>
+                    <div class="input">
+                        <input data-clear-btn="true" type="text" name="postcode" id="postcode" value="{{ customer.postcode }}" />
+                        <div class="form-register-error"></div>
+                    </div>
+                </li>
+                <li class="li-form-group-row" data-role="fieldcontain">
+                    <div class="label">
+                        <label for="country" class="form-label-left">{{ lang('payments.creditcard.fields.country') }}</label>
+                    </div>
+                    <div class="input form-container-select">
+                        {{ form_select('country', form_val('country', customer.country.id), countries, {'data-bind': 'value: country'}) }}
+                        <div class="form-register-error"></div>
+                    </div>
+                </li>
+                <li class="li-form-group-row" data-role="fieldcontain">
+                    <div class="label">
+                        <label for="amount_send" class="form-label-left"></label>
+                    </div>
+                    <div class="input form-submit-button-center container-submit-fullwidth">
+                        <button id="deposit-btn" type="submit" data-theme="a">{{ lang('payments.deposit.button') }}</button>
+                    </div>
+                </li>
+            </ul>
         </div>
-
-        <div class="deposit-summary">
-            <h2>{{ lang('payments.deposit.summary') }}</h2>
-            <strong><span data-bind="html: parseFloat(total()).toFixed(2) != 'NaN' ? parseFloat(total()).toFixed(2) : '0.00'">0.00</span> {{ handshake.currency.id }}</strong>
-            {{ lang('payments.amount') }}: <span data-bind="html: parseFloat(amount()).toFixed(2) != 'NaN' ? parseFloat(amount()).toFixed(2) : '0.00'">0.00</span> {{ handshake.currency.id }}<br/>
-            {{ lang('payments.fee') }}: <span data-bind="html: parseFloat(fees()).toFixed(2) != 'NaN' ? parseFloat(fees()).toFixed(2) : '0.00'">0.00</span> {{ handshake.currency.id }}
-            {{ form_button('deposit', lang('payments.deposit.button'), {id: 'payment-btn', 'data-bind': 'enable: valid'}) }}
-        </div>
-
     {% else %}
 
         <h2>{{ lang('country.restriction') }}</h2>
 
     {% endif %}
-
-    {{ form_close() }}
-
-</div>
+{{ form_close() }}
 
 {% if restricted == false %}
 
