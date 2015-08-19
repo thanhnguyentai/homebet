@@ -1,107 +1,57 @@
-<div class="profile-form-content profile-index-content">
 
-    <fieldset>
-        <div class="box">
-            <strong>{{ lang('profile.details.overview.profile.title') }}</strong>
-
-            <div class="row">
-                <label>{{ lang('profile.details.overview.profile.username') }}</label>
-                <span>{{ customer.username }}</span>
-                <br/>
-                <label>{{ lang('profile.details.overview.profile.firstname') }}</label>
-                <span>{{ customer.firstname }}</span>
-                <br/>
-                <label>{{ lang('profile.details.overview.profile.lastname') }}</label>
-                <span>{{ customer.lastname }}</span>
-                <br/>
-                <label>{{ lang('profile.details.overview.profile.first_login') }}</label>
-                <span>{{ customer.first_login|date('d.m.Y - H:i') }}</span>
-                <br/>
-                <label>{{ lang('profile.details.overview.profile.last_login') }}</label>
-                <span>{{ customer.last_login|date('d.m.Y - H:i') }}</span>
+<div class="navbar-title3 top-curve"><h2>My Account Informations</h2></div>
+<div style="border-radius: 0 0 6px 6px; -webkit-border-radius: 0 0 6px 6px; overflow: hidden;">
+    <ul data-role="listview" data-inset="true" class="account-details bottom-curve">
+        <li class="li-form-group-row" data-role="fieldcontain">
+            <div class="group-title">{{ lang('profile.details.overview.profile.title') }}</div>
+        </li>
+        
+        <li class="li-form-group-row" data-role="fieldcontain">
+            <div class="label"><label class="form-label-left">{{ lang('profile.details.overview.profile.username') }}</label></div>
+            <div class="input">
+                <div class="input-content-text">{{ customer.username}}</div>
             </div>
-        </div>
-        <div class="box">
-            <strong>{{ lang('profile.details.overview.balance.title') }}</strong>
+        </li>
 
-            <div class="row">
-                <label>{{ lang('profile.details.overview.balance.betting') }}</label>
-                                    <span>
-                                        {{ customer.balance.betting|number_format(2) }}
-                                        {% if customer.type != 'internet' and customer.currency.id == 'CHF' %}
-                                            PKT
-                                        {% elseif customer.currency.sign %}
-                                            {{ customer.currency.sign }}
-                                        {% else %}
-                                            {{ customer.currency.name }}
-                                        {% endif %}
-                                    </span>
-                <br/>
-                <label>{{ lang('profile.details.overview.balance.casino') }}</label>
-                                    <span>
-                                        {{ customer.balance.casino|number_format(2) }}
-                                        {% if customer.type != 'internet' and customer.currency.id == 'CHF' %}
-                                            PKT
-                                        {% elseif customer.currency.sign %}
-                                            {{ customer.currency.sign }}
-                                        {% else %}
-                                            {{ customer.currency.name }}
-                                        {% endif %}
-                                    </span>
-                <!--
-                                    <br/>
-                                    <label>{{ lang('profile.details.overview.balance.dollaro') }}</label>
-                                    <span>
-                                        {{ customer.balance.dollaro|number_format(2) }}
-                                        {% if customer.type != 'internet' and customer.currency.id == 'CHF' %}
-                                            PKT
-                                        {% elseif customer.currency.sign %}
-                                            {{ customer.currency.sign }}
-                                        {% else %}
-                                            {{ customer.currency.name }}
-                                        {% endif %}
-                                    </span>
-                                    <br/>
-                                    <label>{{ lang('profile.details.overview.balance.total') }}</label>
-                                    <span>
-                                        {{ customer.balance.total|number_format(2) }}
-                                        {% if customer.type != 'internet' and customer.currency.id == 'CHF' %}
-                                            PKT
-                                        {% elseif customer.currency.sign %}
-                                            {{ customer.currency.sign }}
-                                        {% else %}
-                                            {{ customer.currency.name }}
-                                        {% endif %}
-                                    </span>
-                                    -->
+        <li class="li-form-group-row" data-role="fieldcontain">
+            <div class="label"><label class="form-label-left">{{ lang('profile.details.overview.profile.firstname') }}</label></div>
+            <div class="input">
+                <div class="input-content-text">{{ customer.firstname}}</div>
             </div>
-        </div>
-    </fieldset>
+        </li>
+        
+        <li class="li-form-group-row" data-role="fieldcontain">
+            <div class="label"><label class="form-label-left">{{ lang('profile.details.overview.profile.lastname') }}</label></div>
+            <div class="input">
+                <div class="input-content-text">{{ customer.lastname}}</div>
+            </div>
+        </li>
 
-    <br/>
-    <fieldset>
-        <div class="box verifications">
-            <h2>{{ lang('profile.details.overview.verifications.title') }}</h2>
-            {% for verification in verifications %}
-                <div class="row">
+        <li class="li-form-group-row" data-role="fieldcontain">
+            <div class="label"><label class="form-label-left">{{ lang('profile.details.overview.profile.first_login') }}</label></div>
+            <div class="input">
+                <div class="input-content-text">{{ customer.first_login|date('d.m.Y - H:i')}}</div>
+            </div>
+        </li>
 
-                    <label>
-                        {% if verification.type == 'email' %}
-                            <i class="fa fa-envelope"></i>
-                        {% elseif verification.type == 'identity' %}
-                            <i class="fa fa-user"></i>
-                        {% elseif verification.type == 'address' %}
-                            <i class="fa fa-home"></i>
-                        {% elseif verification.type == 'telephone' %}
-                            <i class="fa fa-phone-square"></i>
-                        {% endif %}
-                        {{ lang('profile.details.overview.verifications.' ~ verification.type) }}
-                    </label>
-
+        <li class="li-form-group-row" data-role="fieldcontain">
+            <div class="label"><label class="form-label-left">{{ lang('profile.details.overview.profile.last_login') }}</label></div>
+            <div class="input">
+                <div class="input-content-text">{{ customer.last_login|date('d.m.Y - H:i')}}</div>
+            </div>
+        </li>
+        <li class="li-form-group-row" data-role="fieldcontain">
+            <div class="group-title">{{ lang('profile.details.overview.verifications.title') }}</div>
+        </li>
+        {% for verification in verifications %}
+        <li class="li-form-group-row" data-role="fieldcontain">
+            <div class="label"><label class="form-label-left">{{ lang('profile.details.overview.verifications.' ~ verification.type) }}</label></div>
+            <div class="input">
+                <div class="input-content-text">
                     {% if verification.status == 'accepted' or verification.status == 'pending' %}
-                        <span>{{ verification.created|date('Y-m-d - H:i') }}</span>
+                        {{ verification.created|date('Y-m-d - H:i') }}
                     {% else %}
-                        <span class="error">{{ lang('profile.details.overview.verifications.' ~ verification.status) }}</span>
+                        {{ lang('profile.details.overview.verifications.' ~ verification.status) }}
                     {% endif %}
 
                     <a href="/profile/verify/{{ verification.type }}.html" class="{{ verification.status }}">
@@ -119,9 +69,43 @@
                             <em>{{ lang('profile.details.overview.verifications.accepted') }}</em>
                         {% endif %}
                     </a>
-
                 </div>
-            {% endfor %}
-        </div>
-    </fieldset>
+            </div>
+        </li>
+        {% endfor %}
+
+        <li class="li-form-group-row" data-role="fieldcontain">
+            <div class="group-title">{{ lang('profile.details.overview.balance.title') }}</div>
+        </li>
+        <li class="li-form-group-row" data-role="fieldcontain">
+            <div class="label"><label class="form-label-left">{{ lang('profile.details.overview.balance.betting') }}</label></div>
+            <div class="input">
+                <div class="input-content-text">
+                    {{ customer.balance.betting|number_format(2) }}
+                    {% if customer.type != 'internet' and customer.currency.id == 'CHF' %}
+                        PKT
+                    {% elseif customer.currency.sign %}
+                        {{ customer.currency.sign }}
+                    {% else %}
+                        {{ customer.currency.name }}
+                    {% endif %}
+                </div>
+            </div>
+        </li>
+        <li class="li-form-group-row" data-role="fieldcontain">
+            <div class="label"><label class="form-label-left">{{ lang('profile.details.overview.balance.casino') }}</label></div>
+            <div class="input">
+                <div class="input-content-text">
+                    {{ customer.balance.casino|number_format(2) }}
+                    {% if customer.type != 'internet' and customer.currency.id == 'CHF' %}
+                        PKT
+                    {% elseif customer.currency.sign %}
+                        {{ customer.currency.sign }}
+                    {% else %}
+                        {{ customer.currency.name }}
+                    {% endif %}
+                </div>
+            </div>
+        </li>
+    </ul>
 </div>

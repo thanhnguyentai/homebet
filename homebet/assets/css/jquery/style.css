@@ -3316,3 +3316,8 @@ ol.ui-listview .ui-link-inherit{
 .color-red{
     color: red;
 }
+
+/* overview */
+.input-content-text{
+    padding: 0 5px;
+}
