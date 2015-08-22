@@ -3320,4 +3320,41 @@ ol.ui-listview .ui-link-inherit{
 /* overview */
 .input-content-text{
     padding: 0 5px;
+    margin: 5px 0;
+    font-size: 16px;
+}
+.verify-status-icon-accepted, .verify-status-icon-pending, .verify-status-icon-declined{
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    line-height: 22px;
+}
+.verify-status-icon-accepted{
+    background: url('../../img/mobile/success-msg.png');
+}
+.verify-status-icon-pending{
+    background: url('../../img/mobile/pending-verify.png');
+}
+.verify-status-icon-declined{
+    background: url('../../img/mobile/error-msg.png');
+}
+.verify-status-icon-accepted, .verify-status-icon-pending, .verify-status-icon-declined{
+    background-size: 100% 100%;
+    -webkit-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    -ms-background-size: 100% 100%;   
+}
+.verify-status-text-accepted,.verify-status-text-pending,.verify-status-declined{
+    display: block;
+    margin: 0 0 5px;
+    font-size: 14px;
+}
+.verify-status-text-accepted{
+    color: #3ebb54;
+}
+.verify-status-text-pending{
+    color: #1b88af;
+}
+.verify-status-declined{
+    color: #9e0f0f;
 }

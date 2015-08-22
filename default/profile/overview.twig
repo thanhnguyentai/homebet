@@ -48,12 +48,7 @@
             <div class="label"><label class="form-label-left">{{ lang('profile.details.overview.verifications.' ~ verification.type) }}</label></div>
             <div class="input">
                 <div class="input-content-text">
-                    {% if verification.status == 'accepted' or verification.status == 'pending' %}
-                        {{ verification.created|date('Y-m-d - H:i') }}
-                    {% else %}
-                        {{ lang('profile.details.overview.verifications.' ~ verification.status) }}
-                    {% endif %}
-
+                    <!--
                     <a href="/profile/verify/{{ verification.type }}.html" class="{{ verification.status }}">
                         {% if verification.status == 'missing' %}
                             <i class="fa fa-question-circle orange" title="{{ lang('profile.details.overview.verifications.missing') }}"></i>
@@ -69,6 +64,26 @@
                             <em>{{ lang('profile.details.overview.verifications.accepted') }}</em>
                         {% endif %}
                     </a>
+                    -->
+
+                    {% if verification.status == 'missing' %}
+                        <div class="verify-status-text-{{ verification.status }}">{{ lang('profile.details.overview.verifications.verify') }}</div>
+                    {% elseif verification.status == 'declined' %}
+                        <div class="verify-status-text-{{ verification.status }}">{{ lang('profile.details.overview.verifications.declined') }}</div>
+                    {% elseif verification.status == 'pending' %}
+                        <div class="verify-status-text-{{ verification.status }}">{{ lang('profile.details.overview.verifications.pending') }}</div>
+                    {% elseif verification.status == 'accepted' %}
+                        <div class="verify-status-text-{{ verification.status }}">{{ lang('profile.details.overview.verifications.accepted') }}</div>
+                    {% endif %}
+                    
+                    <!--{% if verification.status == 'accepted' or verification.status == 'pending' %}-->
+                        {{ verification.created|date('Y-m-d - H:i') }}
+                        <span class="verify-status-icon-{{ verification.status }}">&nbsp;</span>
+                    <!--
+                    {% else %}
+                        {{ lang('profile.details.overview.verifications.' ~ verification.status) }}
+                    {% endif %}
+                    -->
                 </div>
             </div>
         </li>
