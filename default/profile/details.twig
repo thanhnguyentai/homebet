@@ -1,91 +1,103 @@
 
-{{ form_open({method: 'post', action: '/profile/update.html', autocomplete: 'off', class: 'form-horizontal'}) }}
-{{ form_csrf() }}
+<div class="navbar-title3 top-curve"><h2>Change Personal Informations and Settings</h2></div>
+<div style="border-radius: 0 0 6px 6px; -webkit-border-radius: 0 0 6px 6px; overflow: hidden;">
 
-    <div class="navbar-title3 top-curve"><h2>Change Personal Informations and Settings</h2></div>
-    <div style="border-radius: 0 0 6px 6px; -webkit-border-radius: 0 0 6px 6px; overflow: hidden;">
-        <ul data-role="listview" data-inset="true" class="account-details bottom-curve">
-            <li class="li-form-group-row" data-role="fieldcontain">
-                <div class="group-title">{{ lang('profile.details.details.personal.title') }}</div>
-            </li>
-            
-            <li class="li-form-group-row" data-role="fieldcontain">
-                <div class="label"><label for="email" class="form-label-left">{{ lang('profile.details.details.personal.email') }}</label></div>
-                <div class="input">
-                    <input data-clear-btn="true" type="text" name="email" id="email" value="{{ customer.email }}"/>
-                    <div class="form-register-error"></div>
-                </div>
-            </li>
-            <li class="li-form-group-row" data-role="fieldcontain">
-                <div class="label"><label for="street" class="form-label-left">{{ lang('profile.details.details.personal.street') }}</label></div>
-                <div class="input">
-                    <input data-clear-btn="true" type="text" name="street" id="street" value="{{ customer.street }}"/>
-                    <div class="form-register-error"></div>
-                </div>
-            </li>
-            <li class="li-form-group-row" data-role="fieldcontain">
-                <div class="label"><label for="city" class="form-label-left">{{ lang('profile.details.details.personal.city') }}</label></div>
-                <div class="input">
-                    <input data-clear-btn="true" type="text" name="city" id="city" value="{{ customer.city }}"/>
-                    <div class="form-register-error"></div>
-                </div>
-            </li>
+    {{ form_open({method: 'post', action: '/profile/update.html', autocomplete: 'off', class: 'form-horizontal'}) }}
+    {{ form_csrf() }}
 
-            <li class="li-form-group-row" data-role="fieldcontain">
-                <div class="label"><label for="postcode" class="form-label-left">{{ lang('profile.details.details.personal.postcode') }}</label></div>
-                <div class="input">
-                    <input data-clear-btn="true" type="text" name="postcode" id="postcode" value="{{ customer.postcode }}"/>
-                    <div class="form-register-error"></div>
+    <ul data-role="listview" data-inset="true" class="account-details bottom-curve">
+        <li class="li-form-group-row" data-role="fieldcontain">
+            <div class="group-title">{{ lang('profile.details.details.personal.title') }}</div>
+        </li>
+
+        <li class="li-form-group-row" data-role="fieldcontain">
+            <div class="label"><label for="email" class="form-label-left">{{ lang('profile.details.details.personal.email') }}</label></div>
+            <div class="input">
+                <input data-clear-btn="true" type="text" name="email" id="email" value="{{ customer.email }}"/>
+                <div class="form-register-error"></div>
+            </div>
+        </li>
+        <li class="li-form-group-row" data-role="fieldcontain">
+            <div class="label"><label for="street" class="form-label-left">{{ lang('profile.details.details.personal.street') }}</label></div>
+            <div class="input">
+                <input data-clear-btn="true" type="text" name="street" id="street" value="{{ customer.street }}"/>
+                <div class="form-register-error"></div>
+            </div>
+        </li>
+        <li class="li-form-group-row" data-role="fieldcontain">
+            <div class="label"><label for="city" class="form-label-left">{{ lang('profile.details.details.personal.city') }}</label></div>
+            <div class="input">
+                <input data-clear-btn="true" type="text" name="city" id="city" value="{{ customer.city }}"/>
+                <div class="form-register-error"></div>
+            </div>
+        </li>
+
+        <li class="li-form-group-row" data-role="fieldcontain">
+            <div class="label"><label for="postcode" class="form-label-left">{{ lang('profile.details.details.personal.postcode') }}</label></div>
+            <div class="input">
+                <input data-clear-btn="true" type="text" name="postcode" id="postcode" value="{{ customer.postcode }}"/>
+                <div class="form-register-error"></div>
+            </div>
+        </li>
+
+        <li class="li-form-group-row">
+            <div class="label"><label for="terms" class="form-label-left">Newsletter</label></div>
+            <div class="input">
+                <div class="form-container-input">
+                    <input class="form-register-checkbox" type="checkbox" id="newsletter" name="newsletter" data-role="none" value="1" {% if customer.newsletter %}checked="checked"{% endif %}/>
+                    <label class="form-register-label-input" for="newsletter">{{ lang('profile.details.details.personal.newsletter') }}</label>
                 </div>
-            </li>
+                <div class="form-register-error"></div>
+            </div>
+        </li>
 
-            <li class="li-form-group-row">
-                <div class="label"><label for="terms" class="form-label-left">Newsletter</label></div>
-                <div class="input">
-                    <div class="form-container-input">
-                        <input class="form-register-checkbox" type="checkbox" id="newsletter" name="newsletter" data-role="none" value="1" {% if customer.newsletter %}checked="checked"{% endif %}/>
-                        <label class="form-register-label-input" for="newsletter">{{ lang('profile.details.details.personal.newsletter') }}</label>
-                    </div>
-                    <div class="form-register-error"></div>
-                </div>
-            </li>
+        <li class="li-form-group-row" data-role="fieldcontain">
+            <div class="input form-submit-button-center container-submit-fullwidth">
+                <button id="register-btn" type="submit" data-theme="a">{{ lang('global.update') }}</button>
+            </div>
+        </li>
+    </ul>
+    {{ form_close() }}
 
-            <li class="li-form-group-row" data-role="fieldcontain">
-                <div class="group-title">{{ lang('profile.details.details.password.title') }}</div>
-            </li>
+    {{ form_open({method: 'post', action: '/profile/password.html', autocomplete: 'off', class: 'form-horizontal'}) }}
+    {{ form_csrf() }}
+    <ul data-role="listview" data-inset="true" class="account-details bottom-curve">
+        <li class="li-form-group-row" data-role="fieldcontain">
+            <div class="group-title">{{ lang('profile.details.details.password.title') }}</div>
+        </li>
 
-            <li class="li-form-group-row" data-role="fieldcontain">
-                <div class="label"><label for="old_password" class="form-label-left">{{ lang('profile.details.details.password.old') }}</label></div>
-                <div class="input">
-                    <input data-clear-btn="true" type="password" name="old_password" id="old_password"/>
-                    <div class="form-register-error"></div>
-                </div>
-            </li>
+        <li class="li-form-group-row" data-role="fieldcontain">
+            <div class="label"><label for="old_password" class="form-label-left">{{ lang('profile.details.details.password.old') }}</label></div>
+            <div class="input">
+                <input data-clear-btn="true" type="password" name="old_password" id="old_password"/>
+                <div class="form-register-error"></div>
+            </div>
+        </li>
 
-            <li class="li-form-group-row" data-role="fieldcontain">
-                <div class="label"><label for="new_password1" class="form-label-left">{{ lang('profile.details.details.password.new1') }}</label></div>
-                <div class="input">
-                    <input data-clear-btn="true" type="password" name="new_password1" id="new_password1"/>
-                    <div class="form-register-error"></div>
-                </div>
-            </li>
+        <li class="li-form-group-row" data-role="fieldcontain">
+            <div class="label"><label for="new_password1" class="form-label-left">{{ lang('profile.details.details.password.new1') }}</label></div>
+            <div class="input">
+                <input data-clear-btn="true" type="password" name="new_password1" id="new_password1"/>
+                <div class="form-register-error"></div>
+            </div>
+        </li>
 
-            <li class="li-form-group-row" data-role="fieldcontain">
-                <div class="label"><label for="new_password2" class="form-label-left">{{ lang('profile.details.details.password.new2') }}</label></div>
-                <div class="input">
-                    <input data-clear-btn="true" type="password" name="new_password2" id="new_password2"/>
-                    <div class="form-register-error"></div>
-                </div>
-            </li>
+        <li class="li-form-group-row" data-role="fieldcontain">
+            <div class="label"><label for="new_password2" class="form-label-left">{{ lang('profile.details.details.password.new2') }}</label></div>
+            <div class="input">
+                <input data-clear-btn="true" type="password" name="new_password2" id="new_password2"/>
+                <div class="form-register-error"></div>
+            </div>
+        </li>
 
-            <li class="li-form-group-row" data-role="fieldcontain">
-                <div class="input form-submit-button-center container-submit-fullwidth">
-                    <button id="register-btn" type="submit" data-theme="a">{{ lang('global.update') }}</button>
-                </div>
-            </li>
-        </ul>
-    </div>
+        <li class="li-form-group-row" data-role="fieldcontain">
+            <div class="input form-submit-button-center container-submit-fullwidth">
+                <button id="register-btn" type="submit" data-theme="a">{{ lang('global.update') }}</button>
+            </div>
+        </li>
+    </ul>
+    {{ form_close() }}
 
-{{ form_close() }}
+</div>
 
 
