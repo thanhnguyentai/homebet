@@ -80,7 +80,11 @@
     </ul>
     <ul>
         <li class="bottom-l-curve">
-            <a href="/profile/register.html" data-dom-cache="false">{{ lang('navigation.register') }}</a>
+            {% if customer %}
+                <a href="/profile/register.html" data-dom-cache="false">Log out</a>
+            {% else %}
+                <a href="/profile/register.html" data-dom-cache="false">{{ lang('navigation.register') }}</a>
+            {% endif %}
         </li>
         <li class="bottom-r-curve">
             <a href="/info/" data-dom-cache="true">{{ lang('navigation.info') }}</a>
