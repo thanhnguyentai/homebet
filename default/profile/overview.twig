@@ -76,7 +76,7 @@
                         <div class="verify-status-text-{{ verification.status }}">{{ lang('profile.details.overview.verifications.accepted') }}</div>
                     {% endif %}
                     
-                    <!--{% if verification.status == 'accepted' or verification.status == 'pending' %}-->
+                    <!--{% if verification.status == 'accepted' or verification.status == 'pending' or verification.status == 'declined' %}-->
                         {{ verification.created|date('Y-m-d - H:i') }}
                         <span class="verify-status-icon-{{ verification.status }}">&nbsp;</span>
                     <!--
