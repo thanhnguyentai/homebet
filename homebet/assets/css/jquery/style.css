@@ -3051,10 +3051,20 @@ ol.ui-listview .ui-link-inherit{
     float: none;
     vertical-align: middle;
 }
+.li-form-group-row.ui-li-static.ui-li .label{
+    position: relative;
+}
 .li-form-group-row.ui-li-static.ui-li .input .ui-shadow-inset{
     margin: 5px auto;
     width: 95%;
     display: block;
+}
+.li-form-group-row .star-require{
+    display: inline-block;
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    margin: -8px 0 0;
 }
 .form-container-input{
     position: relative;
@@ -3181,6 +3191,12 @@ ol.ui-listview .ui-link-inherit{
     margin: 2px auto;
     color: red;
     font-weight: normal;
+}
+.g-recaptcha{
+    float: left !important;
+}
+.g-recaptcha div, .g-recaptcha iframe{
+    width: 100% !important;
 }
 
 /* list deposit */

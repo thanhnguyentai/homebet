@@ -5,35 +5,35 @@
     <div style="border-radius: 0 0 6px 6px; -webkit-border-radius: 0 0 6px 6px; overflow: hidden;">
         <ul data-role="listview" data-inset="true" class="account-details bottom-curve">
             <li class="li-form-group-row" data-role="fieldcontain">
-                <div class="label"><label for="username" class="form-label-left">{{ lang('profile.username') }}</label></div>
+                <div class="label"><label for="username" class="form-label-left">{{ lang('profile.username') }}</label><span class="star-require">*</span></div>
                 <div class="input">
-                    <input data-clear-btn="true" type="text" name="username" id="username" />
+                    <input data-clear-btn="true" type="text" name="username" id="username" data-bind="value: username" value="{{ form_val('username') }}" />
                     <div class="form-register-error"></div>
                 </div>
             </li>
             <li class="li-form-group-row" data-role="fieldcontain">
-                <div class="label"><label for="password" class="form-label-left">{{ lang('profile.password') }}</label></div>
+                <div class="label"><label for="password" class="form-label-left">{{ lang('profile.password') }}</label><span class="star-require">*</span></div>
                 <div class="input">
                     <input data-clear-btn="true" type="password" name="password" id="password" />
                     <div class="form-register-error"></div>
                 </div>
             </li>
             <li class="li-form-group-row" data-role="fieldcontain">
-                <div class="label"><label for="confirm-password" class="form-label-left">Confirm Password</label></div>
+                <div class="label"><label for="confirm-password" class="form-label-left">Confirm Password</label><span class="star-require">*</span></div>
                 <div class="input">
                     <input data-clear-btn="true" type="password" name="confirm-password" id="confirm-password" />
                     <div class="form-register-error"></div>
                 </div>
             </li>
             <li class="li-form-group-row" data-role="fieldcontain">
-                <div class="label"><label for="email" class="form-label-left">E-mail</label></div>
+                <div class="label"><label for="email" class="form-label-left">E-mail</label><span class="star-require">*</span></div>
                 <div class="input">
-                    <input data-clear-btn="true" type="email" name="email" id="email" />
+                    <input data-clear-btn="true" type="email" name="email" id="email" data-bind="value: email" value="{{ form_val('email') }}" />
                     <div class="form-register-error"></div>
                 </div>
             </li>
             <li class="li-form-group-row" data-role="fieldcontain">
-                <div class="label"><label  class="form-label-left">Date of Birth</label></div>
+                <div class="label"><label  class="form-label-left">Date of Birth</label><span class="star-require">*</span></div>
                 <div class="input form-container-select form-group-select-birthday">
                     {{ form_select('dob_day', form_val('dob_day'), date.days, {'class': 'sel_day sel', 'data-bind': 'value: dob.day'}) }}
                     {{ form_select('dob_month', form_val('dob_month'), date.months, {'class': 'sel_month sel', 'data-bind': 'value: dob.month'}) }}
@@ -43,7 +43,31 @@
             </li>
 
             <li class="li-form-group-row" data-role="fieldcontain">
-                <div class="label"><label for="country" class="form-label-left">Country</label></div>
+                <div class="label"><label for="street" class="form-label-left">Street</label><span class="star-require">*</span></div>
+                <div class="input">
+                    <input data-clear-btn="true" type="text" name="street" id="street" data-bind="value: street" value="{{ form_val('street') }}" />
+                    <div class="form-register-error"></div>
+                </div>
+            </li>
+
+            <li class="li-form-group-row" data-role="fieldcontain">
+                <div class="label"><label for="city" class="form-label-left">City</label><span class="star-require">*</span></div>
+                <div class="input">
+                    <input data-clear-btn="true" type="text" name="city" id="city" data-bind="value: city" value="{{ form_val('city') }}" />
+                    <div class="form-register-error"></div>
+                </div>
+            </li>
+
+            <li class="li-form-group-row" data-role="fieldcontain">
+                <div class="label"><label for="postcode" class="form-label-left">Zip Code</label><span class="star-require">*</span></div>
+                <div class="input">
+                    <input data-clear-btn="true" type="text" name="postcode" id="postcode" data-bind="value: postcode" value="{{ form_val('postcode') }}" />
+                    <div class="form-register-error"></div>
+                </div>
+            </li>
+
+            <li class="li-form-group-row" data-role="fieldcontain">
+                <div class="label"><label for="country" class="form-label-left">Country</label><span class="star-require">*</span></div>
                 <div class="input form-container-select">
                     <select id="country" name="country" class="sel_country sel" data-bind="value: country">
                         {% if form_val('country') == '' %}
@@ -64,8 +88,46 @@
                 </div>
             </li>
 
+            <li class="li-form-group-row" data-role="fieldcontain">
+                <div class="label"><label for="currency" class="form-label-left">Currency</label><span class="star-require">*</span></div>
+                <div class="input form-container-select">
+                    <select name="currency" class="sel_currency sel" data-bind="value: currency">
+                        {% if form_val('currency') == '' %}
+                            <option value="" selected="selected"> </option>
+                        {% else %}
+                            <option value=""> </option>
+                        {% endif %}
+
+                        {% for currency in currencies %}
+                            {% if currency.id == form_val('currency') %}
+                                <option value="{{ currency.id }}" selected="selected">{{ currency.name }}</option>
+                            {% else %}
+                                <option value="{{ currency.id }}">{{ currency.name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <div class="form-register-error"></div>
+                </div>
+            </li>
+
+            <li class="li-form-group-row" data-role="fieldcontain">
+                <div class="label"><label for="telephone" class="form-label-left">Phone</label><span class="star-require">*</span></div>
+                <div class="input">
+                    <input data-clear-btn="true" type="text" name="telephone" id="telephone" data-bind="value: telephone" value="{{ form_val('telephone') }}" />
+                    <div class="form-register-error"></div>
+                </div>
+            </li>
+
+            <li class="li-form-group-row" data-role="fieldcontain">
+                <div class="label"><label for="captcha" class="form-label-left">Captcha</label><span class="star-require">*</span></div>
+                <div class="input">
+                    {{ captcha }}
+                    <div class="form-register-error"></div>
+                </div>
+            </li>
+
             <li class="li-form-group-row">
-                <div class="label"><label for="terms" class="form-label-left">Terms and Conditions</label></div>
+                <div class="label"><label for="terms" class="form-label-left">Terms and Conditions</label><span class="star-require">*</span></div>
                 <div class="input">
                     <div class="form-container-input">
                         <input class="form-register-checkbox" type="checkbox" id="accept_terms" name="terms" data-role="none" data-bind="checked: terms"/>
@@ -78,7 +140,7 @@
 
 
             <li class="li-form-group-row" data-role="fieldcontain">
-                <div class="label"><label>&nbsp;</label></div>
+                <div class="label"><label>* required</label></div>
                 <div class="input form-submit-button-center">
                     <button id="register-btn" type="submit" data-theme="a">{{ lang('register.button') }}</button>
                 </div>
@@ -91,6 +153,26 @@
 <script type="text/javascript">
 
     $(function () {
+
+        $('form').submit(function () {
+            $('#register-btn').html('<i class="fa fa-refresh fa-spin"></i> <span>In progress</span>');
+        });
+
+        var registration = betmatic.customer.registration.create();
+        registration.email('{{ form_val('email') }}');
+        registration.telephone('{{ form_val('telephone') }}');
+        registration.dob.day('{{ form_val('dob_day') }}');
+        registration.dob.month('{{ form_val('dob_month') }}');
+        registration.dob.year('{{ form_val('dob_year') }}');
+        registration.street('{{ form_val('street') }}');
+        registration.city('{{ form_val('city') }}');
+        registration.postcode('{{ form_val('postcode') }}');
+        registration.country('{{ form_val('country') }}');
+        registration.currency('{{ form_val('currency') }}');
+        registration.username('{{ form_val('username') }}');
+
+        ko.applyBindings(registration, document.getElementById('registration'));
+
     });
 
 </script>
