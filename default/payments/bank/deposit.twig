@@ -24,7 +24,7 @@
                     {% elseif payment.deposit.fees.amount %}
                         {{ payment.deposit.fees.amount|number_format(2) }} {{ handshake.currency.id }}
                     {% else %}
-                        None
+                        {{ lang('global.none') }}
                     {% endif %}
                     </span>
                 </span>
