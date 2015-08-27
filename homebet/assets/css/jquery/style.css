@@ -3279,6 +3279,9 @@ ol.ui-listview .ui-link-inherit{
     -moz-text-shadow: 0 0;
     -ms-text-shadow: 0 0;
 }
+.account-details .label .total-deposit-number{
+    font-weight: normal;
+}
 
 /* profile page*/
 .profile-line-title{

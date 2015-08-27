@@ -7,7 +7,7 @@
                 {{ lang('payments.maximum') }}. {{ payment.deposit.maximum|number_format(2) }}
             </div>
         </div>
-        <div style="border-radius: 0 0 6px 6px; -webkit-border-radius: 0 0 6px 6px; overflow: hidden;">
+        <div id="deposit" style="border-radius: 0 0 6px 6px; -webkit-border-radius: 0 0 6px 6px; overflow: hidden;">
             
             {% set amounts = [25, 50, 100, 200, 500] %}
 
@@ -17,7 +17,7 @@
                         <label for="amount" class="form-label-left">Amount</label>
                     </div>
                     <div class="input form-container-select deposit-input-have-infor">
-                        <select name="amount">
+                        <select id="amount-select" name="amount-select">
                             {% for amount in amounts %}
                                 <option value="{{ amount }}">{{ amount }} {{ handshake.currency.id }}</option>
                             {% endfor %}
@@ -44,8 +44,8 @@
                         <label for="enter_amount" class="form-label-left">Enter Manually</label>
                     </div>
                     <div class="input">
-                        <input data-clear-btn="true" type="text" name="enter_amount" id="enter_amount" />
-                        <div class="form-register-error"></div>
+                        <input data-clear-btn="true" type="text" name="amount" id="amount" data-bind="value: amount" value="{{ form_val('amount') }}" />
+                        <div class="form-register-error" style="display:none" data-bind="visible: amount.valid() === false, text: amount.message()"></div>
                     </div>
                 </li>
                 <li class="li-form-group-row" data-role="fieldcontain">
@@ -53,8 +53,8 @@
                         <label for="firstname" class="form-label-left">{{ lang('payments.creditcard.fields.firstname') }}</label>
                     </div>
                     <div class="input">
-                        <input data-clear-btn="true" type="text" name="firstname" id="firstname" value="{{ customer.firstname }}" />
-                        <div class="form-register-error"></div>
+                        <input data-clear-btn="true" type="text" name="firstname" id="firstname" data-bind="value: firstname" value="{{ customer.firstname }}" />
+                        <div class="form-register-error" style="display:none" data-bind="visible: firstname.valid() === false, text: firstname.message()"></div>
                     </div>
                 </li>
                 <li class="li-form-group-row" data-role="fieldcontain">
@@ -62,8 +62,8 @@
                         <label for="lastname" class="form-label-left">{{ lang('payments.creditcard.fields.lastname') }}</label>
                     </div>
                     <div class="input">
-                        <input data-clear-btn="true" type="text" name="lastname" id="lastname" value="{{ customer.lastname }}" />
-                        <div class="form-register-error"></div>
+                        <input data-clear-btn="true" type="text" name="lastname" id="lastname" data-bind="value: lastname" value="{{ customer.lastname }}" />
+                        <div class="form-register-error" style="display:none" data-bind="visible: lastname.valid() === false, text: lastname.message()"></div>
                     </div>
                 </li>
                 <li class="li-form-group-row" data-role="fieldcontain">
@@ -71,8 +71,8 @@
                         <label for="bank" class="form-label-left">{{ lang('payments.creditcard.fields.bank') }}</label>
                     </div>
                     <div class="input">
-                        <input data-clear-btn="true" type="text" name="bankbank" id="bank" />
-                        <div class="form-register-error"></div>
+                        <input data-clear-btn="true" type="text" name="bank" id="bank" data-bind="value: bank" value="{{ bank }}" />
+                        <div class="form-register-error" style="display:none" data-bind="visible: bank.valid() === false, text: bank.message()"></div>
                     </div>
                 </li>
                 <li class="li-form-group-row" data-role="fieldcontain">
@@ -80,8 +80,8 @@
                         <label for="number" class="form-label-left">{{ lang('payments.creditcard.fields.number') }}</label>
                     </div>
                     <div class="input">
-                        <input data-clear-btn="true" type="text" name="number" id="number" />
-                        <div class="form-register-error"></div>
+                        <input data-clear-btn="true" type="text" name="number" id="number" data-bind="value: number" value="{{ number }}" />
+                        <div class="form-register-error" style="display:none" data-bind="visible: number.valid() === false, text: number.message()"></div>
                     </div>
                 </li>
                 <li class="li-form-group-row" data-role="fieldcontain">
@@ -90,6 +90,7 @@
                     </div>
                     <div class="input form-container-select">
                         {{ form_select('month', form_val('month'), months, {'data-bind': 'value: month'}) }}
+                        <div class="form-register-error" style="display:none" data-bind="visible: month.valid() === false, text: month.message()"></div>
                     </div>
                 </li>
                 <li class="li-form-group-row" data-role="fieldcontain">
@@ -98,6 +99,7 @@
                     </div>
                     <div class="input form-container-select">
                         {{ form_select('year', form_val('year'), years, {'data-bind': 'value: year'}) }}
+                        <div class="form-register-error" style="display:none" data-bind="visible: year.valid() === false, text: year.message()"></div>
                     </div>
                 </li>
                 <li class="li-form-group-row" data-role="fieldcontain">
@@ -105,8 +107,8 @@
                         <label for="cvv" class="form-label-left">{{ lang('payments.creditcard.fields.cvv') }}</label>
                     </div>
                     <div class="input">
-                        <input data-clear-btn="true" type="text" name="cvv" id="cvv" />
-                        <div class="form-register-error"></div>
+                        <input data-clear-btn="true" type="text" name="cvv" id="cvv" data-bind="value: cvv" value="{{ number }}" />
+                        <div class="form-register-error" style="display:none" data-bind="visible: cvv.valid() === false, text: cvv.message()"></div>
                     </div>
                 </li>
                 <li class="li-form-group-row" data-role="fieldcontain">
@@ -114,8 +116,8 @@
                         <label for="street" class="form-label-left">{{ lang('payments.creditcard.fields.street') }}</label>
                     </div>
                     <div class="input">
-                        <input data-clear-btn="true" type="text" name="street" id="street" value="{{ customer.street }}" />
-                        <div class="form-register-error"></div>
+                        <input data-clear-btn="true" type="text" name="street" id="street" data-bind="value: street" value="{{ customer.street }}" />
+                        <div class="form-register-error" style="display:none" data-bind="visible: street.valid() === false, text: street.message()"></div>
                     </div>
                 </li>
                 <li class="li-form-group-row" data-role="fieldcontain">
@@ -123,8 +125,8 @@
                         <label for="city" class="form-label-left">{{ lang('payments.creditcard.fields.city') }}</label>
                     </div>
                     <div class="input">
-                        <input data-clear-btn="true" type="text" name="city" id="city" value="{{ customer.city }}" />
-                        <div class="form-register-error"></div>
+                        <input data-clear-btn="true" type="text" name="city" id="city" data-bind="value: city" value="{{ customer.city }}" />
+                        <div class="form-register-error" style="display:none" data-bind="visible: city.valid() === false, text: city.message()"></div>
                     </div>
                 </li>
                 <li class="li-form-group-row" data-role="fieldcontain">
@@ -132,8 +134,8 @@
                         <label for="state" class="form-label-left">{{ lang('payments.creditcard.fields.state') }}</label>
                     </div>
                     <div class="input">
-                        <input data-clear-btn="true" type="text" name="state" id="state" value="{{ customer.state }}" />
-                        <div class="form-register-error"></div>
+                        <input data-clear-btn="true" type="text" name="state" id="state" data-bind="value: state" value="{{ customer.state }}" />
+                        <div class="form-register-error" style="display:none" data-bind="visible: state.valid() === false, text: state.message()"></div>
                     </div>
                 </li>
                 <li class="li-form-group-row" data-role="fieldcontain">
@@ -141,8 +143,8 @@
                         <label for="postcode" class="form-label-left">{{ lang('payments.creditcard.fields.postcode') }}</label>
                     </div>
                     <div class="input">
-                        <input data-clear-btn="true" type="text" name="postcode" id="postcode" value="{{ customer.postcode }}" />
-                        <div class="form-register-error"></div>
+                        <input data-clear-btn="true" type="text" name="postcode" id="postcode" data-bind="value: postcode" value="{{ customer.postcode }}" />
+                        <div class="form-register-error" style="display:none" data-bind="visible: postcode.valid() === false, text: postcode.message()"></div>
                     </div>
                 </li>
                 <li class="li-form-group-row" data-role="fieldcontain">
@@ -156,7 +158,8 @@
                 </li>
                 <li class="li-form-group-row" data-role="fieldcontain">
                     <div class="label">
-                        <label for="amount_send" class="form-label-left"></label>
+                        <label for="amount_send" class="form-label-left total-deposit-number" data-bind="html: parseFloat(total()).toFixed(2) != 'NaN' ? parseFloat(total()).toFixed(2) : '0.00'">0.00</label>
+                        {{ handshake.currency.id }}
                     </div>
                     <div class="input form-submit-button-center container-submit-fullwidth">
                         <button id="deposit-btn" type="submit" data-theme="a">{{ lang('payments.deposit.button') }}</button>

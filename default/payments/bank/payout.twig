@@ -6,7 +6,7 @@
             {{ lang('payments.maximum') }}. {{ payment.deposit.maximum|number_format(2) }}
         </div>
     </div>
-    <div style="border-radius: 0 0 6px 6px; -webkit-border-radius: 0 0 6px 6px; overflow: hidden;">
+    <div id="payout" style="border-radius: 0 0 6px 6px; -webkit-border-radius: 0 0 6px 6px; overflow: hidden;">
         
         {% set amounts = [25, 50, 100, 200, 500] %}
 
@@ -16,7 +16,7 @@
                     <label for="amount" class="form-label-left">Amount</label>
                 </div>
                 <div class="input form-container-select deposit-input-have-infor">
-                    <select name="amount">
+                    <select id="amount-select" name="amount-select">
                         {% for amount in amounts %}
                             <option value="{{ amount }}">{{ amount }} {{ handshake.currency.id }}</option>
                         {% endfor %}
@@ -24,12 +24,12 @@
                     <span class="fee-information">
                         <span class="fee-header">{{ lang('payments.fees') }}:</span>
                         <span class="fee-detail">
-                        {% if payment.deposit.fees.percent and payment.deposit.fees.amount %}
-                            {{ payment.deposit.fees.percent|number_format(2) }}% + {{ payment.deposit.fees.amount|number_format(2) }} {{ handshake.currency.id }}
-                        {% elseif payment.deposit.fees.percent %}
-                            {{ payment.deposit.fees.percent|number_format(2) }}%
-                        {% elseif payment.deposit.fees.amount %}
-                            {{ payment.deposit.fees.amount|number_format(2) }} {{ handshake.currency.id }}
+                        {% if payment.payout.fees.percent and payment.payout.fees.amount %}
+                            {{ payment.payout.fees.percent|number_format(2) }}% + {{ payment.payout.fees.amount|number_format(2) }} {{ handshake.currency.id }}
+                        {% elseif payment.payout.fees.percent %}
+                            {{ payment.payout.fees.percent|number_format(2) }}%
+                        {% elseif payment.payout.fees.amount %}
+                            {{ payment.payout.fees.amount|number_format(2) }} {{ handshake.currency.id }}
                         {% else %}
                             {{ lang('global.none') }}
                         {% endif %}
@@ -43,8 +43,8 @@
                     <label for="enter_amount" class="form-label-left">Enter Manually</label>
                 </div>
                 <div class="input">
-                    <input data-clear-btn="true" type="text" name="enter_amount" id="enter_amount" />
-                    <div class="form-register-error"></div>
+                    <input data-clear-btn="true" type="text" name="amount" id="amount" data-bind="value: amount" value="{{ form_val('amount') }}" />
+                    <div class="form-register-error" style="display:none" data-bind="visible: amount.valid() === false, text: amount.message()"></div>
                 </div>
             </li>
             <li class="li-form-group-row" data-role="fieldcontain">
@@ -53,7 +53,7 @@
                 </div>
                 <div class="input">
                     {{ form_input('receiver', form_val('receiver'), {'data-bind': 'value: receiver'}) }}
-                    <div class="form-register-error"></div>
+                    <div class="form-register-error" style="display:none" data-bind="visible: receiver.valid() === false, text: receiver.message()"></div>
                 </div>
             </li>
             <li class="li-form-group-row" data-role="fieldcontain">
@@ -62,7 +62,7 @@
                 </div>
                 <div class="input">
                     {{ form_input('bank', form_val('bank'), {'data-bind': 'value: bank'}) }}
-                    <div class="form-register-error"></div>
+                    <div class="form-register-error" style="display:none" data-bind="visible: bank.valid() === false, text: bank.message()"></div>
                 </div>
             </li>
             <li class="li-form-group-row" data-role="fieldcontain">
@@ -104,7 +104,8 @@
 
             <li class="li-form-group-row" data-role="fieldcontain">
                 <div class="label">
-                    <label for="amount_send" class="form-label-left"></label>
+                    <label for="amount_send" class="form-label-left total-deposit-number" data-bind="html: parseFloat(total()).toFixed(2) != 'NaN' ? parseFloat(total()).toFixed(2) : '0.00'">0.00</label>
+                    {{ handshake.currency.id }}
                 </div>
                 <div class="input form-submit-button-center container-submit-fullwidth">
                     <button id="deposit-btn" type="submit" data-theme="a">{{ lang('payments.payout.button') }}</button>
