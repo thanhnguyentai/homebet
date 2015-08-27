@@ -3225,6 +3225,20 @@ ol.ui-listview .ui-link-inherit{
     margin: 5px 0 5px 2.5%;
     float: left;
 }
+.li-form-group-row.ui-li-static.ui-li .input.input-readonly .ui-shadow-inset{
+    border: 0px;
+    box-shadow: 0 0 0 #000;
+    -webkit-box-shadow: 0 0 0 #000;
+    -moz-box-shadow: 0 0 0 #000;
+    -ms-box-shadow: 0 0 0 #000;
+}
+.li-form-group-row.ui-li-static.ui-li .input.input-readonly .ui-btn-icon-notext{
+    display: none;
+}
+.li-form-group-row.ui-li-static.ui-li .input.input-readonly input{
+    font-weight: bold;
+    font-size: 15px;
+}
 .fee-information{
     width: 18%;
     float: left;

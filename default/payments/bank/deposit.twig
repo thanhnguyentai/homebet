@@ -12,8 +12,8 @@
             <div class="label">
                 <label for="company" class="form-label-left">{{ lang('payments.bank.fields.company') }}</label>
             </div>
-            <div class="input deposit-input-have-infor">
-                <input data-clear-btn="true" type="text" name="company" id="company" value="{{ payment.informations.company }}" />
+            <div class="input deposit-input-have-infor input-readonly">
+                <input readonly data-clear-btn="true" type="text" name="company" id="company" value="{{ payment.informations.company }}" />
                 <span class="fee-information">
                     <span class="fee-header">{{ lang('payments.fees') }}:</span>
                     <span class="fee-detail">
@@ -24,7 +24,7 @@
                     {% elseif payment.deposit.fees.amount %}
                         {{ payment.deposit.fees.amount|number_format(2) }} {{ handshake.currency.id }}
                     {% else %}
-                        {{ lang('global.none') }}
+                        None
                     {% endif %}
                     </span>
                 </span>
@@ -35,8 +35,8 @@
             <div class="label">
                 <label for="iban" class="form-label-left">{{ lang('payments.bank.fields.iban') }}</label>
             </div>
-            <div class="input">
-                <input data-clear-btn="true" type="text" name="iban" id="iban" value="{{ payment.informations.iban }}" />
+            <div class="input input-readonly">
+                <input readonly data-clear-btn="true" type="text" name="iban" id="iban" value="{{ payment.informations.iban }}" />
                 <div class="form-register-error"></div>
             </div>
         </li>
@@ -44,8 +44,8 @@
             <div class="label">
                 <label for="bic" class="form-label-left">{{ lang('payments.bank.fields.bic') }}</label>
             </div>
-            <div class="input">
-                <input data-clear-btn="true" type="text" name="bic" id="bic" value="{{ payment.informations.bic }}" />
+            <div class="input input-readonly">
+                <input readonly data-clear-btn="true" type="text" name="bic" id="bic" value="{{ payment.informations.bic }}" />
                 <div class="form-register-error"></div>
             </div>
         </li>
@@ -53,8 +53,8 @@
             <div class="label">
                 <label for="bank" class="form-label-left">{{ lang('payments.bank.fields.bank') }}</label>
             </div>
-            <div class="input">
-                <input data-clear-btn="true" type="text" name="bank" id="bank" value="{{ payment.informations.bank }}" />
+            <div class="input input-readonly">
+                <input readonly data-clear-btn="true" type="text" name="bank" id="bank" value="{{ payment.informations.bank }}" />
                 <div class="form-register-error"></div>
             </div>
         </li>
@@ -62,8 +62,8 @@
             <div class="label">
                 <label for="purpose" class="form-label-left">{{ lang('payments.bank.fields.purpose') }}</label>
             </div>
-            <div class="input">
-                <input data-clear-btn="true" type="text" name="purpose" id="purpose" value="{{ customer.username }}-{{ customer.id }}" />
+            <div class="input input-readonly">
+                <input readonly data-clear-btn="true" type="text" name="purpose" id="purpose" value="{{ customer.username }}-{{ customer.id }}" />
                 <div class="form-register-error"></div>
             </div>
         </li>
