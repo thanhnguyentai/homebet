@@ -1,11 +1,9 @@
-<div id="message" class="message-pending">
-    <div class="back-wrapper">
-        <a class="back" href="/profile/"><span>{{ lang('global.back') }}</span></a>
-    </div>
-    <div class="message">
-        <h1>PENDING</h1>
-        <p>Your transfer is pending...</p>
-        <h1>{{ lang('payments.pending.title') }}</h1>
-        <p>{{ lang('payments.pending.message') }}</p>
+<div id="message" class="pending-container">
+	<div class="pending-container-image">
+		{{ asset_img('mobile/wait_img.png')}}
+	</div>
+    <div class="pending-message">
+    	<div class="pending-message-header">Pending</div>
+    	<div class="pending-message-body">Your transfer is pending...</div>
     </div>
 </div>
