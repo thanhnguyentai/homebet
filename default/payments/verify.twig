@@ -1,10 +1,9 @@
-<div id="payout" class="payout-provider verify-identity">
-    <div class="back-wrapper">
-        <a class="back" href="/profile/payout.html"><span>{{ lang('global.back') }}</span></a>
-    </div>
-    
-    <div class="verify-wrapper">
-        <h1><i class='fa fa-user'></i> Your Identity is Not Verified</h1>
-        <p>your identity must be verified before you can proceed...<br /> <a href="/profile/verify/identity.html" class="button">check status and verify here</a></p>
+<div id="payout" class="pending-container">
+	<div class="pending-container-image">
+		{{ asset_img('mobile/verify_account_icon.png')}}
+	</div>
+    <div class="verify-message">
+    	<div class="pending-message-header">Indentity Verification</div>
+    	<div class="pending-message-body">to verify your identity please scan your ID and upload it below</div>
     </div>
 </div>

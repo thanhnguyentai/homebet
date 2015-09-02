@@ -3406,14 +3406,19 @@ ol.ui-listview .ui-link-inherit{
 .pending-container .pending-container-image{
     display: table-cell;
     text-align: right;
+    vertical-align: middle;
 }
 .pending-container .pending-container-image img{
     display: inline-block;
 }
-.pending-message{
+.pending-message, .verify-message{
     color: #666;
     display: table-cell;
     vertical-align: top;
+}
+.verify-message{
+    vertical-align: middle;
+    text-align: center;
 }
 .pending-message-header{
     font-weight: bold;
@@ -3422,8 +3427,16 @@ ol.ui-listview .ui-link-inherit{
     padding: 10px 0 0 10px;
     line-height: 55px;
 }
+.verify-message .pending-message-header{
+    font-size: 24px;
+    padding: 0;
+    line-height: 35px;
+}
 .pending-message-body{
     font-weight: normal;
     font-size: 14px;
     padding: 0 0 0 10px;
+}
+.verify-message .pending-message-body{
+    padding: 0;
 }
