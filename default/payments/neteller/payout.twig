@@ -7,21 +7,33 @@
             {{ lang('payments.maximum') }}. {{ payment.deposit.maximum|number_format(2) }}
         </div>
     </div>
-    <div id="payout" style="border-radius: 0 0 6px 6px; -webkit-border-radius: 0 0 6px 6px; overflow: hidden;">
+    <div id="payout" style="border-radius: 0 0 6px 6px; -webkit-border-radius: 0 0 6px 6px; overflow: visible;">
         
         {% set amounts = [25, 50, 100, 200, 500] %}
 
-        <ul data-role="listview" data-inset="true" class="account-details bottom-curve">
+        <ul data-role="listview" data-inset="true" class="account-details bottom-curve" style="overflow: visible;">
             <li class="li-form-group-row" data-role="fieldcontain">
                 <div class="label">
                     <label for="amount" class="form-label-left">Amount</label>
                 </div>
                 <div class="input form-container-select deposit-input-have-infor">
-                    <select id="amount-select" name="amount-select">
-                        {% for amount in amounts %}
-                            <option value="{{ amount }}">{{ amount }} {{ handshake.currency.id }}</option>
-                        {% endfor %}
-                    </select>
+                    <div class="ui-select select-get-click">
+                        <div data-corners="true" data-shadow="true" data-iconshadow="true" 
+                        data-wrapperels="span" data-icon="arrow-d" data-iconpos="right" data-theme="c" 
+                        class="ui-btn ui-shadow ui-btn-corner-all ui-btn-icon-right ui-btn-up-c">
+                            <span class="ui-btn-inner">
+                                <span class="ui-btn-text">
+                                    <span id="selected-number">{{ amounts[0]}} {{ handshake.currency.id }}</span>
+                                </span>
+                                <span class="ui-icon ui-icon-arrow-d ui-icon-shadow">&nbsp;</span>
+                            </span>
+                        </div>
+                        <div class="container-list-button">
+                            {% for amount in amounts %}
+                                {{ form_button(amount, amount ~ " " ~ handshake.currency.id, {type: 'button', 'data-bind': 'css: {active: amount() == ' ~ amount ~ '}, click: function(){amount(' ~ amount ~ ')}'}) }}
+                            {% endfor %}
+                        </div>
+                    </div>
                     <span class="fee-information">
                         <span class="fee-header">{{ lang('payments.fees') }}:</span>
                         <span class="fee-detail">
@@ -89,6 +101,23 @@
 
         ko.applyBindings(payment, document.getElementById('payout'));
 
+        // hide and display list buttons
+        var listButton = $('.container-list-button');
+
+        $('.container-list-button button').bind('click', function(e){
+            e.stopPropagation();
+            listButton.css('display','none');
+            $('#selected-number').html($(this).html());
+        });
+
+        $('.select-get-click').bind('click', function(e){
+            e.stopPropagation();
+            listButton.css('display', 'block');
+        });
+
+        $(document).bind('click', function(){
+            listButton.css('display','none');
+        });
     });
 
 </script>

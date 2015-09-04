@@ -3198,7 +3198,7 @@ ol.ui-listview .ui-link-inherit{
 .g-recaptcha div, .g-recaptcha iframe{
     width: 100% !important;
 }
-.li-form-group-row .ui-btn-hidden{
+.li-form-group-row .bt-password-ui-btn-hidden{
     width: 0px;
     height: 0px;
     position: absolute;
@@ -3480,4 +3480,19 @@ ol.ui-listview .ui-link-inherit{
 }
 .verify-message .pending-message-body{
     padding: 0;
+}
+
+/*-- list button for deposit ---*/
+.container-list-button{
+    position: absolute;
+    width: 100%;
+    background: #fff;
+    border-radius: 0 0 5px 5px;
+    z-index: 9999;
+    top: 40px;
+    left: 0px;
+    display: none;
+}
+.container-list-button .ui-btn-up-c, .container-list-button .ui-btn-hover-c{
+    border: 0px;
 }
