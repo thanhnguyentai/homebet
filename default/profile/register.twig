@@ -152,15 +152,15 @@
                       
             <li class="li-form-group-row" data-role="fieldcontain">
                 <div class="label"><label for="password1" class="form-label-left">{{ lang('register.password') }}</label><span class="star-require">*</span></div>
-                <div class="input">
+                <div class="input container-password">
                     <input data-clear-btn="true" type="password" class="txt" name="password1" data-bind="value: password1, valueUpdate: 'afterkeydown', attr: {type: password1.generated() ? 'text' : 'password'}"/>
-                    <input data-role="none" type="button" class="pass_gen bt-password-ui-btn-hidden" data-bind="click: function(){password1.generate()}" value=""/>
+                    <input data-role="none" type="button" class="pass_gen bt-password-ui-btn" data-bind="click: function(){password1.generate()}" value=""/>
 
                     <div class="form-register-error" style="display:none" data-bind="visible: password1.valid() === false, text: password1.message()"></div>
                     
                     <div class="pass_strength" data-bind="css: 'str_' + password1.strength() ">
                         <h5 class="pass_str_h5">{{ lang('register.password_strength') }}:</h5>
-                        <div class="strangth_line">
+                        <div class="strength_line">
                             <div class="pass_str pass_str_1">&nbsp;</div>
                             <div class="pass_str pass_str_2">&nbsp;</div>
                             <div class="pass_str pass_str_3">&nbsp;</div>

@@ -3198,12 +3198,22 @@ ol.ui-listview .ui-link-inherit{
 .g-recaptcha div, .g-recaptcha iframe{
     width: 100% !important;
 }
-.li-form-group-row .bt-password-ui-btn-hidden{
-    width: 0px;
-    height: 0px;
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
+.li-form-group-row .bt-password-ui-btn{
+    background: url('../../img/mobile/pass.png') no-repeat center center !important;
+    width: 25px !important;
+    height: 30px;
+    background-color: #85A938 !important;
+    padding: 18px;
+    border-radius: 4px;
+    margin: 5px;
+}
+.li-form-group-row.ui-li-static.ui-li .input.container-password .ui-shadow-inset{
+    width: 70%;
+    margin: 5px 0 0 2.5%;
+    float: left;
+}
+.li-form-group-row .bt-password-ui-btn:hover{
+    background-color: #94BC3C;
 }
 .pass_strength{
     width: 90%;
@@ -3214,30 +3224,25 @@ ol.ui-listview .ui-link-inherit{
     margin-bottom: 3px;
 }
 .pass_strength .pass_str{
-    display: none;
-    margin: 0 0 5px;
+    margin: 0 0 15px;
+    width: 32%;
+    height: 5px;
+    float: left;
+    background: #CDCDCD;
 }
-.pass_str_1{
-    background: red;
-    width: 20%;
-}
-.pass_str_2{
-    background: orange;
-    width: 40%;
-}
-.pass_str_3{
-    background: green;
-    width: 60%;
+.strength_line{
+    width: 100%;
+    display: block;
 }
 
-.pass_strength.str_1 .pass_str_1{
-    display: block;
+.pass_strength.str_1 .pass_str_1, .pass_strength.str_2 .pass_str_1, .pass_strength.str_3 .pass_str_1{
+    background: #E71A1A;
 }
-.pass_strength.str_2 .pass_str_2{
-    display: block;
+.pass_strength.str_2 .pass_str_2, .pass_strength.str_3 .pass_str_2{
+    background: #FFA800;
 }
 .pass_strength.str_3 .pass_str_3{
-    display: block;
+    background: #89AE3C;
 }
 
 /* list deposit */
