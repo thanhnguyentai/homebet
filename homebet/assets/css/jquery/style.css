@@ -3198,6 +3198,47 @@ ol.ui-listview .ui-link-inherit{
 .g-recaptcha div, .g-recaptcha iframe{
     width: 100% !important;
 }
+.li-form-group-row .ui-btn-hidden{
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+}
+.pass_strength{
+    width: 90%;
+    margin-left: 2.5%;
+}
+.pass_strength .ui-li-heading{
+    font-size: 14px;
+    margin-bottom: 3px;
+}
+.pass_strength .pass_str{
+    display: none;
+    margin: 0 0 5px;
+}
+.pass_str_1{
+    background: red;
+    width: 20%;
+}
+.pass_str_2{
+    background: orange;
+    width: 40%;
+}
+.pass_str_3{
+    background: green;
+    width: 60%;
+}
+
+.pass_strength.str_1 .pass_str_1{
+    display: block;
+}
+.pass_strength.str_2 .pass_str_2{
+    display: block;
+}
+.pass_strength.str_3 .pass_str_3{
+    display: block;
+}
 
 /* list deposit */
 .deposit-price-range-title{
