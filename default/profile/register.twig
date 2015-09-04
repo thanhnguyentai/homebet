@@ -154,7 +154,7 @@
                 <div class="label"><label for="password1" class="form-label-left">{{ lang('register.password') }}</label><span class="star-require">*</span></div>
                 <div class="input">
                     <input data-clear-btn="true" type="password" class="txt" name="password1" data-bind="value: password1, valueUpdate: 'afterkeydown', attr: {type: password1.generated() ? 'text' : 'password'}"/>
-                    <input data-role="none" type="button" class="pass_gen ui-btn-hidden" data-bind="click: function(){password1.generate()}" value=""/>
+                    <input data-role="none" type="button" class="pass_gen bt-password-ui-btn-hidden" data-bind="click: function(){password1.generate()}" value=""/>
 
                     <div class="form-register-error" style="display:none" data-bind="visible: password1.valid() === false, text: password1.message()"></div>
                     
