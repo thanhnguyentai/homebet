@@ -60,6 +60,7 @@
                     {{ form_select('dob_day', form_val('dob_day'), date.days, {'class': 'sel_day sel', 'data-bind': 'value: dob.day'}) }}
                     {{ form_select('dob_month', form_val('dob_month'), date.months, {'class': 'sel_month sel', 'data-bind': 'value: dob.month'}) }}
                     {{ form_select('dob_year', form_val('dob_year'), date.years, {'class': 'sel_year sel', 'data-bind': 'value: dob.year'}) }}
+                    <input type="hidden" name="dob" data-bind="value: dob" value="{{ form_val('dob') }}"/>
                     <div class="form-register-error" style="display:none" data-bind="visible: dob.valid() === false, text: dob.message()"></div>
                 </div>
             </li>
