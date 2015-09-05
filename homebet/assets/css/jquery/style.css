@@ -3501,3 +3501,7 @@ ol.ui-listview .ui-link-inherit{
 .container-list-button .ui-btn-up-c, .container-list-button .ui-btn-hover-c{
     border: 0px;
 }
+.under-input{
+    margin: 0 0 3px 2.5%;
+    display: block;
+}
