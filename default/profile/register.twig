@@ -33,7 +33,7 @@
             <li class="li-form-group-row" data-role="fieldcontain">
                 <div class="label"><label for="firstname" class="form-label-left">{{ lang('register.firstname') }}</label><span class="star-require">*</span></div>
                 <div class="input">
-                    <input data-clear-btn="true" type="text" name="firstname" id="firstname" data-bind="value: firstname" value="{{ form_val('firstname') }}" />
+                    <input data-clear-btn="true" type="text" name="firstname" id="firstname" data-bind="value: firstname" validue="{{ form_val('firstname') }}" />
                     <div class="form-register-error" style="display:none" data-bind="visible: firstname.valid() === false, text: firstname.message()"></div>
                 </div>
             </li>
@@ -224,11 +224,6 @@
 <script type="text/javascript">
 
     $(function () {
-
-        $('form').submit(function () {
-            $('#register-btn').html('<i class="fa fa-refresh fa-spin"></i> <span>In progress</span>');
-        });
-
         var registration = betmatic.customer.registration.create();
         registration.gender('{{ form_val('gender') }}');
         registration.firstname('{{ form_val('firstname') }}');
@@ -247,6 +242,60 @@
 
         ko.applyBindings(registration, document.getElementById('registration'));
 
+        var keySaveForm = "saved-register-form";
+        var cacheData = {};
+
+        $('form').submit(function () {
+            $('#register-btn').html('<i class="fa fa-refresh fa-spin"></i> <span>In progress</span>');
+            if(sessionStorage)
+                sessionStorage.removeItem(keySaveForm);
+        });
+
+        $( window ).unload(function() {
+            var allInputs = $('#registration input, #registration select');
+            cacheData = {};
+            for(var i=0;i<allInputs.length;i++){
+                if(allInputs.eq(i).is(':checkbox')){
+                    cacheData[allInputs.eq(i).attr('name')] = {
+                        value: allInputs.eq(i).is(':checked'),
+                        isCheckbox: true
+                    };
+                }
+                else{
+                    cacheData[allInputs.eq(i).attr('name')] = {
+                        value: allInputs.eq(i).val(),
+                        isCheckbox: false
+                    };   
+                }
+            }
+
+            if(sessionStorage)
+                sessionStorage.setItem(keySaveForm, JSON.stringify(cacheData));
+        });
+
+        if(sessionStorage){
+            cacheData = sessionStorage.getItem(keySaveForm);
+            if(!!cacheData){
+                cacheData = JSON.parse(cacheData);
+                for(var item in cacheData){
+                    if(cacheData[item].isCheckbox){
+                        if(cacheData[item].value)
+                            $("#registration input[name='"+item+"']").prop('checked', 'checked');
+                    }
+                    else{
+                        var input = $("#registration input[name='"+item+"']");
+                        if(input && input.length > 0)
+                            input.val(cacheData[item].value);
+                        
+                        var select = $("#registration select[name='"+item+"']");
+                        if(select && select.length > 0)
+                            select.val(cacheData[item].value).selectmenu('refresh');
+                    }
+                }
+
+                sessionStorage.removeItem(keySaveForm);
+            }
+        }
     });
 
 </script>
