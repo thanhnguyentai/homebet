@@ -62,7 +62,7 @@
                         <tbody>
                             {% for transaction in transactions %}
                                 <tr>
-                                    <td class="cell-1">{{ transaction.created|date('d.m.Y') }}</td>
+                                    <td class="cell-1">{{ transaction.created|date('d.m') }}</td>
                                     <td class="cell-2">{{ transaction.created|date('H:i:s') }}</td>
                                     <td class="cell-4">{{ lang('products.' ~ transaction.product.id ~ '.name', {}, transaction.product.name) }}</td>
                                     <td class="cell-5">{{ lang('transactions.types.' ~ transaction.type, {}, transaction.type) }}</td>
