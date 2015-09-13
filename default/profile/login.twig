@@ -4,21 +4,21 @@
     <input type="hidden" name="action" id="action" value="login" />
     <div style="border-radius: 0 0 6px 6px; -webkit-border-radius: 0 0 6px 6px; overflow: hidden;">
         <ul data-role="listview" data-inset="true" class="account-details bottom-curve">
-            <li data-role="fieldcontain">
-                <div class="label"><label for="username">{{ lang('profile.username') }}</label></div>
+            <li data-role="fieldcontain" class="li-form-group-row">
+                <div class="label"><label for="username" class="form-label-left">{{ lang('profile.username') }}</label></div>
                 <div class="input"><input data-clear-btn="true" type="text" name="username" id="username" /></div>
             </li>
-            <li data-role="fieldcontain">
-                <div class="label"><label for="password">{{ lang('profile.password') }}</label></div>
+            <li data-role="fieldcontain" class="li-form-group-row">
+                <div class="label"><label for="password" class="form-label-left">{{ lang('profile.password') }}</label></div>
                 <div class="input"><input data-clear-btn="true" type="password" name="password" id="password" /></div>
             </li>
-            <li data-role="fieldcontain">
-                <div class="label"><label>{{ lang('profile.remember') }}</label></div>
-                <div class="input2"><input type="checkbox" name="remember" /></div>
+            <li data-role="fieldcontain" class="li-form-group-row">
+                <div class="label"><label class="form-label-left">{{ lang('profile.remember') }}</label></div>
+                <div class="input"><input type="checkbox" name="remember" class="form-register-checkbox" data-role="none" /></div>
             </li>
-            <li data-role="fieldcontain" style="border-radius: 0 0 6px 6px; -webkit-border-radius: 0 0 6px 6px; overflow:visible; overflow-x:hidden; overflow-y:hidden;">
+            <li data-role="fieldcontain" style="border-radius: 0 0 6px 6px; -webkit-border-radius: 0 0 6px 6px; overflow:visible; overflow-x:hidden; overflow-y:hidden;" class="li-form-group-row">
                 <div class="label bottom-l-curve"><label>&nbsp;</label></div>
-                <div class="acc-btn"><button type="submit" data-theme="a">{{ lang('profile.login') }}</button></div>
+                <div class="input form-submit-button-center"><button type="submit" data-theme="a">{{ lang('profile.login') }}</button></div>
             </li>
         </ul>
     </div>
