@@ -2424,6 +2424,8 @@ h1.sports-title{
 }
 .ui-content .message{
 	margin-bottom: 10px !important;
+    width: 100%;
+    float: left;
 }
 .ui-content .message .msg{
     float: none;
