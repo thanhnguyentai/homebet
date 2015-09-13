@@ -2,7 +2,7 @@
 {{ form_csrf() }}
 
     <div class="navbar-title3 top-curve"><h2>Account Details</h2></div>
-    <div id="registration" style="border-radius: 0 0 6px 6px; -webkit-border-radius: 0 0 6px 6px; overflow: hidden;">
+    <div id="registration" class="register-container" style="border-radius: 0 0 6px 6px; -webkit-border-radius: 0 0 6px 6px; overflow: hidden;">
         <ul data-role="listview" data-inset="true" class="account-details bottom-curve">
             <li class="li-form-group-row" data-role="fieldcontain">
                 <div class="label"><label for="gender" class="form-label-left">{{ lang('register.gender') }}</label><span class="star-require">*</span></div>
@@ -296,7 +296,19 @@
                 sessionStorage.removeItem(keySaveForm);
             }
         }
+
+        styleLabel();
     });
+
+    function styleLabel(){
+        var labels = $('.form-label-left');
+        for(var i=0;i<labels.length;i++){
+            var labelText = labels.eq(i).html();
+            if(labelText.indexOf(' ') <0){
+                labels.eq(i).addClass('a-word-label');
+            }
+        }
+    }
 
 </script>
 

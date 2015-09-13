@@ -3053,6 +3053,7 @@ ol.ui-listview .ui-link-inherit{
 }
 .li-form-group-row.ui-li-static.ui-li .label{
     position: relative;
+    overflow: hidden;
 }
 .li-form-group-row.ui-li-static.ui-li .input .ui-shadow-inset{
     margin: 5px auto;
@@ -3251,6 +3252,21 @@ ol.ui-listview .ui-link-inherit{
 }
 .display-none{
     display: none !important;
+}
+.a-word-label{
+    position: absolute;
+    top: 50%;
+    transform: translate(0,-50%);
+    -webkit-transform: translate(0,-50%);
+    -moz-transform: translate(0,-50%);
+    -ms-transform: translate(0,-50%);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 90%;
+}
+.register-container .account-details .label{
+    width: 100px;
 }
 
 /* list deposit */
