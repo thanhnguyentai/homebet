@@ -3198,13 +3198,14 @@ ol.ui-listview .ui-link-inherit{
 .g-recaptcha{
     float: left !important;
     margin-left: 50%;
-    transform: translate(-50%, 0);
     -webkit-transform: translate(-50%, 0);
     -moz-transform: translate(-50%, 0);
     -ms-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+
 }
 .g-recaptcha div, .g-recaptcha iframe{
-    width: 100% !important;
+    
 }
 .li-form-group-row .bt-password-ui-btn{
     background: url('../../img/mobile/pass.png') no-repeat center center !important;
