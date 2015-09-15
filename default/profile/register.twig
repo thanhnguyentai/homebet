@@ -279,17 +279,20 @@
                 cacheData = JSON.parse(cacheData);
                 for(var item in cacheData){
                     if(cacheData[item].isCheckbox){
-                        if(cacheData[item].value)
+                        if(cacheData[item].value){
                             $("#registration input[name='"+item+"']").prop('checked', 'checked');
+                        }
                     }
                     else{
                         var input = $("#registration input[name='"+item+"']");
-                        if(input && input.length > 0)
+                        if(input && input.length > 0){
                             input.val(cacheData[item].value);
+                        }
                         
                         var select = $("#registration select[name='"+item+"']");
-                        if(select && select.length > 0)
+                        if(select && select.length > 0){
                             select.val(cacheData[item].value).selectmenu('refresh');
+                        }                            
                     }
                 }
 
