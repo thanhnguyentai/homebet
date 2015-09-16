@@ -3294,7 +3294,7 @@ ol.ui-listview .ui-link-inherit{
 /* bank deposit */
 .li-form-group-row.ui-li-static.ui-li .input.deposit-input-have-infor .ui-shadow-inset,
 .li-form-group-row.ui-li-static.ui-li .input.deposit-input-have-infor .ui-select{
-    width: 75%;
+    width: 60%;
     margin: 5px 0 5px 2.5%;
     float: left;
 }
