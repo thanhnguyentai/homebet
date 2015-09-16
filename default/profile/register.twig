@@ -245,13 +245,20 @@
         var keySaveForm = "saved-register-form";
         var cacheData = {};
 
+        var isSubmit = false;
+
         $('form').submit(function () {
+            isSubmit = true;
+
             $('#register-btn').html('<i class="fa fa-refresh fa-spin"></i> <span>In progress</span>');
             if(sessionStorage)
                 sessionStorage.removeItem(keySaveForm);
         });
 
         $( window ).unload(function() {
+            if(isSubmit)
+                return;
+
             var allInputs = $('#registration input, #registration select');
             cacheData = {};
             for(var i=0;i<allInputs.length;i++){
@@ -278,21 +285,38 @@
             if(!!cacheData){
                 cacheData = JSON.parse(cacheData);
                 for(var item in cacheData){
+                    if(!!!item)
+                        continue;
+
                     if(cacheData[item].isCheckbox){
                         if(cacheData[item].value){
-                            $("#registration input[name='"+item+"']").prop('checked', 'checked');
+                            if(registration[item]){
+                                registration[item](true);
+                            }
+                            else{
+                                $("#registration input[name='"+item+"']").prop('checked', 'checked');
+                            }
                         }
                     }
                     else{
-                        var input = $("#registration input[name='"+item+"']");
-                        if(input && input.length > 0){
-                            input.val(cacheData[item].value);
+                        switch(item){
+                            case 'dob_day':
+                                registration.dob.day(cacheData[item].value);
+                                break;
+                            case 'dob_month':
+                                registration.dob.month(cacheData[item].value);
+                                break;
+                            case 'dob_year':
+                                registration.dob.year(cacheData[item].value);
+                                break;
                         }
-                        
+                        if(registration[item]){
+                            registration[item](cacheData[item].value);
+                        }
+
                         var select = $("#registration select[name='"+item+"']");
-                        if(select && select.length > 0){
-                            select.val(cacheData[item].value).selectmenu('refresh');
-                        }                            
+                        if(select && select.length > 0)
+                            select.selectmenu('refresh');
                     }
                 }
 
