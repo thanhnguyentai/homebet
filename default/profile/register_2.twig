@@ -5,31 +5,31 @@
     <div style="border-radius: 0 0 6px 6px; -webkit-border-radius: 0 0 6px 6px; overflow: hidden;">
         <ul data-role="listview" data-inset="true" class="account-details bottom-curve">
             <li class="li-form-group-row" data-role="fieldcontain">
-                <div class="label"><label for="username" class="form-label-left">{{ lang('profile.username') }}</label><span class="star-require">*</span></div>
+                <div class="label"><label for="username" class="form-label-left">{{ lang('register.username') }}</label><span class="star-require">*</span></div>
                 <div class="input">
                     <input data-clear-btn="true" type="text" name="username" id="username" data-bind="value: username" value="{{ form_val('username') }}" />
-                    <div class="form-register-error"></div>
+                    <div class="form-register-error" data-bind="visible: username.valid() === false, text: username.message()"></div>
                 </div>
             </li>
             <li class="li-form-group-row" data-role="fieldcontain">
-                <div class="label"><label for="password" class="form-label-left">{{ lang('profile.password') }}</label><span class="star-require">*</span></div>
+                <div class="label"><label for="password1" class="form-label-left">{{ lang('register.password') }}</label><span class="star-require">*</span></div>
                 <div class="input">
-                    <input data-clear-btn="true" type="password" name="password" id="password" />
-                    <div class="form-register-error"></div>
+                    <input data-clear-btn="true" type="password" name="password1" id="password" data-bind="value: password1"/>
+                    <div class="form-register-error" data-bind="visible: password1.valid() === false, text: password1.message()"></div>
                 </div>
             </li>
             <li class="li-form-group-row" data-role="fieldcontain">
-                <div class="label"><label for="confirm-password" class="form-label-left">Confirm Password</label><span class="star-require">*</span></div>
+                <div class="label"><label for="password2" class="form-label-left">{{ lang('register.password_confirm') }}</label><span class="star-require">*</span></div>
                 <div class="input">
-                    <input data-clear-btn="true" type="password" name="confirm-password" id="confirm-password" />
-                    <div class="form-register-error"></div>
+                    <input data-clear-btn="true" type="password" name="password2" id="confirm-password"  data-bind="value: password2"/>
+                    <div class="form-register-error" data-bind="visible: password2.valid() === false, text: password2.message()"></div>
                 </div>
             </li>
             <li class="li-form-group-row" data-role="fieldcontain">
                 <div class="label"><label for="email" class="form-label-left">E-mail</label><span class="star-require">*</span></div>
                 <div class="input">
                     <input data-clear-btn="true" type="email" name="email" id="email" data-bind="value: email" value="{{ form_val('email') }}" />
-                    <div class="form-register-error"></div>
+                    <div class="form-register-error" data-bind="visible: email.valid() === false, text: email.message()"></div>
                 </div>
             </li>
             <li class="li-form-group-row" data-role="fieldcontain">
@@ -38,7 +38,7 @@
                     {{ form_select('dob_day', form_val('dob_day'), date.days, {'class': 'sel_day sel', 'data-bind': 'value: dob.day'}) }}
                     {{ form_select('dob_month', form_val('dob_month'), date.months, {'class': 'sel_month sel', 'data-bind': 'value: dob.month'}) }}
                     {{ form_select('dob_year', form_val('dob_year'), date.years, {'class': 'sel_year sel', 'data-bind': 'value: dob.year'}) }}
-                    <div class="form-register-error"></div>
+                    <div class="form-register-error" data-bind="visible: dob.valid() === false, text: dob.message()"></div>
                 </div>
             </li>
 
@@ -46,7 +46,7 @@
                 <div class="label"><label for="street" class="form-label-left">Street</label><span class="star-require">*</span></div>
                 <div class="input">
                     <input data-clear-btn="true" type="text" name="street" id="street" data-bind="value: street" value="{{ form_val('street') }}" />
-                    <div class="form-register-error"></div>
+                    <div class="form-register-error"data-bind="visible: street.valid() === false, text: street.message()"></div>
                 </div>
             </li>
 
@@ -54,7 +54,7 @@
                 <div class="label"><label for="city" class="form-label-left">City</label><span class="star-require">*</span></div>
                 <div class="input">
                     <input data-clear-btn="true" type="text" name="city" id="city" data-bind="value: city" value="{{ form_val('city') }}" />
-                    <div class="form-register-error"></div>
+                    <div class="form-register-error" data-bind="visible: city.valid() === false, text: city.message()"></div>
                 </div>
             </li>
 
@@ -62,7 +62,7 @@
                 <div class="label"><label for="postcode" class="form-label-left">Zip Code</label><span class="star-require">*</span></div>
                 <div class="input">
                     <input data-clear-btn="true" type="text" name="postcode" id="postcode" data-bind="value: postcode" value="{{ form_val('postcode') }}" />
-                    <div class="form-register-error"></div>
+                    <div class="form-register-error" data-bind="visible: postcode.valid() === false, text: postcode.message()"></div>
                 </div>
             </li>
 
@@ -84,7 +84,7 @@
                             {% endif %}
                         {% endfor %}
                     </select>
-                    <div class="form-register-error"></div>
+                    <div class="form-register-error" data-bind="visible: country.valid() === false, text: country.message()"></div>
                 </div>
             </li>
 
@@ -106,7 +106,7 @@
                             {% endif %}
                         {% endfor %}
                     </select>
-                    <div class="form-register-error"></div>
+                    <div class="form-register-error" data-bind="visible: currency.valid() === false, text: currency.message()"></div>
                 </div>
             </li>
 
@@ -114,7 +114,7 @@
                 <div class="label"><label for="telephone" class="form-label-left">Phone</label><span class="star-require">*</span></div>
                 <div class="input">
                     <input data-clear-btn="true" type="text" name="telephone" id="telephone" data-bind="value: telephone" value="{{ form_val('telephone') }}" />
-                    <div class="form-register-error"></div>
+                    <div class="form-register-error" data-bind="visible: telephone.valid() === false, text: telephone.message()"></div>
                 </div>
             </li>
 
@@ -134,10 +134,9 @@
                         <label class="form-register-label-input" for="accept_terms">{{ lang('register.terms') }}</label>
                         <a class="form-arrow-link" data-role="none" href="/info/gtc.html" title="">&nbsp;</a>
                     </div>
-                    <div class="form-register-error"></div>
+                    <div class="form-register-error" data-bind="visible: terms.valid() === false, text: terms.message()"></div>
                 </div>
             </li>
-
 
             <li class="li-form-group-row" data-role="fieldcontain">
                 <div class="label"><label>* required</label></div>

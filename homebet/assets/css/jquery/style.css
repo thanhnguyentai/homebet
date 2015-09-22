@@ -1211,13 +1211,21 @@ ul.settings li .content{ width:auto; float:right; margin:0; padding:10px 25px 10
 	height: auto !important;
 	min-height: 450px;
 	overflow: visible;	
-	/*
+    /*
 	float: left;
 	width: 98.5%;
-	*/
+    */
 	clear: both;
+    padding-bottom: 70px;
 }
-.content-outer .ui-content{ padding-bottom:0;}
+.ui-mobile .ui-page .content-outer::after {
+    content: ' ';
+    display: block;
+    width: 100%;
+    clear: both;
+    height: 2px;
+}
+.content-outer .ui-content{ padding-bottom:0px;}
 
 /*-- 22 january --*/
 /* live screen */
