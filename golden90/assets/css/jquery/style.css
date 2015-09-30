@@ -1223,6 +1223,14 @@ ul.settings li .content{ width:auto; float:right; margin:0; padding:10px 25px 10
 	width: 98.5%;
 	*/
 	clear: both;
+    padding-bottom: 70px;
+}
+.ui-mobile .ui-page .content-outer::after {
+    content: ' ';
+    display: block;
+    width: 100%;
+    clear: both;
+    height: 2px;
 }
 .content-outer .ui-content{ padding-bottom:0;}
 
@@ -2416,6 +2424,8 @@ h1.sports-title{
 }
 .ui-content .message{
 	margin-bottom: 10px !important;
+    width: 100%;
+    float: left;
 }
 .ui-content .message .msg{
     float: none;
@@ -2826,7 +2836,10 @@ ol.ui-listview .ui-link-inherit{
 .home-header-account{
     background: url('../../img/account-icon-retina.png') no-repeat center center;
 }
-.home-header-bet, .home-header-account{
+.home-header-payment{
+    background: url('../../img/payment-icon-retina.png') no-repeat center center;   
+}
+.home-header-bet, .home-header-account, .home-header-payment{
     display: inline-block;
     width: 25px;
     height: 24px;
@@ -3018,4 +3031,498 @@ ol.ui-listview .ui-link-inherit{
 .row5 .title.tournament-bet-title.result-bet-title{
     margin-left: 45px;
     padding: 7px 0;
+}
+
+/*-- register form*/
+@media all and (min-width:450px) {
+    .ui-field-contain label.ui-input-text.form-label-left{
+        width: auto;
+    }
+}
+.li-form-group-row.ui-li-static.ui-li{
+    display: table;
+}
+.li-form-group-row.ui-li-static.ui-li .label, .li-form-group-row.ui-li-static.ui-li .input{
+    display: table-cell;
+    float: none;
+    vertical-align: middle;
+}
+.li-form-group-row.ui-li-static.ui-li .label{
+    position: relative;
+    overflow: hidden;
+}
+.li-form-group-row.ui-li-static.ui-li .input .ui-shadow-inset{
+    margin: 5px auto;
+    width: 95%;
+    display: block;
+}
+.li-form-group-row .star-require{
+    display: inline-block;
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    margin: -8px 0 0;
+}
+.form-container-input{
+    position: relative;
+    display: block;
+    margin: 5px 0;
+}
+.form-container-select .ui-btn-inner {
+    border: 0px;
+    line-height: 1.4rem;
+    padding: 6px;
+}
+.ui-field-contain .form-container-select .ui-select .ui-btn {
+    margin: 5px 0;
+    border-radius: 7px;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    -ms-border-radius: 7px;
+    overflow: visible;
+}
+
+.ui-field-contain .form-group-select-birthday .ui-select{
+    float: left;
+    margin-right: 2%;
+}
+.ui-field-contain .form-container-select .ui-select:nth-of-type(1){
+    margin-left: 2.5%;
+    width: 95%;
+}
+.account-details .input.form-container-select .ui-icon{
+    top: 0px;
+    right: 0px;
+    height: 100%;
+    margin: 0px;
+    width: 20px;
+    border-radius: 0px 5px 5px 0;
+    -webkit-border-radius: 0px 5px 5px 0;
+    -moz-border-radius: 0px 5px 5px 0;
+    -ms-border-radius: 0px 5px 5px 0;
+
+    background: #9d9d9d;
+    background: -moz-linear-gradient(top, #aaaaaa 0%, #6c6c6c 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#aaaaaa), color-stop(100%,#6c6c6c));
+    background: -webkit-linear-gradient(top, #aaaaaa 0%, #6c6c6c 100%);
+    background: -o-linear-gradient(top, #aaaaaa 0%, #6c6c6c 100%);
+    background: -ms-linear-gradient(top, #aaaaaa 0%, #6c6c6c 100%);
+    background: linear-gradient(to bottom, #aaaaaa 0%, #6c6c6c 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#aaaaaa', endColorstr='#6c6c6c',GradientType=0 );
+}
+.account-details .input.form-container-select .ui-icon:after{
+    content: '';
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    border-top: solid 8px #fff;
+    border-right: solid 5px transparent;
+    border-left: solid 5px transparent;
+    top: 50%;
+    left: 50%;
+    margin: -4px 0 0 -5px;
+}
+.content-outer .form-container-select .ui-btn:hover span{
+    color: #333;
+}
+.ui-field-contain .form-group-select-birthday .ui-select:nth-of-type(1),
+.ui-field-contain .form-group-select-birthday .ui-select:nth-of-type(2){
+    width: 26%;
+}
+.ui-field-contain .form-group-select-birthday .ui-select:nth-of-type(3){
+    width: 40%;
+    margin-right: 0px;
+}
+.ui-field-contain .form-container-select .ui-select .ui-btn:hover{
+    background: transparent !important;
+}
+.form-container-select .ui-select .ui-btn-icon-right .ui-btn-inner {
+    padding: 5px 0 5px 5px;
+    line-height: 1.4rem;
+}
+.input input.form-register-checkbox{
+    width: 15px;
+    height: 20px;
+    margin-left: 2.5%;
+}
+.form-register-label-input{
+    width: 130px;
+    display: inline-block;
+    margin-left: 3px;
+}
+.form-arrow-link{
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    margin-top: -15px;
+    background: url('images/grey-arrow.png') no-repeat center center;
+    background-size: auto 20px;
+    -webkit-background-size: auto 20px;
+    -moz-background-size: auto 20px;
+    -ms-background-size: auto 20px;
+}
+
+.ui-field-contain .form-submit-button-center .ui-btn.ui-submit {
+    padding: 5px 5px;
+    width: 130px;
+    background-color: #ececec;
+    margin: 0 auto;
+    display: block;
+}
+.input.form-submit-button-center .ui-btn-inner{
+    text-align: center;
+    color: #333;
+    text-shadow: 0 0;
+    -webkit-text-shadow: 0 0;
+    -moz-text-shadow: 0 0;
+    -ms-text-shadow: 0 0;
+    border: 0px;
+    font-weight: normal;
+}
+.form-register-error{
+    display: block;
+    width: 95%;
+    margin: 2px auto;
+    color: red;
+    font-weight: normal;
+}
+.g-recaptcha{
+    float: left !important;
+    margin-left: 50%;
+    -webkit-transform: translate(-50%, 0);
+    -moz-transform: translate(-50%, 0);
+    -ms-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+
+}
+.g-recaptcha div, .g-recaptcha iframe{
+    
+}
+.li-form-group-row .bt-password-ui-btn{
+    background: url('../../img/mobile/pass.png') no-repeat center center !important;
+    width: 25px !important;
+    height: 30px;
+    background-color: #85A938 !important;
+    padding: 18px;
+    border-radius: 4px;
+    margin: 5px;
+}
+.li-form-group-row.ui-li-static.ui-li .input.container-password .ui-shadow-inset{
+    width: 70%;
+    margin: 5px 0 0 2.5%;
+    float: left;
+}
+.li-form-group-row .bt-password-ui-btn:hover{
+    background-color: #94BC3C;
+}
+.pass_strength{
+    width: 90%;
+    margin-left: 2.5%;
+}
+.pass_strength .ui-li-heading{
+    font-size: 14px;
+    margin-bottom: 3px;
+}
+.pass_strength .pass_str{
+    margin: 0 0 15px;
+    width: 32%;
+    height: 5px;
+    float: left;
+    background: #CDCDCD;
+}
+.strength_line{
+    width: 100%;
+    display: block;
+}
+
+.pass_strength.str_1 .pass_str_1, .pass_strength.str_2 .pass_str_1, .pass_strength.str_3 .pass_str_1{
+    background: #E71A1A;
+}
+.pass_strength.str_2 .pass_str_2, .pass_strength.str_3 .pass_str_2{
+    background: #FFA800;
+}
+.pass_strength.str_3 .pass_str_3{
+    background: #89AE3C;
+}
+.display-none{
+    display: none !important;
+}
+.a-word-label{
+    position: absolute;
+    top: 50%;
+    transform: translate(0,-50%);
+    -webkit-transform: translate(0,-50%);
+    -moz-transform: translate(0,-50%);
+    -ms-transform: translate(0,-50%);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 90%;
+}
+.register-container .account-details .label{
+    width: 100px;
+}
+
+/* list deposit */
+.deposit-price-range-title{
+    font-size: 14px;
+    font-weight: normal;
+    display: block;
+    margin: .6em 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.deposit-container .ui-li-has-arrow .ui-btn-inner a.ui-link-inherit{
+    padding-left: 60px;
+    display: table-cell;
+}
+.deposit-container .ui-li-thumb{
+    top: 50%;
+    left: 5px;
+    margin-top: -14px
+}
+/* bank deposit */
+.li-form-group-row.ui-li-static.ui-li .input.deposit-input-have-infor .ui-shadow-inset,
+.li-form-group-row.ui-li-static.ui-li .input.deposit-input-have-infor .ui-select{
+    width: 60%;
+    margin: 5px 0 5px 2.5%;
+    float: left;
+}
+.li-form-group-row.ui-li-static.ui-li .input.input-readonly .ui-shadow-inset{
+    border: 0px;
+    box-shadow: 0 0 0 #000;
+    -webkit-box-shadow: 0 0 0 #000;
+    -moz-box-shadow: 0 0 0 #000;
+    -ms-box-shadow: 0 0 0 #000;
+}
+.li-form-group-row.ui-li-static.ui-li .input.input-readonly .ui-btn-icon-notext{
+    display: none;
+}
+.li-form-group-row.ui-li-static.ui-li .input.input-readonly input{
+    font-weight: bold;
+    font-size: 15px;
+}
+.fee-information{
+    width: 18%;
+    float: left;
+    display: inline-block;
+    margin: 5px 0 5px 2px;
+}
+.fee-header{
+    font-weight: bold;
+    font-size: 13px;
+    display: block;
+    width: 100%;   
+}
+.fee-detail{
+    font-size: 12px;
+    font-weight: normal;
+    display: block;
+    width: 100%;
+}
+.table-header{
+    display: table;
+    width: 100%;
+}
+.navbar-title3 h2.header-title{
+    width: 36%;
+    padding: 0 0 0 2%;
+    color: #4c4c4c;
+    display: table-cell;
+    vertical-align: middle;
+}
+.header-title-infor{
+    width: 60%;
+    font-weight: bold;
+    font-size: 14px;
+    display: table-cell;
+    vertical-align: middle;
+    text-shadow: 0 0;
+    -webkit-text-shadow: 0 0;
+    -moz-text-shadow: 0 0;
+    -ms-text-shadow: 0 0;
+}
+.account-details .label .total-deposit-number{
+    font-weight: normal;
+}
+
+/* profile page*/
+.profile-line-title{
+    position: relative;
+}
+.header-line-dot{
+    width: 5px;
+    height: 5px;
+    background: #969696;
+    position: absolute;   
+    top: 50%;
+    left: 8px;
+    margin-top: -3px;
+}
+/* home header payment icon */
+.home-header-payment{
+    
+}
+/* personal information and setting */
+.group-title{
+    background: #a6a6a6;
+    padding: 7px 2%;
+    color: #fff;
+    text-shadow: 0 0 1px #000;
+    -webkit-text-shadow: 0 0 1px #000;
+    -moz-text-shadow: 0 0 1px #000;
+    -ms-text-shadow: 0 0 1px #000;
+}
+.account-details .input.container-submit-fullwidth{
+    padding: 10px 0;
+}
+
+/* transaction */
+.table-transactions{
+    width: 100%;
+    border-spacing: 0;
+}
+.table-transactions th, .table-transactions td{
+    padding: 5px 2px;
+    text-align: center;
+}
+.table-transactions th{
+    font-size: 13px;
+}
+.table-transactions td{
+    font-size: 12px;
+    font-weight: normal;
+    border-bottom: 1px solid #969696;
+}
+.ui-field-contain .form-container-select.container-same-select .ui-select{
+    width: 31%;
+    display: inline-block;
+}
+.ui-field-contain .form-container-select.container-same-select .ui-select::nth-of-type(1){
+    margin-left: 2%;
+}
+.form-container-select.container-same-select .ui-select .ui-btn-icon-right .ui-btn-inner{
+    padding: 5px 17px 5px 2px;
+    font-weight: normal;
+    font-size: 13px;
+}
+.color-green{
+    color: green;
+}
+.color-red{
+    color: red;
+}
+
+/* overview */
+.input-content-text{
+    padding: 0 5px;
+    margin: 5px 0;
+    font-size: 16px;
+}
+.verify-status-icon-accepted, .verify-status-icon-pending, .verify-status-icon-declined{
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    line-height: 22px;
+}
+.verify-status-icon-accepted{
+    background: url('../../img/mobile/success-msg.png');
+}
+.verify-status-icon-pending{
+    background: url('../../img/mobile/pending-verify.png');
+}
+.verify-status-icon-declined{
+    background: url('../../img/mobile/error-msg.png');
+}
+.verify-status-icon-accepted, .verify-status-icon-pending, .verify-status-icon-declined{
+    background-size: 100% 100%;
+    -webkit-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    -ms-background-size: 100% 100%;   
+}
+.verify-status-text-accepted,.verify-status-text-pending,.verify-status-declined{
+    display: block;
+    margin: 0 0 5px;
+    font-size: 14px;
+}
+.verify-status-text-accepted{
+    color: #3ebb54;
+}
+.verify-status-text-pending{
+    color: #1b88af;
+}
+.verify-status-declined{
+    color: #9e0f0f;
+}
+
+/* pending page */
+.pending-container{
+    background: #fff;
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    padding: 30px 0px;
+    display: table;
+    width: 100%;
+}
+.pending-container .pending-container-image{
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+}
+.pending-container .pending-container-image img{
+    display: inline-block;
+}
+.pending-message, .verify-message{
+    color: #666;
+    display: table-cell;
+    vertical-align: top;
+}
+.verify-message{
+    vertical-align: middle;
+    text-align: center;
+}
+.pending-message-header{
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 30px;
+    padding: 10px 0 0 10px;
+    line-height: 55px;
+}
+.verify-message .pending-message-header{
+    font-size: 24px;
+    padding: 0;
+    line-height: 35px;
+}
+.pending-message-body{
+    font-weight: normal;
+    font-size: 14px;
+    padding: 0 0 0 10px;
+}
+.verify-message .pending-message-body{
+    padding: 0;
+}
+
+/*-- list button for deposit ---*/
+.container-list-button{
+    position: absolute;
+    width: 100%;
+    background: #fff;
+    border-radius: 0 0 5px 5px;
+    z-index: 9999;
+    top: 40px;
+    left: 0px;
+    display: none;
+}
+.container-list-button .ui-btn-up-c, .container-list-button .ui-btn-hover-c{
+    border: 0px;
+}
+.under-input{
+    margin: 0 0 3px 2.5%;
+    display: block;
 }

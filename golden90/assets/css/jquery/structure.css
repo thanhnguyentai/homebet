@@ -158,11 +158,11 @@ body.ui-mobile-viewport, div.ui-mobile-viewport {
 }
 .ui-page .ui-footer{ 
     width:100%; 
-    /*position:fixed; */
+    position:fixed;
     bottom:0px !important; 
     z-index:1000; 
     display: block; 
-    background:url("../../img/mobile/footer-main-bg.jpg") repeat-x  50% 50% !important; 
+    background:url("../../img/mobile/main-bg.jpg") repeat-x  50% 50% !important; 
     padding:10px 0;
 	float: left;
 }
