@@ -69,7 +69,10 @@
                     {% if verification.status == 'missing' %}
                         <div class="verify-status-text-{{ verification.status }}">{{ lang('profile.details.overview.verifications.verify') }}</div>
                     {% elseif verification.status == 'declined' %}
-                        <div class="verify-status-text-{{ verification.status }}">{{ lang('profile.details.overview.verifications.declined') }}</div>
+                        <div class="verify-status-text-{{ verification.status }}">
+                            {{ lang('profile.details.overview.verifications.declined') }}
+                            {{ asset_img('mobile/arrow_decline.png')}}
+                        </div>
                     {% elseif verification.status == 'pending' %}
                         <div class="verify-status-text-{{ verification.status }}">{{ lang('profile.details.overview.verifications.pending') }}</div>
                     {% elseif verification.status == 'accepted' %}

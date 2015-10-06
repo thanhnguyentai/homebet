@@ -5,7 +5,7 @@
     {{ form_open({method: 'post', action: '/profile/update.html', autocomplete: 'off', class: 'form-horizontal'}) }}
     {{ form_csrf() }}
 
-    <ul data-role="listview" data-inset="true" class="account-details bottom-curve">
+    <ul data-role="listview" data-inset="true" class="account-details bottom-curve account-details-first">
         <li class="li-form-group-row" data-role="fieldcontain">
             <div class="group-title">{{ lang('profile.details.details.personal.title') }}</div>
         </li>

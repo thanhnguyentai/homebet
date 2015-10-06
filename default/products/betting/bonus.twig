@@ -2,10 +2,10 @@
 <div class="navbar-title3 top-curve"><h2>Bonus System</h2></div>
 <ul class="bonus bottom-curve">
     {% for bonus in bonuses %}
-    <li>
-        <span class="bonus-per">{{ bonus.min }} - {{ bonus.max }} {{ lang('bonus.bets') }}</span>
-        <span class="ui-li-aside-l">{{ bonus.percent }}%</span>
-        <span class="ui-li-aside-r">{{ lang('bonus.more_win') }}</span>
+    <li class="bonus-row">
+    	<span class="ui-li-aside-l"><span class="bonus-percent">{{ bonus.percent }}%</span></span>
+        <span class="bonus-per"><span class="bonus-percent">{{ bonus.min }} - {{ bonus.max }} {{ lang('bonus.bets') }}</span></span>
+        <span class="ui-li-aside-r"><span class="bonus-percent">{{ bonus.percent }}% {{ lang('bonus.more_win') }}</span></span>
     </li>
     {% endfor %}
 </ul>

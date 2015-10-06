@@ -3444,7 +3444,7 @@ ol.ui-listview .ui-link-inherit{
     -moz-background-size: 100% 100%;
     -ms-background-size: 100% 100%;   
 }
-.verify-status-text-accepted,.verify-status-text-pending,.verify-status-declined{
+.verify-status-text-accepted,.verify-status-text-pending,.verify-status-text-declined{
     display: block;
     margin: 0 0 5px;
     font-size: 14px;
@@ -3455,8 +3455,11 @@ ol.ui-listview .ui-link-inherit{
 .verify-status-text-pending{
     color: #1b88af;
 }
-.verify-status-declined{
+.verify-status-text-declined{
     color: #9e0f0f;
+}
+.verify-status-text-declined img{
+    float: right;
 }
 
 /* pending page */
@@ -3525,4 +3528,18 @@ ol.ui-listview .ui-link-inherit{
 .under-input{
     margin: 0 0 3px 2.5%;
     display: block;
+}
+
+/*--- phrase 2---*/
+/*--- form ---*/
+.form-text-value{
+    font-size: 15px;
+    display: inline-block;
+    padding: 0.4em;
+    float: left;
+}
+.bottom-curve.account-details-first{
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
 }
