@@ -3545,6 +3545,26 @@ ol.ui-listview .ui-link-inherit{
     -moz-border-radius: 0px;
     border-radius: 0px;
 }
+/*--- bonus page ---*/
+.bonus-percent{
+    display: inline-block;
+    padding: 8px 15px;
+    border-radius: 100%;
+    font-weight: normal;
+    color: #000;
+    font-size: 14px;
+}
+.ui-li-aside-l .bonus-percent{
+    background-color: #fe0202;
+    color: #fff;
+}
+.ui-li-aside-r{
+    text-align: center;
+}
+ul.bonus li.bonus-row{
+    padding: 5px 2%;
+    border: 0px;
+}
 .input .input-content-text .ui-link.verification-link{
     display: block;
     text-decoration: none;
