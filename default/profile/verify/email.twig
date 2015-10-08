@@ -1,0 +1,50 @@
+<div id="email" class="verify-email">
+    <div class="back-wrapper">
+        <a class="back" href="/profile/"><span>{{ lang('global.back') }}</span></a>
+    </div>
+    <div class="verify-wrapper">
+    {% if status.type == 'missing' %}
+
+        <h1><i class="fa fa-envelope"></i>{{ lang('profile.details.verify.email.missing.title') }}</h1>
+        <p>{{ lang('profile.details.verify.email.missing.description') }}</p>
+
+        {{ form_open() }}
+
+        {{ form_hidden('verify', 'email') }}
+        {{ form_button('start', lang('profile.details.verify.email.fields.start')) }}
+
+        {{ form_close() }}
+
+    {% elseif status.type == 'pending' %}
+ 
+        <h1><i class="fa fa-envelope"></i>{{ lang('profile.details.verify.email.pending.title') }}</h1>
+        <p>{{ lang('profile.details.verify.email.pending.description') }}</p>
+
+        {{ form_open() }}
+
+        {{ form_input('code') }}
+        {{ form_button('verify', lang('profile.details.verify.email.fields.verify')) }}
+
+        {{ form_close() }}
+
+    {% elseif status.type == 'declined' %}
+
+        <h1><i class="fa fa-envelope"></i>{{ lang('profile.details.verify.email.declined.title') }}</h1>
+        <p>{{ lang('profile.details.verify.email.declined.description') }}</p>
+        <p><strong>{{ status.information }}</strong></p>
+        
+        {{ form_open() }}
+
+        {{ form_hidden('verify', 'email') }}
+        {{ form_button('start', lang('profile.details.verify.email.fields.start')) }}
+
+        {{ form_close() }}
+
+    {% elseif status.type == 'accepted' %}
+
+        <h1><i class="fa fa-envelope"></i>{{ lang('profile.details.verify.email.accepted.title') }}</h1>
+        <p>{{ lang('profile.details.verify.email.accepted.description') }}</p>
+        
+    {% endif %}
+    </div>
+</div>

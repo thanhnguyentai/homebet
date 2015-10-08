@@ -1,0 +1,50 @@
+<div id="telephone" class="verify-phone">
+    <div class="back-wrapper">
+        <a class="back" href="/profile/"><span>{{ lang('global.back') }}</span></a>
+    </div>
+    <div class="verify-wrapper">
+    {% if status.type == 'missing' %}
+
+        <h1><i class="fa fa-phone-square"></i>{{ lang('profile.details.verify.telephone.missing.title') }}</h1>
+        <p>{{ lang('profile.details.verify.telephone.missing.description') }}</p>
+        
+        {{ form_open() }}
+
+        {{ form_hidden('verify', 'telephone') }}
+        {{ form_button('start', lang('profile.details.verify.telephone.fields.start')) }}
+
+        {{ form_close() }}
+
+    {% elseif status.type == 'pending' %}
+
+        <h1><i class="fa fa-phone-square"></i>{{ lang('profile.details.verify.telephone.pending.title') }}</h1>
+        <p>{{ lang('profile.details.verify.telephone.pending.description') }}</p>
+
+        {{ form_open() }}
+
+        {{ form_input('code') }}
+        {{ form_button('verify', lang('profile.details.verify.telephone.fields.verify')) }}
+
+        {{ form_close() }}
+
+    {% elseif status.type == 'declined' %}
+
+        <h1><i class="fa fa-phone-square"></i>{{ lang('profile.details.verify.telephone.declined.title') }}</h1>
+        <p>{{ lang('profile.details.verify.telephone.declined.description') }}</p>
+        <p><strong>{{ status.information }}</strong></p>
+
+        {{ form_open() }}
+
+        {{ form_hidden('verify', 'telephone') }}
+        {{ form_button('start', lang('profile.details.verify.telephone.fields.start')) }}
+
+        {{ form_close() }}
+
+    {% elseif status.type == 'accepted' %}
+
+        <h1><i class="fa fa-phone-square"></i>{{ lang('profile.details.verify.telephone.accepted.title') }}</h1>
+        <p>{{ lang('profile.details.verify.telephone.accepted.description') }}</p>
+
+    {% endif %}
+    </div>
+</div>

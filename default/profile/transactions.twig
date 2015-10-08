@@ -1,6 +1,5 @@
 
-{{ form_open({autocomplete: 'off', class: 'form-horizontal'}) }}
-{{ form_csrf() }}
+{{ form_open({autocomplete: 'off', class: 'form-horizontal', method: 'GET'}) }}
     <div class="navbar-title3 top-curve"><h2>{{ lang('transactions.details') }}</h2></div>
     <div style="border-radius: 0 0 6px 6px; -webkit-border-radius: 0 0 6px 6px; overflow: hidden;">
         <form method="GET">
@@ -44,7 +43,7 @@
                         </select>
                     </div>
                     <div style="margin: 0 0 5px; text-align: center;">
-                        <button data-role="none" type="submit" style="padding: 5px 20px;">Filter</button>
+                        <button data-role="none" type="submit" style="padding: 5px 20px;">{{ lang('transactions.filter') }}</button>
                     </div>
                 </li>
                 <li class="li-form-group-row" data-role="fieldcontain">
@@ -64,7 +63,7 @@
                                 <tr>
                                     <td class="cell-1">{{ transaction.created|date('d.m') }}</td>
                                     <td class="cell-2">{{ transaction.created|date('H:i:s') }}</td>
-                                    <td class="cell-4">{{ lang('products.' ~ transaction.product.id ~ '.name', {}, transaction.product.name) }}</td>
+                                    <td class="cell-4">{{ lang('products.' ~ transaction.product.id, {}, transaction.product.name) }}</td>
                                     <td class="cell-5">{{ lang('transactions.types.' ~ transaction.type, {}, transaction.type) }}</td>
                                     <td class="cell-6">{{ transaction.description }}</td>
                                     {% if transaction.amount > 0 %}
@@ -100,5 +99,3 @@
     </div>
 
 {{ form_close() }}
-
-

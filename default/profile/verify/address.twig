@@ -1,0 +1,76 @@
+{{ asset_js(betmatic.cdn ~ '/js/jquery-fileupload/9.8.0/vendor/jquery.ui.widget.js') }}
+{{ asset_js(betmatic.cdn ~ '/js/jquery-fileupload/9.8.0/jquery.iframe-transport.js') }}
+{{ asset_js(betmatic.cdn ~ '/js/jquery-fileupload/9.8.0/jquery.fileupload.js') }}
+{{ asset_js(betmatic.cdn ~ '/js/jquery-fileupload/9.8.0/jquery.fileupload-process.js') }}
+{{ asset_js(betmatic.cdn ~ '/js/jquery-fileupload/9.8.0/jquery.fileupload-validate.js') }}
+
+<div id="address" class="verify-address">
+    <div class="back-wrapper">
+        <a class="back" href="/profile/"><span>{{ lang('global.back') }}</span></a>
+    </div>
+    <div class="verify-wrapper">
+    {% if status.type in ['missing', 'declined'] %}
+
+        {% if status.type == 'missing' %}
+
+            <h1><i class="fa fa-home"></i>{{ lang('profile.details.verify.address.missing.title') }}</h1>
+            <p>{{ lang('profile.details.verify.address.missing.description') }}</p>
+
+        {% elseif status.type == 'declined' %}
+
+            <h1><i class="fa fa-home"></i>{{ lang('profile.details.verify.address.declined.title') }}</h1>
+            <p>{{ lang('profile.details.verify.address.declined.description') }}</p>
+            <p><strong>{{ status.information }}</strong></p>
+
+        {% endif %}
+
+        <div class="address-form clear">
+
+            <span class="fileinput-button">
+                <i class="fa fa-upload"></i>
+                <span>{{ lang('profile.details.verify.address.fields.file') }}</span>
+                <input id="fileupload" type="file" name="document" autofocus="autofocus" accept="image/jpeg,image/png,application/pdf">
+            </span>
+
+            <div class="progress progress-striped active">
+                <div class="bar" style="width: 0%;"></div>
+            </div>
+
+        </div>
+
+        <small class="restrictions">{{ lang('profile.details.verify.address.limitations') }}</small>
+
+        <script type="text/javascript">
+            $(function () {
+                $('#fileupload').fileupload({
+                    url: '/profile/verify/upload/address',
+                    dataType: 'json',
+                    acceptFileTypes: /(\.|\/)(gif|jpe?g|png|pdf)$/i,
+                    maxFileSize: 10000000,
+                    add: function (e, data) {
+                        data.submit();
+                    },
+                    progress: function (e, data) {
+                        var progress = parseInt(data.loaded / data.total * 100, 10);
+                        $('.progress .bar').css('width', progress + '%');
+                    },
+                    complete: function () {
+                        betmatic.refresh();
+                    }
+                });
+            });
+        </script>
+
+    {% elseif status.type == 'pending' %}
+
+        <h1><i class="fa fa-home"></i>{{ lang('profile.details.verify.address.pending.title') }}</h1>
+        <p>{{ lang('profile.details.verify.address.pending.description') }}</p>
+
+    {% elseif status.type == 'accepted' %}
+
+        <h1><i class="fa fa-home"></i>{{ lang('profile.details.verify.address.verified.title') }}</h1>
+        <p>{{ lang('profile.details.verify.address.verified.description') }}</p>
+
+    {% endif %}
+    </div>
+</div>

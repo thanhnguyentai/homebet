@@ -1,0 +1,84 @@
+{{ asset_js(betmatic.cdn ~ '/js/jquery-fileupload/9.8.0/vendor/jquery.ui.widget.js') }}
+{{ asset_js(betmatic.cdn ~ '/js/jquery-fileupload/9.8.0/jquery.iframe-transport.js') }}
+{{ asset_js(betmatic.cdn ~ '/js/jquery-fileupload/9.8.0/jquery.fileupload.js') }}
+{{ asset_js(betmatic.cdn ~ '/js/jquery-fileupload/9.8.0/jquery.fileupload-process.js') }}
+{{ asset_js(betmatic.cdn ~ '/js/jquery-fileupload/9.8.0/jquery.fileupload-validate.js') }}
+
+<div id="identity" class="verify-identity">
+    <div class="back-wrapper">
+        <a class="back" href="/profile/"><span>{{ lang('global.back') }}</span></a>
+    </div>
+    <div class="verify-wrapper">
+        {% if status.type in ['missing', 'declined'] %}
+
+            {% if status.type == 'missing' %}
+
+                <h1><i class="fa fa-user"></i>{{ lang('profile.details.verify.identity.missing.title') }}</h1>
+                <p>{{ lang('profile.details.verify.identity.missing.description') }}</p>
+
+            {% elseif status.type == 'declined' %}
+
+                <h1><i class="fa fa-user"></i>{{ lang('profile.details.verify.identity.declined.title') }}</h1>
+                <p>{{ lang('profile.details.verify.identity.declined.description') }}</p>
+                <p><strong>{{ status.information }}</strong></p>
+
+            {% endif %}
+
+            <div class="identity-form clear">
+
+                <form method="post">
+                    <label>{{ lang('profile.details.verify.identity.labels.id') }}</label>
+                    <input name="document" type="text" autofocus="autofocus">
+                    <button type="submit"><i class="fa fa-check-square-o"></i>{{ lang('profile.details.verify.identity.fields.verify') }}</button>
+
+                </form>
+
+                <label>{{ lang('profile.details.verify.identity.labels.passport') }}</label>
+                <span class="fileinput-button">
+                    <i class="fa fa-upload"></i>
+                    <span>{{ lang('profile.details.verify.identity.fields.file') }}</span>
+                    <input id="fileupload" type="file" name="document" autofocus="autofocus" accept="image/jpeg,image/png,application/pdf">
+                </span>
+
+                <div class="progress progress-striped active">
+                    <div class="bar" style="width: 0%;"></div>
+                </div>
+
+            </div>
+
+            <small class="restrictions">{{ lang('profile.details.verify.identity.limitations') }}</small>
+
+            <script type="text/javascript">
+                $(function () {
+                    $('#fileupload').fileupload({
+                        url: '/profile/verify/upload/identity',
+                        dataType: 'json',
+                        acceptFileTypes: /(\.|\/)(gif|jpe?g|png|pdf)$/i,
+                        maxFileSize: 10000000,
+                        add: function (e, data) {
+                            data.submit();
+                        },
+                        progress: function (e, data) {
+                            var progress = parseInt(data.loaded / data.total * 100, 10);
+                            $('.progress .bar').css('width', progress + '%');
+                        },
+                        complete: function () {
+                            betmatic.refresh();
+                        }
+                    });
+                });
+            </script>
+
+        {% elseif status.type == 'pending' %}
+
+            <h1><i class="fa fa-user"></i>{{ lang('profile.details.verify.identity.pending.title') }}</h1>
+            <p>{{ lang('profile.details.verify.identity.pending.description') }}</p>
+
+        {% elseif status.type == 'accepted' %}
+
+            <h1><i class="fa fa-user"></i>{{ lang('profile.details.verify.identity.accepted.title') }}</h1>
+            <p>{{ lang('profile.details.verify.identity.accepted.description') }}</p>
+
+        {% endif %}
+    </div>
+</div>
