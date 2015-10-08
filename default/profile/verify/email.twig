@@ -1,50 +1,90 @@
 <div id="email" class="verify-email">
-    <div class="back-wrapper">
-        <a class="back" href="/profile/"><span>{{ lang('global.back') }}</span></a>
-    </div>
+   
     <div class="verify-wrapper">
-    {% if status.type == 'missing' %}
+        <div class="verify-image-container">
+            {{ asset_img('mobile/verify_account_icon.png')}}
+        </div>
+        <div class="verify-content-container">
+            {% if status.type == 'missing' %}
 
-        <h1><i class="fa fa-envelope"></i>{{ lang('profile.details.verify.email.missing.title') }}</h1>
-        <p>{{ lang('profile.details.verify.email.missing.description') }}</p>
+                <h1><i class="fa fa-envelope"></i>{{ lang('profile.details.verify.email.missing.title') }}</h1>
+                <p>{{ lang('profile.details.verify.email.missing.description') }}</p>
 
-        {{ form_open() }}
+                <div style="border-radius: 0; -webkit-border-radius: 0; overflow: hidden;">
+                    {{ form_open() }}
+                        {{ form_hidden('verify', 'email') }}
+                        <ul data-role="listview" data-inset="true" class="account-details input-full-width">
+                            <li class="li-form-group-row li-form-group-row-no-border" data-role="fieldcontain">
+                                <div class="label">
+                                </div>
+                                <div class="input form-submit-button-center container-submit-fullwidth">
+                                    <button type="submit" name="start" data-theme="a">
+                                        {{ lang('profile.details.verify.email.fields.start') }}
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+                    {{ form_close() }}
+                </div>
 
-        {{ form_hidden('verify', 'email') }}
-        {{ form_button('start', lang('profile.details.verify.email.fields.start')) }}
+            {% elseif status.type == 'pending' %}
+         
+                <h1><i class="fa fa-envelope"></i>{{ lang('profile.details.verify.email.pending.title') }}</h1>
+                <p>{{ lang('profile.details.verify.email.pending.description') }}</p>
 
-        {{ form_close() }}
+                <div style="border-radius: 0; -webkit-border-radius: 0; overflow: hidden;">
+                    {{ form_open() }}
+                        <ul data-role="listview" data-inset="true" class="account-details input-full-width">
+                            <li class="li-form-group-row" data-role="fieldcontain">
+                                <div class="label">
+                                </div>
+                                <div class="input">
+                                    <input data-clear-btn="true" type="text" name="code" />
+                                </div>
+                            </li>
 
-    {% elseif status.type == 'pending' %}
- 
-        <h1><i class="fa fa-envelope"></i>{{ lang('profile.details.verify.email.pending.title') }}</h1>
-        <p>{{ lang('profile.details.verify.email.pending.description') }}</p>
+                            <li class="li-form-group-row" data-role="fieldcontain">
+                                <div class="label">
+                                </div>
+                                <div class="input form-submit-button-center container-submit-fullwidth">
+                                    <button type="submit" name="verify" data-theme="a">
+                                        {{ lang('profile.details.verify.email.fields.verify') }}
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+                    {{ form_close() }}
+                </div>
 
-        {{ form_open() }}
+            {% elseif status.type == 'declined' %}
 
-        {{ form_input('code') }}
-        {{ form_button('verify', lang('profile.details.verify.email.fields.verify')) }}
+                <h1><i class="fa fa-envelope"></i>{{ lang('profile.details.verify.email.declined.title') }}</h1>
+                <p>{{ lang('profile.details.verify.email.declined.description') }}</p>
+                <p><strong>{{ status.information }}</strong></p>
+                
+                <div style="border-radius: 0; -webkit-border-radius: 0; overflow: hidden;">
+                    {{ form_open() }}
+                        {{ form_hidden('verify', 'email') }}
+                        <ul data-role="listview" data-inset="true" class="account-details input-full-width">
+                            <li class="li-form-group-row li-form-group-row-no-border" data-role="fieldcontain">
+                                <div class="label">
+                                </div>
+                                <div class="input form-submit-button-center container-submit-fullwidth">
+                                    <button type="submit" name="start" data-theme="a">
+                                        {{ lang('profile.details.verify.email.fields.start') }}
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+                    {{ form_close() }}
+                </div>
 
-        {{ form_close() }}
+            {% elseif status.type == 'accepted' %}
 
-    {% elseif status.type == 'declined' %}
-
-        <h1><i class="fa fa-envelope"></i>{{ lang('profile.details.verify.email.declined.title') }}</h1>
-        <p>{{ lang('profile.details.verify.email.declined.description') }}</p>
-        <p><strong>{{ status.information }}</strong></p>
-        
-        {{ form_open() }}
-
-        {{ form_hidden('verify', 'email') }}
-        {{ form_button('start', lang('profile.details.verify.email.fields.start')) }}
-
-        {{ form_close() }}
-
-    {% elseif status.type == 'accepted' %}
-
-        <h1><i class="fa fa-envelope"></i>{{ lang('profile.details.verify.email.accepted.title') }}</h1>
-        <p>{{ lang('profile.details.verify.email.accepted.description') }}</p>
-        
-    {% endif %}
+                <h1><i class="fa fa-envelope"></i>{{ lang('profile.details.verify.email.accepted.title') }}</h1>
+                <p>{{ lang('profile.details.verify.email.accepted.description') }}</p>
+                
+            {% endif %}
+        </div>
     </div>
 </div>

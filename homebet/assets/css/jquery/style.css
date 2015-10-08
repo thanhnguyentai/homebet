@@ -3635,3 +3635,12 @@ ul.bonus li.bonus-row{
     width: 95%;
     margin: 0 auto 5px;
 }
+.input-full-width .li-form-group-row.ui-li-static.ui-li .label {
+    display: none;
+}
+.input-full-width .li-form-group-row.ui-li-static.ui-li .input {
+    width: 100%;
+}
+.li-form-group-row-no-border.li-form-group-row{
+    border: 0px !important;
+}

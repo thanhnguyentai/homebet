@@ -3551,3 +3551,62 @@ ol.ui-listview .ui-link-inherit{
     margin: 0;
     padding: 0;
 }
+/*-- verify identify page---*/
+.verify-wrapper{
+    background: #fff;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -ms-border-radius: 3px;
+    border-radius: 3px;
+}
+.verify-image-container{
+    text-align: center;
+}
+.verify-image-container img{
+    display: inline-block;
+    margin: 15px 0 20px;
+}
+.verify-content-container h1{
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    width: 90%;
+    display: block;
+    margin: 0 auto 10px;
+}
+.verify-content-container p{
+    font-size: 14px;
+    font-weight: normal;
+    text-align: left;
+    width: 90%;
+    display: block;
+    margin: 0 auto 10px;
+}
+.verify-content-container p strong{
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    display: block;
+    margin: 0 auto 10px;
+}
+.restrictions{
+    font-size: 14px;
+    text-align: center;
+    display: block;
+    width: 90%;
+    margin: 0 auto 40px;   
+}
+.progress-upload{
+    width: 95%;
+    margin: 0 auto 5px;
+}
+.input-full-width .li-form-group-row.ui-li-static.ui-li .label {
+    display: none;
+}
+.input-full-width .li-form-group-row.ui-li-static.ui-li .input {
+    width: 100%;
+}
+.li-form-group-row-no-border.li-form-group-row{
+    border: 0px !important;
+}
