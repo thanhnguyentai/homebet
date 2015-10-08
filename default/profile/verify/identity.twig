@@ -5,80 +5,106 @@
 {{ asset_js(betmatic.cdn ~ '/js/jquery-fileupload/9.8.0/jquery.fileupload-validate.js') }}
 
 <div id="identity" class="verify-identity">
-    <div class="back-wrapper">
-        <a class="back" href="/profile/"><span>{{ lang('global.back') }}</span></a>
-    </div>
     <div class="verify-wrapper">
-        {% if status.type in ['missing', 'declined'] %}
+        <div class="verify-image-container">
+            {{ asset_img('mobile/verify_account_icon.png')}}
+        </div>
+        <div class="verify-content-container">
+            {% if status.type in ['missing', 'declined'] %}
 
-            {% if status.type == 'missing' %}
+                {% if status.type == 'missing' %}
 
-                <h1><i class="fa fa-user"></i>{{ lang('profile.details.verify.identity.missing.title') }}</h1>
-                <p>{{ lang('profile.details.verify.identity.missing.description') }}</p>
+                    <h1><i class="fa fa-user"></i>{{ lang('profile.details.verify.identity.missing.title') }}</h1>
+                    <p>{{ lang('profile.details.verify.identity.missing.description') }}</p>
 
-            {% elseif status.type == 'declined' %}
+                {% elseif status.type == 'declined' %}
 
-                <h1><i class="fa fa-user"></i>{{ lang('profile.details.verify.identity.declined.title') }}</h1>
-                <p>{{ lang('profile.details.verify.identity.declined.description') }}</p>
-                <p><strong>{{ status.information }}</strong></p>
+                    <h1><i class="fa fa-user"></i>{{ lang('profile.details.verify.identity.declined.title') }}</h1>
+                    <p>{{ lang('profile.details.verify.identity.declined.description') }}</p>
+                    <p><strong>{{ status.information }}</strong></p>
 
-            {% endif %}
+                {% endif %}
 
-            <div class="identity-form clear">
+                <div class="restrictions">{{ lang('profile.details.verify.identity.limitations') }}</div>
 
-                <form method="post">
-                    <label>{{ lang('profile.details.verify.identity.labels.id') }}</label>
-                    <input name="document" type="text" autofocus="autofocus">
-                    <button type="submit"><i class="fa fa-check-square-o"></i>{{ lang('profile.details.verify.identity.fields.verify') }}</button>
+                <div style="border-radius: 0; -webkit-border-radius: 0; overflow: hidden;">
+                    <form method="post">
+                        <ul data-role="listview" data-inset="true" class="account-details">
+                            <li class="li-form-group-row" data-role="fieldcontain">
+                                <div class="label">
+                                    <label class="form-label-left">
+                                        {{ lang('profile.details.verify.identity.labels.id') }}
+                                    </label>
+                                </div>
+                                <div class="input">
+                                    <input data-clear-btn="true" type="text" name="document" autofocus="autofocus" />
+                                </div>
+                            </li>
 
-                </form>
+                            <li class="li-form-group-row" data-role="fieldcontain">
+                                <div class="label">
+                                    <label class="form-label-left">
+                                        &nbsp;
+                                    </label>
+                                </div>
+                                <div class="input form-submit-button-center container-submit-fullwidth">
+                                    <button type="submit" data-theme="a">
+                                        {{ lang('profile.details.verify.identity.fields.verify') }}
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+                    </form>
+                    <ul data-role="listview" data-inset="true" class="account-details">
+                        <li class="li-form-group-row" data-role="fieldcontain">
+                            <div class="label">
+                                <label class="form-label-left">
+                                    {{ lang('profile.details.verify.identity.labels.passport') }}
+                                </label>
+                            </div>
+                            <div class="input">
+                                <input id="fileupload" type="file" name="document" autofocus="autofocus" accept="image/jpeg,image/png,application/pdf">
 
-                <label>{{ lang('profile.details.verify.identity.labels.passport') }}</label>
-                <span class="fileinput-button">
-                    <i class="fa fa-upload"></i>
-                    <span>{{ lang('profile.details.verify.identity.fields.file') }}</span>
-                    <input id="fileupload" type="file" name="document" autofocus="autofocus" accept="image/jpeg,image/png,application/pdf">
-                </span>
-
-                <div class="progress progress-striped active">
-                    <div class="bar" style="width: 0%;"></div>
+                                <div class="progress progress-striped active progress-upload">
+                                    <div class="bar" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
 
-            </div>
-
-            <small class="restrictions">{{ lang('profile.details.verify.identity.limitations') }}</small>
-
-            <script type="text/javascript">
-                $(function () {
-                    $('#fileupload').fileupload({
-                        url: '/profile/verify/upload/identity',
-                        dataType: 'json',
-                        acceptFileTypes: /(\.|\/)(gif|jpe?g|png|pdf)$/i,
-                        maxFileSize: 10000000,
-                        add: function (e, data) {
-                            data.submit();
-                        },
-                        progress: function (e, data) {
-                            var progress = parseInt(data.loaded / data.total * 100, 10);
-                            $('.progress .bar').css('width', progress + '%');
-                        },
-                        complete: function () {
-                            betmatic.refresh();
-                        }
+                <script type="text/javascript">
+                    $(function () {
+                        $('#fileupload').fileupload({
+                            url: '/profile/verify/upload/identity',
+                            dataType: 'json',
+                            acceptFileTypes: /(\.|\/)(gif|jpe?g|png|pdf)$/i,
+                            maxFileSize: 10000000,
+                            add: function (e, data) {
+                                data.submit();
+                            },
+                            progress: function (e, data) {
+                                var progress = parseInt(data.loaded / data.total * 100, 10);
+                                $('.progress .bar').css('width', progress + '%');
+                            },
+                            complete: function () {
+                                betmatic.refresh();
+                            }
+                        });
                     });
-                });
-            </script>
+                </script>
 
-        {% elseif status.type == 'pending' %}
+            {% elseif status.type == 'pending' %}
 
-            <h1><i class="fa fa-user"></i>{{ lang('profile.details.verify.identity.pending.title') }}</h1>
-            <p>{{ lang('profile.details.verify.identity.pending.description') }}</p>
+                <h1><i class="fa fa-user"></i>{{ lang('profile.details.verify.identity.pending.title') }}</h1>
+                <p>{{ lang('profile.details.verify.identity.pending.description') }}</p>
 
-        {% elseif status.type == 'accepted' %}
+            {% elseif status.type == 'accepted' %}
 
-            <h1><i class="fa fa-user"></i>{{ lang('profile.details.verify.identity.accepted.title') }}</h1>
-            <p>{{ lang('profile.details.verify.identity.accepted.description') }}</p>
+                <h1><i class="fa fa-user"></i>{{ lang('profile.details.verify.identity.accepted.title') }}</h1>
+                <p>{{ lang('profile.details.verify.identity.accepted.description') }}</p>
 
-        {% endif %}
+            {% endif %}
+        </div>
     </div>
 </div>
