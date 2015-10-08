@@ -3578,3 +3578,9 @@ ul.bonus li.bonus-row{
     padding: 5px 2%;
     border: 0px;
 }
+.input .input-content-text .ui-link.verification-link{
+    display: block;
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+}

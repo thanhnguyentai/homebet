@@ -66,6 +66,7 @@
                     </a>
                     -->
 
+                    <a href="/profile/verify/{{ verification.type }}.html" class="{{ verification.status }} verification-link">
                     {% if verification.status == 'missing' %}
                         <div class="verify-status-text-{{ verification.status }}">{{ lang('profile.details.overview.verifications.verify') }}</div>
                     {% elseif verification.status == 'declined' %}
@@ -78,10 +79,13 @@
                     {% elseif verification.status == 'accepted' %}
                         <div class="verify-status-text-{{ verification.status }}">{{ lang('profile.details.overview.verifications.accepted') }}</div>
                     {% endif %}
+                    </a>
                     
                     <!--{% if verification.status == 'accepted' or verification.status == 'pending' or verification.status == 'declined' %}-->
+
                         {{ verification.created|date('Y-m-d - H:i') }}
                         <span class="verify-status-icon-{{ verification.status }}">&nbsp;</span>
+                    
                     <!--
                     {% else %}
                         {{ lang('profile.details.overview.verifications.' ~ verification.status) }}

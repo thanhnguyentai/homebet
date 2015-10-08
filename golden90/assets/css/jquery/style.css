@@ -3543,3 +3543,9 @@ ol.ui-listview .ui-link-inherit{
     -moz-border-radius: 0px;
     border-radius: 0px;
 }
+.input .input-content-text .ui-link.verification-link{
+    display: block;
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+}
