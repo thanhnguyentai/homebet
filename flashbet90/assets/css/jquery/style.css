@@ -3593,7 +3593,8 @@ ul.bonus li.bonus-row{
     text-transform: uppercase;
     width: 90%;
     display: block;
-    margin: 0 auto 10px;
+    margin: 0 auto;
+    padding: 0 0 10px;
 }
 .verify-content-container p{
     font-size: 14px;

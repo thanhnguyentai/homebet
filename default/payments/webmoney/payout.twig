@@ -1,77 +1,91 @@
-<div id="payout" class="payout-provider">
-    <div class="back-wrapper">
-        <a class="back" href="/profile/payout.html"><span>{{ lang('global.back') }}</span></a>
+{{ form_open({method: 'post', autocomplete: 'off'}) }}
+    <div class="navbar-title3 top-curve table-header">
+        <h2 class="header-title">Webmoney</h2>
+        <div class="header-title-infor">
+            {{ lang('payments.minimum') }}. {{ payment.payout.minimum|number_format(2) }} - 
+            {{ lang('payments.maximum') }}. {{ payment.payout.maximum|number_format(2) }}
+        </div>
     </div>
+    <div id="payout" style="border-radius: 0 0 6px 6px; -webkit-border-radius: 0 0 6px 6px; overflow: visible;">
+        
+        {% set amounts = [25, 50, 100, 200, 500] %}
 
-    {{ form_open({method: 'post', autocomplete: 'off'}) }}
+        <ul data-role="listview" data-inset="true" class="account-details bottom-curve" style="overflow: visible;">
+            <li class="li-form-group-row" data-role="fieldcontain">
+                <div class="label">
+                    <label for="amount" class="form-label-left">{{ lang('payments.payout.amount') }}</label>
+                </div>
+                <div class="input form-container-select deposit-input-have-infor">
+                    <div class="ui-select select-get-click">
+                        <div data-corners="true" data-shadow="true" data-iconshadow="true" 
+                        data-wrapperels="span" data-icon="arrow-d" data-iconpos="right" data-theme="c" 
+                        class="ui-btn ui-shadow ui-btn-corner-all ui-btn-icon-right ui-btn-up-c">
+                            <span class="ui-btn-inner">
+                                <span class="ui-btn-text">
+                                    <span id="selected-number">{{ amounts[0]}} {{ handshake.currency.id }}</span>
+                                </span>
+                                <span class="ui-icon ui-icon-arrow-d ui-icon-shadow">&nbsp;</span>
+                            </span>
+                        </div>
+                        <div class="container-list-button">
+                            {% for amount in amounts %}
+                                {{ form_button(amount, amount ~ " " ~ handshake.currency.id, {type: 'button', 'data-bind': 'css: {active: amount() == ' ~ amount ~ '}, click: function(){amount(' ~ amount ~ ')}'}) }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <span class="fee-information">
+                        <span class="fee-header">{{ lang('payments.fees') }}:</span>
+                        <span class="fee-detail">
+                        {% if payment.payout.fees.percent and payment.payout.fees.amount %}
+                            {{ payment.payout.fees.percent|number_format(2) }}% + {{ payment.payout.fees.amount|number_format(2) }} {{ handshake.currency.id }}
+                        {% elseif payment.payout.fees.percent %}
+                            {{ payment.payout.fees.percent|number_format(2) }}%
+                        {% elseif payment.payout.fees.amount %}
+                            {{ payment.payout.fees.amount|number_format(2) }} {{ handshake.currency.id }}
+                        {% else %}
+                            {{ lang('global.none') }}
+                        {% endif %}
+                        </span>
+                    </span>
+                    <div class="form-register-error"></div>
+                </div>
+            </li>
+            <li class="li-form-group-row" data-role="fieldcontain">
+                <div class="label">
+                    <label for="enter_amount" class="form-label-left">{{lang('payments.fields.enter_amount')}}</label>
+                </div>
+                <div class="input">
+                    <input data-clear-btn="true" type="text" name="amount" id="amount" data-bind="value: amount" value="{{ form_val('amount') }}" />
+                    <div class="form-register-error" style="display:none" data-bind="visible: amount.valid() === false, text: amount.message()"></div>
+                </div>
+            </li>
 
-    {% set image1 = asset_img('payments/ico-' ~ payment.id ~ '-' ~ handshake.language.id ~ '.png') %}
-    {% set image2 = asset_img('payments/ico-' ~ payment.id ~ '.png') %}
+            <li class="li-form-group-row" data-role="fieldcontain">
+                <div class="label">
+                    <label for="purse" class="form-label-left">{{ lang('payments.webmoney.fields.purse') }}</label>
+                </div>
+                <div class="input">
+                    {{ form_input('purse', form_val('purse'), {'data-bind': 'value: purse'}) }}
+                    <div class="form-register-error" style="display:none" data-bind="visible: purse.valid() === false, text: purse.message()"></div>
+                </div>
+            </li>
 
-    <div class="payout-provider-details">
-        {% if image1 %}{{ image1 }}{% else %}{{ image2 }}{% endif %}
-
-        <p class="details"><strong>{{ lang('payments.minimum') }}-{{ lang('payments.maximum') }}: {{ payment.payout.minimum|number_format(0) }}-{{ payment.payout.maximum|number_format(0) }} {{ handshake.currency.id }}</strong><br/>
-            <strong>
-                {{ lang('payments.fees') }}:
-                {% if payment.payout.fees.percent and payment.payout.fees.amount %}
-                    {{ payment.payout.fees.percent|number_format(2) }}% + {{ payment.payout.fees.amount|number_format(2) }} {{ handshake.currency.id }}
-                {% elseif payment.payout.fees.percent %}
-                    {{ payment.payout.fees.percent|number_format(2) }}%
-                {% elseif payment.payout.fees.amount %}
-                    {{ payment.payout.fees.amount|number_format(2) }} {{ handshake.currency.id }}
-                {% else %}
-                    {{ lang('global.none') }}
-                {% endif %}
-            </strong><br/>
-            <strong>{{ lang('payments.duration') }}: {{ payment.payout.duration }}</strong>
-        </p>
-
-        <p class="info">
-            {{ lang('payments.webmoney.description') }}
-            {% if payment.website %}
-                <a href="{{ payment.website }}" target="_blank" class="a_payment_link">{{ payment.website }}</a>
-            {% endif %}
-        </p>
+            <li class="li-form-group-row" data-role="fieldcontain">
+                <div class="label">
+                    <label for="amount_send" class="form-label-left total-deposit-number" data-bind="html: parseFloat(total()).toFixed(2) != 'NaN' ? parseFloat(total()).toFixed(2) : '0.00'">0.00</label>
+                    {{ handshake.currency.id }}
+                </div>
+                <div class="input form-submit-button-center container-submit-fullwidth">
+                    <button data-bind="enable: valid()" id="payout-btn" type="submit" data-theme="a">{{ lang('payments.payout.button') }}</button>
+                </div>
+            </li>
+        </ul>
     </div>
-
-    {% set amounts = [25, 50, 100, 200, 500] %}
-
-    <div class="payout-amount">
-        <h2>{{ lang('payments.payout.amount') }}</h2>
-        {{ form_label(lang('payments.fields.select_amount'), 'amount') }}
-        {% for amount in amounts %}
-            {{ form_button(amount, amount, {type: 'button', 'data-bind': 'css: {active: amount() == ' ~ amount ~ '}, click: function(){amount(' ~ amount ~ ')}'}) }}
-        {% endfor %}
-        {{ form_label(lang('payments.fields.enter_amount'), 'amount') }}
-        {{ form_input('amount', form_val('amount'), {'data-bind': 'value: amount'}) }}
-        <span class="popup_message" style="display:none" data-bind="visible: amount.valid() === false, text: amount.message()"></span>
-        <small class="under-input">{{ lang('payments.minimum') }} {{ payment.payout.minimum|number_format(2) }}, {{ lang('payments.maximum') }} {{ payment.payout.maximum|number_format(2) }}</small>
-    </div>
-
-    <div class="payout-provider-info">
-        <h2>{{ lang('payments.deposit.info') }}</h2>
-
-        {{ form_label(lang('payments.webmoney.fields.purse'), 'purse') }}
-        {{ form_input('purse', form_val('purse'), {'data-bind': 'value: purse'}) }}
-        <span class="popup_message" style="display:none" data-bind="visible: purse.valid() === false, text: purse.message()"></span>
-    </div>
-
-    <div class="payout-summary">
-        <h2>{{ lang('payments.payout.summary') }}</h2>
-        <strong><span data-bind="html: parseFloat(total()).toFixed(2) != 'NaN' ? parseFloat(total()).toFixed(2) : '0.00'">0.00</span> {{ handshake.currency.id }}</strong>
-        {{ lang('payments.amount') }}: <span data-bind="html: parseFloat(amount()).toFixed(2) != 'NaN' ? parseFloat(amount()).toFixed(2) : '0.00'">0.00</span> {{ handshake.currency.id }}<br/>
-        {{ lang('payments.fee') }}: <span data-bind="html: parseFloat(fees()).toFixed(2) != 'NaN' ? parseFloat(fees()).toFixed(2) : '0.00'">0.00</span> {{ handshake.currency.id }}
-        {{ form_button('payout', lang('payments.payout.button'), {id: 'payment-btn', 'data-bind': 'enable: valid'}) }}
-    </div>
-
-    {{ form_close() }}
-
-</div>
+{{ form_close() }}
 
 <script type="text/javascript">
 
-    $(function () {
+     $(function () {
 
         var payment = betmatic.payment.create({
             id: 'webmoney',
@@ -85,6 +99,24 @@
         payment.purse('{{ form_val('purse') }}');
 
         ko.applyBindings(payment, document.getElementById('payout'));
+
+        // hide and display list buttons
+        var listButton = $('.container-list-button');
+
+        $('.container-list-button button').bind('click', function(e){
+            e.stopPropagation();
+            listButton.css('display','none');
+            $('#selected-number').html($(this).html());
+        });
+
+        $('.select-get-click').bind('click', function(e){
+            e.stopPropagation();
+            listButton.css('display', 'block');
+        });
+
+        $(document).bind('click', function(){
+            listButton.css('display','none');
+        });
 
     });
 
