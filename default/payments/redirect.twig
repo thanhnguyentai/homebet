@@ -1,12 +1,17 @@
-{{ form_open({id: 'payment-redirect', method: 'post', autocomplete: 'off'}) }}
 
-    {% for value,variable in redirect.data %}
-        {{ form_hidden(variable, value) }}
-    {% endfor %}
-    <p>{{ lang('payments.redirect.message') }}</p>
-    {{ form_button('submit', lang('payments.redirect.button')) }}
+<div class="verify-identity">
+    <div class="verify-wrapper redirect-container">
+		{{ form_open({id: 'payment-redirect', method: 'post', autocomplete: 'off'}) }}
 
-{{ form_close() }}
+		    {% for value,variable in redirect.data %}
+		        {{ form_hidden(variable, value) }}
+		    {% endfor %}
+		    <p>{{ lang('payments.redirect.message') }}</p>
+		    {{ form_button('submit', lang('payments.redirect.button')) }}
+
+		{{ form_close() }}        
+    </div>
+</div>
 
 <script type="text/javascript">
 
@@ -17,3 +22,4 @@
     });
 
 </script>
+
